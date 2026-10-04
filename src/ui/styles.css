@@ -23,6 +23,7 @@ button:focus-visible, select:focus-visible { outline: 3px solid var(--ink); outl
 .brand-beetle img { width: 185px; }
 .toot-label { position: absolute; top: 125px; left: 154px; font-size: 17px; font-weight: 700; color: #8b9173; transform: rotate(13deg); }
 .footer-note { position: absolute; bottom: 2px; font-size: 11px; color: var(--muted); letter-spacing: .3px; }
+.game-version { bottom: 22px; }
 .play-column { flex: 0 0 auto; height: 100%; position: relative; }
 .garden-frame { position: relative; height: 100%; aspect-ratio: 9 / 16; overflow: hidden; border: 3px solid var(--ink); border-radius: 30px; box-shadow: 0 9px 0 #53414c13, 0 24px 50px #51432e18; isolation: isolate; background: #f6eccd; touch-action: none; }
 .canvas-host, .canvas-host canvas { width: 100%; height: 100%; display: block; }
