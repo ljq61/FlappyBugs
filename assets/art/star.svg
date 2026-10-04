@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" role="img" aria-labelledby="title">
+  <title id="title">Golden pollen star grants invincibility</title>
+  <g stroke="#4b365d" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="64" cy="64" r="50" fill="#fff2bc" stroke="#f0cd73" stroke-width="3"/>
+    <path d="M64 13 78 44 112 47 87 71 95 106 64 88 33 106 41 71 16 47 50 44Z" fill="#ffd164"/>
+    <path d="M46 53 55 48 64 29" fill="none" stroke="#fff5bd" stroke-width="5"/>
+    <circle cx="53" cy="65" r="4" fill="#4b365d" stroke="none"/>
+    <circle cx="76" cy="65" r="4" fill="#4b365d" stroke="none"/>
+    <path d="M57 75Q65 81 73 75" fill="none" stroke-width="3"/>
+    <path d="M7 12V24M1 18H13M111 109V121M105 115H117" stroke="#d8aa50" stroke-width="3"/>
+  </g>
+</svg>

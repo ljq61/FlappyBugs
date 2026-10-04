@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="240" viewBox="0 0 180 240" role="img" aria-labelledby="title">
+  <title id="title">Transparent repeating reed grooves and rounded stem joints</title>
+  <g stroke-linecap="round" stroke-linejoin="round">
+    <g id="reed-nodes" stroke="#758d66" stroke-width="5" fill="none">
+      <path d="M39 0V240M91 0V240M141 0V240"/>
+      <path d="M12 59Q90 48 168 59M12 71Q90 81 168 71M12 179Q90 168 168 179M12 191Q90 201 168 191"/>
+      <path d="M46 1V45M98 1V45M148 1V45M46 85V165M98 85V165M148 85V165M46 205V239M98 205V239M148 205V239" stroke="#d4d9a3" stroke-width="5"/>
+      <ellipse cx="39" cy="65" rx="9" ry="7" fill="#c8c68e" stroke-width="3"/>
+      <ellipse cx="141" cy="185" rx="9" ry="7" fill="#c8c68e" stroke-width="3"/>
+      <path d="M65 102 73 114M112 132 120 142M62 222 70 232" stroke-width="3"/>
+    </g>
+  </g>
+</svg>

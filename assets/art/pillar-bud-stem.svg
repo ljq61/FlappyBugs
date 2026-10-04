@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="240" viewBox="0 0 180 240" role="img" aria-labelledby="title">
+  <title id="title">Transparent repeating flower stalk ribs and pink petal shaped markings</title>
+  <g stroke-linecap="round" stroke-linejoin="round">
+    <g id="bud-petal-ribs" stroke="#638767" stroke-width="4">
+      <path d="M49 0V240M90 0V240M131 0V240" fill="none"/>
+      <path d="M21 38Q38 9 69 28Q64 57 40 60Q29 54 21 38ZM111 83Q133 55 160 75Q153 106 129 105Q118 98 111 83Z" fill="#deb0b6" stroke="#a67f96"/>
+      <path d="M21 158Q38 129 69 148Q64 177 40 180Q29 174 21 158ZM111 203Q133 175 160 195Q153 226 129 225Q118 218 111 203Z" fill="#deb0b6" stroke="#a67f96"/>
+      <path d="M39 34 50 48M128 78 139 91M39 154 50 168M128 198 139 211" fill="none" stroke="#f9d3c7"/>
+      <path d="M50 98 79 73M101 113 132 95M50 218 79 193M101 233 132 215" fill="none" stroke="#b9d99d" stroke-width="6"/>
+    </g>
+  </g>
+</svg>

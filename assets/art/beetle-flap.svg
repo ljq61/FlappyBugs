@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-labelledby="title">
+  <title id="title">Beetle squeezing upward with delighted eyes and tucked feet</title>
+  <g stroke="#4b365d" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" transform="translate(-8 -15)">
+    <g id="far-legs" fill="none" stroke="#6e537b" stroke-width="8">
+      <path d="M66 130 44 140 27 133"/>
+      <path d="M92 171 74 170 62 184"/>
+      <path d="M154 161 174 147 192 155"/>
+    </g>
+    <g id="antennae" fill="none">
+      <path d="M178 77Q169 43 194 29"/>
+      <path d="M204 79Q224 47 240 58"/>
+      <circle cx="195" cy="28" r="7" fill="#ffc969"/>
+      <circle cx="240" cy="58" r="7" fill="#ffc969"/>
+    </g>
+    <g id="abdomen">
+      <ellipse cx="102" cy="145" rx="64" ry="61" fill="#c95569" transform="rotate(-20 102 145)"/>
+      <path d="M46 149Q48 89 104 85Q156 80 165 132Q134 126 104 157Q77 183 47 171Z" fill="#fa8b6d"/>
+      <path d="M47 171Q70 183 104 157Q134 128 165 132Q171 182 120 204Q63 221 47 171Z" fill="#f47777"/>
+      <path d="M50 170Q90 183 108 154Q130 134 164 132" fill="none"/>
+      <path d="M65 124Q68 105 93 101" fill="none" stroke="#ffd9a0" stroke-width="9"/>
+      <ellipse cx="85" cy="137" rx="8" ry="10" fill="#c9566d" stroke="none" transform="rotate(-22 85 137)"/>
+      <ellipse cx="128" cy="110" rx="7" ry="9" fill="#c9566d" stroke="none"/>
+      <ellipse cx="111" cy="183" rx="8" ry="7" fill="#c9566d" stroke="none"/>
+    </g>
+    <g id="near-legs" fill="none" stroke-width="8">
+      <path d="M68 183 83 201 67 207"/>
+      <path d="M113 203 131 208 136 193"/>
+      <path d="M157 169 184 153 199 163"/>
+    </g>
+    <g id="thorax">
+      <path d="M137 94Q155 73 177 87L191 120Q183 157 153 163Q142 151 146 133Q151 115 137 94Z" fill="#ffbb71"/>
+      <path d="M158 93Q171 91 177 105" stroke="#ffe4aa" fill="none" stroke-width="8"/>
+    </g>
+    <g id="head">
+      <path d="M164 85Q183 64 208 78Q238 91 231 121Q225 146 199 145Q168 144 159 121Q153 103 164 85Z" fill="#ffcb82"/>
+      <ellipse cx="179" cy="119" rx="12" ry="7" fill="#f48689" stroke="none"/>
+      <ellipse cx="220" cy="119" rx="8" ry="6" fill="#f48689" stroke="none"/>
+      <g id="eyes" fill="none" stroke-width="6">
+        <path d="M169 102Q180 83 192 101M202 103Q215 85 225 104"/>
+        <path d="M172 85 186 80M207 83 221 86" stroke-width="3"/>
+      </g>
+      <path id="mouth" d="M190 122Q206 130 224 121Q219 142 205 141Q193 139 190 122Z" fill="#4b365d" stroke-width="3"/>
+      <path d="M197 125 198 132 213 131 214 125" fill="#fff9e8" stroke="none"/>
+      <path d="M201 138Q207 132 214 136" fill="none" stroke="#f197ac" stroke-width="4"/>
+    </g>
+  </g>
+</svg>

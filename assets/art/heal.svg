@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" role="img" aria-labelledby="title">
+  <title id="title">Dew fruit healing pickup with plus symbol</title>
+  <g stroke="#4b365d" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M64 17Q37 41 31 61Q20 93 46 110Q65 122 87 108Q112 91 97 60Q85 38 64 17Z" fill="#71d6c0"/>
+    <path d="M47 46Q37 58 39 67" stroke="#d8fff0" stroke-width="7" fill="none"/>
+    <path d="M66 12Q76 2 94 12Q88 31 67 26Z" fill="#9ad783"/>
+    <circle cx="66" cy="82" r="24" fill="#f1ffe0" stroke="none"/>
+    <path d="M66 69V95M53 82H79" stroke="#467864" stroke-width="8" fill="none"/>
+  </g>
+</svg>

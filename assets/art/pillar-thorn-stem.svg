@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="240" viewBox="0 0 180 240" role="img" aria-labelledby="title">
+  <title id="title">Transparent repeating rounded thorn stem knobbles and small bark cracks</title>
+  <g stroke-linecap="round" stroke-linejoin="round">
+    <g id="thorn-knobbles" stroke="#557c6d" stroke-width="4">
+      <path d="M90 0V240" fill="none" stroke-width="5"/>
+      <path d="M48 0V240M133 0V240" fill="none" stroke="#a8c598" stroke-width="3"/>
+      <ellipse cx="38" cy="45" rx="19" ry="14" fill="#b2c894"/>
+      <ellipse cx="130" cy="85" rx="22" ry="17" fill="#b2c894"/>
+      <ellipse cx="38" cy="165" rx="19" ry="14" fill="#b2c894"/>
+      <ellipse cx="130" cy="205" rx="22" ry="17" fill="#b2c894"/>
+      <path d="M32 39Q38 34 44 39M121 79Q129 71 140 77M32 159Q38 154 44 159M121 199Q129 191 140 197" fill="none" stroke="#d5dfa9" stroke-width="5"/>
+      <path d="M66 74 76 81 68 92M102 14 110 23 103 33M66 194 76 201 68 212M102 134 110 143 103 153" fill="none" stroke-width="3"/>
+      <circle cx="20" cy="111" r="5" fill="#b2c894" stroke-width="3"/>
+      <circle cx="159" cy="143" r="5" fill="#b2c894" stroke-width="3"/>
+    </g>
+  </g>
+</svg>

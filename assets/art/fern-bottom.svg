@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="150" viewBox="0 0 180 150" role="img" aria-labelledby="title">
+  <title id="title">Serrated razor fern blades, bottom obstacle with points facing the gap</title>
+  <g stroke="#30283c" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <g id="razor-fern" fill="#386148">
+      <path d="M6 150L10 103L24 90L8 60L31 61L12 14L45 45L50 11L70 47L90 7L111 47L130 11L135 48L168 14L151 65L173 59L155 91L173 105L174 150Z"/>
+      <path d="M90 20L83 62L90 53L102 70Z" fill="#d4dc8f" stroke-width="2"/>
+      <path d="M28 66L83 105L22 86L36 81Z M151 71L99 113L158 91L141 86Z" fill="#7ba16b" stroke-width="3"/>
+      <path d="M6 145L90 87L174 145V150H6Z" fill="#2d503e"/>
+      <path d="M90 146V85M27 119L68 130M155 120L111 132" fill="none" stroke="#729368" stroke-width="4"/>
+    </g>
+  </g>
+</svg>

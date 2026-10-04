@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" role="img" aria-labelledby="title">
+  <title id="title">Flappy Bugs original landscape-1920x1080 cover</title>
+  <defs><linearGradient id="cover-sky" x2="0" y2="1"><stop stop-color="#fff5db"/><stop offset="1" stop-color="#d5ebc9"/></linearGradient></defs>
+  <rect width="1920" height="1080" fill="url(#cover-sky)"/>
+  <circle cx="1433" cy="426" r="335" fill="#f7e2aa" opacity=".7"/>
+  <circle cx="1433" cy="426" r="369" fill="none" stroke="#dfd5a6" stroke-width="3" stroke-dasharray="5 22"/>
+  <path d="M66 207Q117 159 164 180Q196 132 240 156Q289 143 331 184Q373 175 414 207Z" fill="#fffcef"/>
+  <path d="M1713 207Q1741 174 1775 187Q1802 149 1831 177Q1873 163 1897 201Z" fill="#fffcef"/>
+  <path d="M-50 980Q296 617 649 851Q1017 697 1253 958Q1605 669 1970 902V1130H-50Z" fill="#bedbb3"/>
+  <path d="M-50 1080Q477 823 800 1007Q1160 813 1970 1025V1130H-50Z" fill="#91c2a0"/>
+  <g fill="#badca8" stroke="#658875" stroke-width="6" stroke-linejoin="round">
+    <path d="M846 1084Q786 896 847 842Q922 890 901 1084Z"/>
+    <path d="M1093 1084Q1117 932 1191 920Q1227 1024 1166 1084Z"/>
+    <path d="M1447 1084Q1398 961 1427 918Q1500 949 1514 1084Z"/>
+  </g>
+  <g transform="translate(920 560) scale(1.45)">
+  <g stroke="#4b365d" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <g id="toot-cloud" stroke="#75a991" stroke-width="4">
+      <path d="M118 83Q131 81 133 68Q136 52 121 44Q116 24 97 28Q84 11 65 23Q48 19 40 34Q20 35 20 52Q5 60 14 78Q12 97 34 99Q46 114 62 102Q80 115 96 98Q117 100 118 83Z" fill="#c8ecaa"/>
+      <path d="M37 57Q47 46 57 50M64 39Q76 31 85 39M29 83Q40 94 50 86" fill="none" stroke="#eef5be" stroke-width="6"/>
+      <circle cx="149" cy="80" r="6" fill="#d9f1b5"/>
+      <circle cx="140" cy="103" r="4" fill="#d9f1b5"/>
+    </g>
+  </g>
+</g>
+  <g transform="translate(1100 284) scale(2.5)">
+  <g stroke="#4b365d" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" transform="translate(-8 -15)">
+    <g id="hindwings" stroke="#7ba9a1" stroke-width="3">
+      <path d="M139 125Q86 71 74 27Q63 4 50 19Q30 58 59 87Q88 116 139 125Z" fill="#edfdf4" fill-opacity=".82"/>
+      <path d="M140 127Q146 61 171 26Q188 1 196 22Q208 72 140 127Z" fill="#edfff6" fill-opacity=".82"/>
+      <path d="M139 125Q94 80 56 26M89 70 52 60M109 91 84 43M140 127Q177 69 190 24M157 95 190 70" fill="none" stroke-opacity=".6"/>
+    </g>
+  </g>
+</g>
+  <g transform="translate(1100 284) scale(2.5)">
+  <g stroke="#4b365d" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" transform="translate(-8 -15)">
+    <g id="far-legs" fill="none" stroke="#6e537b" stroke-width="8">
+      <path d="M66 130 42 114 28 127"/>
+      <path d="M92 171 67 192 48 186"/>
+      <path d="M154 161 181 191 200 185"/>
+    </g>
+    <g id="antennae" fill="none">
+      <path d="M178 77Q169 43 194 29"/>
+      <path d="M204 79Q224 47 240 58"/>
+      <circle cx="195" cy="28" r="7" fill="#ffc969"/>
+      <circle cx="240" cy="58" r="7" fill="#ffc969"/>
+    </g>
+    <g id="abdomen">
+      <ellipse cx="102" cy="145" rx="64" ry="61" fill="#c95569" transform="rotate(-20 102 145)"/>
+      <path d="M46 149Q48 89 104 85Q156 80 165 132Q134 126 104 157Q77 183 47 171Z" fill="#fa8b6d"/>
+      <path d="M47 171Q70 183 104 157Q134 128 165 132Q171 182 120 204Q63 221 47 171Z" fill="#f47777"/>
+      <path d="M50 170Q90 183 108 154Q130 134 164 132" fill="none"/>
+      <path d="M65 124Q68 105 93 101" fill="none" stroke="#ffd9a0" stroke-width="9"/>
+      <ellipse cx="85" cy="137" rx="8" ry="10" fill="#c9566d" stroke="none" transform="rotate(-22 85 137)"/>
+      <ellipse cx="128" cy="110" rx="7" ry="9" fill="#c9566d" stroke="none"/>
+      <ellipse cx="111" cy="183" rx="8" ry="7" fill="#c9566d" stroke="none"/>
+    </g>
+    <g id="near-legs" fill="none" stroke-width="8">
+      <path d="M68 183 63 213 43 216"/>
+      <path d="M113 203 121 232 143 231"/>
+      <path d="M157 169 181 204 202 200"/>
+    </g>
+    <g id="thorax">
+      <path d="M137 94Q155 73 177 87L191 120Q183 157 153 163Q142 151 146 133Q151 115 137 94Z" fill="#ffbb71"/>
+      <path d="M158 93Q171 91 177 105" stroke="#ffe4aa" fill="none" stroke-width="8"/>
+    </g>
+    <g id="head">
+      <path d="M164 85Q183 64 208 78Q238 91 231 121Q225 146 199 145Q168 144 159 121Q153 103 164 85Z" fill="#ffcb82"/>
+      <ellipse cx="179" cy="119" rx="12" ry="7" fill="#f48689" stroke="none"/>
+      <ellipse cx="220" cy="119" rx="8" ry="6" fill="#f48689" stroke="none"/>
+      <g id="eyes">
+        <ellipse cx="181" cy="100" rx="13" ry="17" fill="#fff9e9" stroke-width="4"/>
+        <ellipse cx="213" cy="102" rx="12" ry="16" fill="#fff9e9" stroke-width="4"/>
+        <ellipse cx="187" cy="102" rx="5" ry="8" fill="#4b365d" stroke="none"/>
+        <ellipse cx="218" cy="104" rx="5" ry="8" fill="#4b365d" stroke="none"/>
+        <circle cx="189" cy="99" r="2" fill="white" stroke="none"/>
+        <circle cx="220" cy="101" r="2" fill="white" stroke="none"/>
+      </g>
+      <path id="mouth" d="M197 127Q206 135 215 126" fill="none" stroke-width="4"/>
+    </g>
+  </g>
+</g>
+  <g transform="translate(-54 768) scale(2.5)">
+  <g stroke="#4b365d" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M52 150 61 64Q90 49 120 64L132 150Z" fill="#ffe4b0"/>
+    <path d="M79 108V149M106 111 113 147" stroke="#d8b98d" stroke-width="4"/>
+    <path d="M8 69Q18 10 90 5Q162 10 172 69Q123 92 90 80Q58 92 8 69Z" fill="#ee8e8f"/>
+    <path d="M14 70Q91 94 166 70" stroke="#bf6f80" fill="none" stroke-width="5"/>
+    <ellipse cx="60" cy="40" rx="14" ry="9" fill="#fff1d4" stroke="none" transform="rotate(-20 60 40)"/>
+    <ellipse cx="118" cy="32" rx="13" ry="9" fill="#fff1d4" stroke="none" transform="rotate(13 118 32)"/>
+    <circle cx="131" cy="59" r="6" fill="#fff1d4" stroke="none"/>
+    <path d="M29 48Q34 32 45 26" fill="none" stroke="#ffd2af" stroke-width="6"/>
+  </g>
+</g>
+  <g transform="translate(1645 770) scale(2.0)">
+  <g stroke="#4b365d" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M45 150 49 79H132L137 150Z" fill="#88bb8b"/>
+    <path d="M89 106Q33 103 18 74Q24 38 49 33Q44 9 71 10Q86 -2 106 11Q135 7 135 35Q164 41 166 76Q142 102 89 106Z" fill="#efa6b8"/>
+    <path d="M44 42Q48 76 81 95M72 18Q68 64 90 96M108 19Q119 57 98 96M138 44Q134 79 109 96" fill="none" stroke="#c77b9c" stroke-width="4"/>
+    <path d="M47 150Q29 103 8 103Q6 138 36 150M130 150Q148 103 172 100Q169 135 145 150" fill="#b5d99c"/>
+    <path d="M66 34 64 46" stroke="#ffd8cc" stroke-width="7" fill="none"/>
+  </g>
+</g>
+  <path d="M1035 243Q1038 267 1062 270Q1038 273 1035 297Q1032 273 1008 270Q1032 267 1035 243Z" fill="#ffe6a0" stroke="#c7a36b" stroke-width="3"/>
+  <path d="M1746 681Q1749 701 1769 704Q1749 707 1746 727Q1743 707 1723 704Q1743 701 1746 681Z" fill="#ffe6a0" stroke="#c7a36b" stroke-width="3"/>
+  <path d="M993 765Q996 779 1010 782Q996 785 993 799Q990 785 976 782Q990 779 993 765Z" fill="#ffe6a0" stroke="#c7a36b" stroke-width="3"/>
+
+  <g id="game-title" font-family="Trebuchet MS, Arial, sans-serif" font-weight="900" fill="#fff4d2" stroke="#4b365d" stroke-width="8" paint-order="stroke fill" stroke-linejoin="round">
+    <text x="140" y="391" font-size="225" letter-spacing="-7">Flappy</text>
+    <text x="146" y="617" font-size="225" letter-spacing="-7">Bugs</text>
+  </g>
+</svg>

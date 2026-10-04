@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="150" viewBox="0 0 180 150" role="img" aria-labelledby="title">
+  <title id="title">Thick twisted wicked thorn vine, bottom obstacle with points facing the gap</title>
+  <g stroke="#30283c" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <g id="twisted-thorn" fill="#314d40">
+      <path d="M6 150V113L26 96L8 61L13 13L47 71L49 11L71 58L90 7L111 59L143 11L135 77L168 13L157 109L174 128V150Z"/>
+      <path d="M6 150Q108 126 56 94Q32 68 69 53L84 66Q61 78 82 96Q120 126 56 150Z" fill="#577150"/>
+      <path d="M94 150Q166 132 124 105L140 92Q184 127 144 150Z" fill="#496247"/>
+      <path d="M90 22L77 64L98 60L110 78Z M14 70L43 87L43 78Z M162 69L144 111L145 86Z" fill="#c3cf82" stroke-width="2"/>
+      <path d="M46 120L22 109L35 133Z M124 121L160 132L141 143Z" fill="#a3b970" stroke-width="3"/>
+      <path d="M61 133L72 141M105 102L111 113" fill="none" stroke="#819161" stroke-width="4"/>
+    </g>
+  </g>
+</svg>

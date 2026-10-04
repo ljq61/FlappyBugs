@@ -1,0 +1,33 @@
+const en = {
+  eyebrow: 'THE LITTLE GARDEN CLUB', title: 'Flappy Bugs', tagline: 'A tiny beetle. A mighty toot.',
+  intro: 'Big dreams. Tiny wings.', introSub: 'Give your beetle a little boost.\nSee how far a toot can take you.',
+  play: 'Let’s fly', hint: 'Tap · Click · Space', how: 'A LITTLE FIELD GUIDE',
+  instruction: 'Tap to toot. Toot to fly.', instructionSub: 'Slip between the plants. Keep your three hearts.',
+  heal: 'Dewdrop', healSub: 'A little pick-me-up. +1 heart.', poison: 'Mould puff', poisonSub: 'Prickly company. Lose a heart.',
+  star: 'Golden pollen', starSub: '5 seconds of fearless flying.', score: 'SCORE', best: 'PERSONAL BEST',
+  paused: 'Taking a breather', pausedSub: 'Your garden will be right here.', resume: 'Keep flying',
+  over: 'What a little adventure!', overSub: 'Every great flight starts with a toot.', retry: 'One more flight',
+  newBest: 'A NEW PERSONAL BEST!', soundOn: 'Turn sound off', soundOff: 'Turn sound on',
+  muted: 'Sound muted by platform', pause: 'Pause game', language: 'Language',
+  ready: 'READY WHEN YOU ARE', foot: 'Made for small moments of joy.',
+  loading: 'Growing your garden…', error: 'The garden needs a moment', errorSub: 'We couldn’t load everything. Check your connection and try again.',
+  reload: 'Try again', saveError: 'Your progress couldn’t be saved. Keep playing; we’ll retry.',
+  hidden: 'Welcome back, little bug.', controls: 'One tap. One mighty toot.', stars: 'FEARLESS',
+};
+const zh = {
+  eyebrow: '小小花园俱乐部', title: '屁屁甲虫', tagline: '小小甲虫，大大一声噗。',
+  intro: '翅膀虽小，梦想很大', introSub: '给小甲虫一点向上的力气，\n看看一声噗能飞多远。',
+  play: '起飞吧', hint: '触屏 · 点击 · 空格', how: '花园小指南',
+  instruction: '轻轻一点，噗地起飞', instructionSub: '穿过植物间的缝隙，守住三颗心。',
+  heal: '露珠果', healSub: '甜甜的补给，恢复一颗心。', poison: '霉菌团', poisonSub: '带刺的小家伙，会扣一颗心。',
+  star: '金色花粉', starSub: '5 秒无敌，勇敢向前飞。', score: '本次得分', best: '最好成绩',
+  paused: '歇一小会儿', pausedSub: '花园会在这里等你。', resume: '继续飞翔',
+  over: '又是一场小小冒险', overSub: '每次勇敢起飞，都从一声噗开始。', retry: '再飞一次',
+  newBest: '新的最好成绩！', soundOn: '关闭声音', soundOff: '打开声音',
+  muted: '平台已静音', pause: '暂停游戏', language: '语言',
+  ready: '准备好就起飞', foot: '收集生活里的小小快乐。',
+  loading: '花园正在生长…', error: '花园需要一点时间', errorSub: '有些内容没能加载。请检查网络后重试。',
+  reload: '重新加载', saveError: '暂时没能保存成绩。可以继续玩，我们会重试。',
+  hidden: '欢迎回来，小甲虫。', controls: '轻轻一点，噗地起飞。', stars: '无敌',
+};
+export function messages(language) { return language === 'zh' ? zh : en; }

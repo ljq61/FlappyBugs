@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="150" viewBox="0 0 180 150" role="img" aria-labelledby="title">
+  <title id="title">Armored spike seed pod, bottom obstacle with points facing the gap</title>
+  <g stroke="#30283c" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <g id="spike-seedpod" fill="#674552">
+      <path d="M6 150L11 106L29 87L17 13L50 65L50 11L75 52L90 7L105 52L133 11L130 65L163 13L149 87L169 106L174 150Z"/>
+      <path d="M90 22L79 64L102 64Z M53 38L58 70L69 61Z M126 39L110 63L123 73Z" fill="#dac686" stroke-width="2"/>
+      <path d="M6 149Q33 96 89 79Q149 95 174 149V150H6Z" fill="#493b44"/>
+      <path d="M89 83V144M61 99L50 146M119 99L133 146" fill="none" stroke="#997376" stroke-width="5"/>
+      <path d="M70 115L79 108L83 120L74 130Z M107 131L117 124L115 111L104 119Z" fill="#b5b56a" stroke-width="3"/>
+    </g>
+  </g>
+</svg>

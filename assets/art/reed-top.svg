@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="150" viewBox="0 0 180 150" role="img" aria-labelledby="title">
+  <title id="title">Hard sharp reed needles, top obstacle with points facing the gap</title>
+  <g stroke="#30283c" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <g id="needle-reed" fill="#55634c">
+      <path d="M6 0V67L24 78L12 137L44 84L50 139L75 91L90 143L108 90L130 139L141 82L168 137L158 71L174 62V0Z"/>
+      <path d="M90 130L79 78L101 80Z" fill="#e5e1a2" stroke-width="2"/>
+      <path d="M36 110L30 59L48 67ZM148 107L135 63L153 53Z" fill="#b9c27a" stroke-width="2"/>
+      <path d="M6 18Q89 30 174 19V0H6Z" fill="#3f4e41"/>
+      <path d="M47 4V55M89 7V67M137 4V51" fill="none" stroke="#8e9b6c" stroke-width="5"/>
+      <path d="M9 34Q90 23 171 34" fill="none" stroke="#bac087" stroke-width="4"/>
+    </g>
+  </g>
+</svg>

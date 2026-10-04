@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" role="img" aria-labelledby="title">
+  <title id="title">Transparent pillar eye and eyebrow animation layer</title>
+  <g stroke-linecap="round" stroke-linejoin="round">
+    <g id="stem-eyes" stroke="#4b365d" stroke-width="5">
+      <ellipse cx="36" cy="38" rx="23" ry="26" fill="#fff9e8"/>
+      <ellipse cx="94" cy="45" rx="21" ry="24" fill="#fff9e8"/>
+      <ellipse cx="46" cy="44" rx="8" ry="11" fill="#4b365d" stroke="none"/>
+      <ellipse cx="84" cy="42" rx="8" ry="11" fill="#4b365d" stroke="none"/>
+      <circle cx="44" cy="40" r="3" fill="white" stroke="none"/>
+      <circle cx="82" cy="38" r="3" fill="white" stroke="none"/>
+      <path d="M17 7Q33 2 46 8M82 16Q98 11 110 18" fill="none" stroke-width="4"/>
+    </g>
+  </g>
+</svg>

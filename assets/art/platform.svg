@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="128" viewBox="0 0 320 128" role="img" aria-labelledby="title">
+  <title id="title">Leaf launch platform</title>
+  <g stroke="#4b365d" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M19 83Q49 14 184 30Q257 38 303 21Q285 95 164 111Q73 117 19 83Z" fill="#78c69b"/>
+    <path d="M22 83Q167 66 293 25M69 75 75 50M116 65 124 42M159 56 169 38M89 91 123 66M151 98 194 50M205 85 244 39" fill="none" stroke="#56856d" stroke-width="4"/>
+    <path d="M54 49Q116 27 175 39" stroke="#bae7b0" stroke-width="8" fill="none"/>
+    <path d="M22 83 7 92" stroke-width="8" fill="none"/>
+  </g>
+</svg>

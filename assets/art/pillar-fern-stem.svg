@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="240" viewBox="0 0 180 240" role="img" aria-labelledby="title">
+  <title id="title">Transparent repeating fern fronds and branching leaflets</title>
+  <g stroke-linecap="round" stroke-linejoin="round">
+    <g id="fern-fronds" stroke="#59856e" stroke-width="4">
+      <path d="M90 0V240" fill="none" stroke-width="5"/>
+      <path d="M90 50Q48 56 16 22Q47 7 89 40M91 51Q133 55 164 23Q133 7 91 39" fill="#b4d89e"/>
+      <path d="M30 23 81 44M100 44 151 24" fill="none" stroke="#7ea47b" stroke-width="3"/>
+      <path d="M90 110Q48 116 16 82Q47 67 89 100M91 111Q133 115 164 83Q133 67 91 99" fill="#b4d89e"/>
+      <path d="M30 83 81 104M100 104 151 84" fill="none" stroke="#7ea47b" stroke-width="3"/>
+      <path d="M90 170Q48 176 16 142Q47 127 89 160M91 171Q133 175 164 143Q133 127 91 159" fill="#b4d89e"/>
+      <path d="M30 143 81 164M100 164 151 144" fill="none" stroke="#7ea47b" stroke-width="3"/>
+      <path d="M90 230Q48 236 16 202Q47 187 89 220M91 231Q133 235 164 203Q133 187 91 219" fill="#b4d89e"/>
+      <path d="M30 203 81 224M100 224 151 204" fill="none" stroke="#7ea47b" stroke-width="3"/>
+    </g>
+  </g>
+</svg>

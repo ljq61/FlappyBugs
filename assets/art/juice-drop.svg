@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">Bright yellow green cartoon juice drop</title>
+  <g stroke="#4b365d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M34 5Q27 22 16 33Q6 47 18 57Q32 68 47 53Q59 38 44 25Q35 16 34 5Z" fill="#d5df35" stroke="#6f8035"/>
+    <path d="M23 35Q16 44 23 49" fill="none" stroke="#f8f4a2" stroke-width="5"/>
+    <circle cx="41" cy="46" r="3" fill="#a4bd35" stroke="none"/>
+  </g>
+</svg>

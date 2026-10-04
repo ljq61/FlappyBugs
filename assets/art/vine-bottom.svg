@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="150" viewBox="0 0 180 150" role="img" aria-labelledby="title">
+  <title id="title">Charred flame bearing thorn vine, bottom obstacle with points facing the gap</title>
+  <g stroke="#30283c" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <g id="burning-vine" fill="#413745">
+      <path d="M6 150V111L18 97L13 13L42 68L58 11L69 58L90 7L110 60L133 11L142 72L167 13L161 106L174 118V150Z"/>
+      <path d="M6 148Q62 131 49 94Q40 68 81 54L95 66Q62 80 74 99Q91 134 40 150Z" fill="#665044"/>
+      <path d="M93 149Q147 126 121 92Q112 74 132 60L147 68Q135 80 145 94Q169 131 119 150Z" fill="#594744"/>
+      <path d="M90 21L79 58L95 51L105 66Z" fill="#bc9c76" stroke-width="2"/>
+      <path d="M33 97L45 110L37 121M82 128L94 137L89 147M128 91L143 106L130 114" fill="none" stroke="#d9804d" stroke-width="4"/>
+      <circle cx="102" cy="88" r="4" fill="#efb365" stroke="none"/>
+    </g>
+  </g>
+</svg>

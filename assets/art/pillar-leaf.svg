@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" role="img" aria-labelledby="title">
+  <title id="title">Rounded mint leaf decoration for gentle pivoting sway</title>
+  <g stroke-linecap="round" stroke-linejoin="round">
+    <g id="waving-leaf" stroke="#557c6d" stroke-width="5">
+      <path d="M14 96Q13 41 66 31Q94 31 115 13Q122 65 82 87Q45 105 14 96Z" fill="#b0d9a1"/>
+      <path d="M14 96Q65 66 112 17M43 79 39 55M66 63 68 41M75 58 98 62M50 76 76 79" fill="none" stroke-width="3"/>
+      <path d="M29 59Q40 45 57 41" fill="none" stroke="#dcebbb" stroke-width="7"/>
+      <path d="M14 96 7 104" fill="none" stroke-width="5"/>
+    </g>
+  </g>
+</svg>

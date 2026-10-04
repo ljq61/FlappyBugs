@@ -1,0 +1,33 @@
+# Model tiers follow Ricochet-Rivals; game roles remain specific to FlappyBugs.
+model = "gpt-6.1-sol"
+model_reasoning_effort = "high"
+
+[agents]
+enabled = true
+max_concurrent_threads_per_session = 3
+default_subagent_model = "gpt-6.1-sol"
+default_subagent_reasoning_effort = "high"
+
+[agents.core]
+description = "FlappyBugs 玩法实现：纯模型、固定时间步、碰撞、道具与回归测试。"
+config_file = "agents/core.toml"
+
+[agents.art]
+description = "FlappyBugs 矢量美术：原创甲虫、花园障碍、道具、SVG分层与资源元数据。"
+config_file = "agents/art.toml"
+
+[agents.platform]
+description = "FlappyBugs 平台适配：CrazyGames SDK、独立运行、生命周期、静音及成绩存储。"
+config_file = "agents/platform.toml"
+
+[agents.qa]
+description = "FlappyBugs 独立验收：真实输入、多尺寸、玩法回归、音频生命周期及发布包审计。"
+config_file = "agents/qa.toml"
+
+[agents.repo-scanner]
+description = "FlappyBugs 快速只读检索：定位代码、接口、依赖及受影响范围。"
+config_file = "agents/repo-scanner.toml"
+
+[agents.escalation-engineer]
+description = "FlappyBugs 疑难升级：两次定向修复失败、难以定位的跨模块问题或发布关键决策。"
+config_file = "agents/escalation-engineer.toml"

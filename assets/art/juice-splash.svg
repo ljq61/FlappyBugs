@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" role="img" aria-labelledby="title">
+  <title id="title">Comical yellow green juice splash with shiny droplets</title>
+  <g stroke="#4b365d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <g id="juicy-splat" stroke="#6f8035">
+      <path d="M57 44Q60 21 49 10Q43 2 39 11Q35 23 43 49Q26 35 18 37Q6 40 20 49L44 62Q18 68 11 80Q7 93 20 89L48 79Q41 101 46 114Q52 128 58 112L67 85Q80 111 91 112Q105 111 91 94L79 73Q107 80 116 72Q129 60 112 60L83 57Q104 40 101 25Q97 13 88 28L69 47Q64 41 57 44Z" fill="#d5df35"/>
+      <path d="M50 61Q50 50 60 50M61 69Q74 57 81 64" fill="none" stroke="#f5f2a1" stroke-width="6"/>
+      <circle cx="66" cy="65" r="5" fill="#a7bf35" stroke="none"/>
+      <circle cx="75" cy="78" r="4" fill="#a7bf35" stroke="none"/>
+      <ellipse cx="18" cy="19" rx="7" ry="10" fill="#d5df35" transform="rotate(-35 18 19)" stroke-width="3"/>
+      <ellipse cx="113" cy="104" rx="6" ry="8" fill="#d5df35" transform="rotate(-35 113 104)" stroke-width="3"/>
+    </g>
+  </g>
+</svg>

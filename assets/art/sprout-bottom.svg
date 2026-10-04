@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="150" viewBox="0 0 180 150" role="img" aria-labelledby="title">
+  <title id="title">Spiny dangerous sprout, bottom obstacle with points facing the gap</title>
+  <g stroke="#30283c" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <g id="thorn-sprout" fill="#437052">
+      <path d="M6 150V95L27 83L14 13L54 68L60 11L76 55L90 7L110 56L129 11L137 67L164 13L151 84L174 95V150Z"/>
+      <path d="M90 21L79 60L90 55L102 62Z" fill="#d9e695" stroke-width="2"/>
+      <path d="M23 44L51 77L33 66Z M154 46L129 80L147 67Z" fill="#bed879" stroke-width="2"/>
+      <path d="M6 132Q44 96 90 88Q136 96 174 132V150H6Z" fill="#355844"/>
+      <path d="M90 147V85M86 112L49 94M95 124L136 104" fill="none" stroke="#769467" stroke-width="4"/>
+      <path d="M46 139L24 116L59 125Z M120 136L155 116L142 141Z" fill="#799e64" stroke-width="3"/>
+    </g>
+  </g>
+</svg>

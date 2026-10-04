@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" role="img" aria-labelledby="title">
+  <title id="title">Spiky mold hazard with cross symbol</title>
+  <g stroke="#4b365d" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M62 12 73 28 93 19 94 39 116 48 103 64 116 83 96 90 92 112 73 103 57 119 45 103 23 111 23 88 8 73 23 58 14 37 36 35 43 15 57 29Z" fill="#b29ccc"/>
+    <circle cx="63" cy="67" r="32" fill="#d7c1e4" stroke-width="4"/>
+    <path d="M49 52 78 81M78 52 49 81" stroke-width="10"/>
+    <circle cx="33" cy="55" r="5" fill="#806597" stroke="none"/>
+    <circle cx="87" cy="94" r="5" fill="#806597" stroke="none"/>
+    <circle cx="84" cy="36" r="4" fill="#f1dff5" stroke="none"/>
+  </g>
+</svg>

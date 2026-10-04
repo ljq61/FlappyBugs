@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-labelledby="title">
+  <title id="title">Transparent beetle hindwings, separate animation layer</title>
+  <g stroke="#4b365d" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" transform="translate(-8 -15)">
+    <g id="hindwings" stroke="#7ba9a1" stroke-width="3">
+      <path d="M139 125Q86 71 74 27Q63 4 50 19Q30 58 59 87Q88 116 139 125Z" fill="#edfdf4" fill-opacity=".82"/>
+      <path d="M140 127Q146 61 171 26Q188 1 196 22Q208 72 140 127Z" fill="#edfff6" fill-opacity=".82"/>
+      <path d="M139 125Q94 80 56 26M89 70 52 60M109 91 84 43M140 127Q177 69 190 24M157 95 190 70" fill="none" stroke-opacity=".6"/>
+    </g>
+  </g>
+</svg>

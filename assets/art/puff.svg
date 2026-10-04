@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="128" viewBox="0 0 160 128" role="img" aria-labelledby="title">
+  <title id="title">Small mint propulsion puff</title>
+  <g stroke="#4b365d" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <g id="toot-cloud" stroke="#75a991" stroke-width="4">
+      <path d="M118 83Q131 81 133 68Q136 52 121 44Q116 24 97 28Q84 11 65 23Q48 19 40 34Q20 35 20 52Q5 60 14 78Q12 97 34 99Q46 114 62 102Q80 115 96 98Q117 100 118 83Z" fill="#c8ecaa"/>
+      <path d="M37 57Q47 46 57 50M64 39Q76 31 85 39M29 83Q40 94 50 86" fill="none" stroke="#eef5be" stroke-width="6"/>
+      <circle cx="149" cy="80" r="6" fill="#d9f1b5"/>
+      <circle cx="140" cy="103" r="4" fill="#d9f1b5"/>
+    </g>
+  </g>
+</svg>

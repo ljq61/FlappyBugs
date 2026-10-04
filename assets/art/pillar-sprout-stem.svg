@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="240" viewBox="0 0 180 240" role="img" aria-labelledby="title">
+  <title id="title">Transparent repeating sprout leaf veins and paired leaves</title>
+  <g stroke-linecap="round" stroke-linejoin="round">
+    <g id="sprout-veins" stroke="#527d6b" stroke-width="5">
+      <path d="M90 0V240" fill="none"/>
+      <path d="M90 63Q44 70 12 38Q39 17 74 34Z" fill="#b6dda5"/>
+      <path d="M90 111Q141 118 167 84Q142 64 109 84Z" fill="#b6dda5"/>
+      <path d="M90 183Q44 190 12 158Q39 137 74 154Z" fill="#b6dda5"/>
+      <path d="M90 231Q141 238 167 204Q142 184 109 204Z" fill="#b6dda5"/>
+      <path d="M26 39 79 57M105 104 153 84M26 159 79 177M105 224 153 204" fill="none" stroke="#7d9c78" stroke-width="3"/>
+      <path d="M107 14 120 27M49 111 60 99M107 134 120 147M49 231 60 219" fill="none" stroke="#d3e8ac" stroke-width="6"/>
+    </g>
+  </g>
+</svg>

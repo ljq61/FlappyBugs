@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="240" viewBox="0 0 180 240" role="img" aria-labelledby="title">
+  <title id="title">Transparent repeating curled vine tendrils and berry dots</title>
+  <g stroke-linecap="round" stroke-linejoin="round">
+    <g id="vine-tendrils" stroke="#517e73" stroke-width="5" fill="none">
+      <path d="M90 0C135 20 135 40 90 60C45 80 45 100 90 120C135 140 135 160 90 180C45 200 45 220 90 240" stroke-width="8"/>
+      <path d="M118 34Q160 17 160 45Q157 62 140 50Q131 39 142 35M60 94Q18 77 18 105Q21 122 38 110Q47 99 36 95M118 154Q160 137 160 165Q157 182 140 170Q131 159 142 155M60 214Q18 197 18 225Q21 242 38 230Q47 219 36 215"/>
+      <circle cx="117" cy="89" r="12" fill="#bf99b7" stroke="#8f758e" stroke-width="4"/>
+      <circle cx="139" cy="101" r="9" fill="#e0b4c4" stroke="#a984a0" stroke-width="3"/>
+      <circle cx="117" cy="209" r="12" fill="#bf99b7" stroke="#8f758e" stroke-width="4"/>
+      <circle cx="139" cy="221" r="9" fill="#e0b4c4" stroke="#a984a0" stroke-width="3"/>
+      <path d="M63 38 43 27M67 159 46 148" stroke="#c4dba8" stroke-width="6"/>
+    </g>
+  </g>
+</svg>

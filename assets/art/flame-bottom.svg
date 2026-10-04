@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="150" viewBox="0 0 180 150" role="img" aria-labelledby="title">
+  <title id="title">Dangerous cartoon flame bottom layer pointing toward the gap</title>
+  <g stroke-linecap="round" stroke-linejoin="round">
+    <g id="flame-layer" stroke="#934047" stroke-width="4">
+      <path d="M18 148Q8 118 29 82Q37 115 53 110Q47 66 69 39Q75 68 84 66Q91 39 90 7Q123 40 111 78Q123 67 132 51Q152 77 143 103Q156 92 162 76Q174 124 162 148Z" fill="#e67542"/>
+      <path d="M36 146Q23 125 45 105Q56 129 65 115Q68 76 85 50Q96 76 93 99Q118 94 126 79Q139 111 121 126Q147 118 149 146Z" fill="#f8b948" stroke="#e77937" stroke-width="2"/>
+      <path d="M62 146Q51 130 75 111Q79 123 88 115Q95 99 95 91Q113 108 108 124Q127 130 120 146Z" fill="#ffed98" stroke="none"/>
+    </g>
+  </g>
+</svg>

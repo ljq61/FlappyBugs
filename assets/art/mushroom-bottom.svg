@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="150" viewBox="0 0 180 150" role="img" aria-labelledby="title">
+  <title id="title">Venomous needle fungus, bottom obstacle with points facing the gap</title>
+  <g stroke="#30283c" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <g id="toxic-needle-fungus" fill="#66394f">
+      <path d="M6 150V105Q13 78 28 61L14 13L51 57L52 11L78 42L90 7L103 43L128 11L130 60L166 13L153 63Q170 83 174 105V150Z"/>
+      <path d="M90 22L82 54L99 54Z M29 41L41 63L31 60Z M152 43L140 66L151 62Z" fill="#cbd973" stroke-width="2"/>
+      <path d="M6 102Q91 120 174 102V150H6Z" fill="#442f42"/>
+      <path d="M26 114L37 145M56 120L59 147M88 121V147M120 119L116 147M153 112L143 145" fill="none" stroke="#906170" stroke-width="4"/>
+      <circle cx="48" cy="86" r="8" fill="#b0c166" stroke-width="3"/>
+      <circle cx="110" cy="77" r="7" fill="#b0c166" stroke-width="3"/>
+      <circle cx="137" cy="93" r="5" fill="#d8d586" stroke-width="2"/>
+    </g>
+  </g>
+</svg>
