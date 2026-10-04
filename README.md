@@ -2,7 +2,7 @@
 
 一只小甲虫，一声大大的噗。点击、触屏、Space 或 ArrowUp 放屁推进，穿过原创矢量花园。
 
-**v0.1.1，2026-10-04。** [在线试玩](https://ljq61.github.io/FlappyBugs/) · [GitHub Release / 下载](https://github.com/ljq61/FlappyBugs/releases/tag/v0.1.1) · [构建与发布状态](https://github.com/ljq61/FlappyBugs/actions/workflows/pages.yml)。CrazyGames 预备包已制作，尚未上传、提交审核或上线。
+**v0.1.1，2026-10-04，已发布到GitHub Pages。** [在线试玩](https://ljq61.github.io/FlappyBugs/) · [GitHub Release / 下载](https://github.com/ljq61/FlappyBugs/releases/tag/v0.1.1) · [构建与发布状态](https://github.com/ljq61/FlappyBugs/actions/workflows/pages.yml)。CrazyGames 预备包已制作，尚未上传、提交审核或上线。
 
 保留 flappyTest 的三颗心、0.95秒伤害保护、三类道具、5秒无敌及落底反弹、20分后新障碍移动、5/10/15组道具保底和难度递增。加入危险植物柱头（荆棘藤蔓、密集尖刺、锯齿叶、毒针、刺籽荚与独立跳动火焰）、柱身七种平铺纹理/怪脸眨眼/鼓嘴/叶片摆动、甲虫上跳挤压/腾空拉伸/下落俯冲与独立表情、撞柱黄绿虫汁、全身及翅膀流动彩虹、喷气动作、合成音效/旋律、暂停恢复、英文/中文、独立存档。全部44份原稿为可编辑SVG，没有复制旧照片、旧生成图或旧声音。
 

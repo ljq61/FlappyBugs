@@ -35,6 +35,6 @@ GPU专项6/6组：7类型×4动态时间，共28个边界样本无通道/宽边�
 | CrazyGames树 | 8bc395a267cf162a2446db2e3d70e37ee973fa0543e0f5b03129b1f64ad7c68f |
 | CrazyGames ZIP（193,717字节） | 77c3614069eaae38b1481ef20bf744486ced964cb3bc01dfc5db280c10447dc8 |
 
-GitHub dev/main的build及Pages部署结果见 [Actions](https://github.com/ljq61/FlappyBugs/actions/workflows/pages.yml)，远程提交、线上版本/资源/输入和Release附件需在部署完成后复核；记录由Release发行说明和QA附件补充，构建通过不替代线上验收。
+GitHub首次部署已执行并通过：应用提交8f2e473，dev [CI](https://github.com/ljq61/FlappyBugs/actions/runs/37192916548) 与main [build/deploy](https://github.com/ljq61/FlappyBugs/actions/runs/37192983736)成功，Pages为build_type=workflow。46个线上文件HTTP200且SHA-256逐份与最终standalone一致；线上meta/侧栏均0.1.1。1280×800键盘、390×844/DPR2触控模拟的开始、暂停、恢复、死亡、重试、声音/语言保存重载通过，0page/console错误、0失败资源、0额外远程请求、无溢出。追加文档提交沿dev→main流程，不改变游戏产物；最终tag/提交身份和附件校验记录在Release发行说明与QA附件。
 
 仍pending：Android/iOS触屏/旋转/safe-area、Safari/Edge、扬声器听感、低端60FPS及10分钟运行、CrazyGames Developer Portal Preview/QA、真实账户云同步、宣传视频、CrazyGames审核和上线。Vite仍提示单JS块超过500kB，包预算通过不代替低端性能证明。

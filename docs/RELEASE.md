@@ -25,3 +25,7 @@ package.json 是唯一版本来源；package-lock.json同步根版本。Vite读�
 - CrazyGames Portal、真实账户云同步、真机/低端长时间性能、宣传视频、审核/上线仍待验证；GitHub发行不等于CrazyGames上架。
 
 工作流基于官方 [configure-pages](https://github.com/actions/configure-pages)、[upload-pages-artifact](https://github.com/actions/upload-pages-artifact)、[deploy-pages](https://github.com/actions/deploy-pages) 接口；Actions版本在本次发布前通过官方仓库核验。
+
+## 0.1.1 已执行发布验证
+
+首次应用提交8f2e473的dev构建与main构建/部署均通过。2026-10-04线上全部46文件HTTP200，SHA-256与本地冻结树一致；桌面键盘和手机尺寸触控模拟均通过完整开始/暂停/恢复/死亡/重试与偏好重载，版本0.1.1，0页面错误。该结果写入QA报告后，文档提交同样先dev、后main；v0.1.1标签指向最终提交，完整SHA见Release说明。CrazyGames状态仍为预备ZIP，未上传平台。
