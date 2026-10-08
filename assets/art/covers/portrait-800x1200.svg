@@ -104,8 +104,8 @@
   <path d="M95 660Q98 676 114 679Q98 682 95 698Q92 682 76 679Q92 676 95 660Z" fill="#ffe6a0" stroke="#c7a36b" stroke-width="3"/>
   <path d="M614 909Q617 922 630 925Q617 928 614 941Q611 928 598 925Q611 922 614 909Z" fill="#ffe6a0" stroke="#c7a36b" stroke-width="3"/>
 
-  <g id="game-title" font-family="Trebuchet MS, Arial, sans-serif" font-weight="900" fill="#fff4d2" stroke="#4b365d" stroke-width="8" paint-order="stroke fill" stroke-linejoin="round">
-    <text x="400" y="195" text-anchor="middle" font-size="146" letter-spacing="-6">Flappy</text>
-    <text x="400" y="344" text-anchor="middle" font-size="146" letter-spacing="-6">Bugs</text>
+  <g id="game-title" font-family="Trebuchet MS, Arial, sans-serif" font-weight="900" stroke="none">
+    <text x="400" y="268" text-anchor="middle" font-size="146" letter-spacing="-6" fill="#53414c">Flappy</text>
+    <text x="400" y="417" text-anchor="middle" font-size="146" letter-spacing="-6" fill="#f68d68">Bugs</text>
   </g>
 </svg>

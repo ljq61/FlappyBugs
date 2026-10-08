@@ -105,8 +105,8 @@
   <path d="M1746 681Q1749 701 1769 704Q1749 707 1746 727Q1743 707 1723 704Q1743 701 1746 681Z" fill="#ffe6a0" stroke="#c7a36b" stroke-width="3"/>
   <path d="M993 765Q996 779 1010 782Q996 785 993 799Q990 785 976 782Q990 779 993 765Z" fill="#ffe6a0" stroke="#c7a36b" stroke-width="3"/>
 
-  <g id="game-title" font-family="Trebuchet MS, Arial, sans-serif" font-weight="900" fill="#fff4d2" stroke="#4b365d" stroke-width="8" paint-order="stroke fill" stroke-linejoin="round">
-    <text x="140" y="391" font-size="225" letter-spacing="-7">Flappy</text>
-    <text x="146" y="617" font-size="225" letter-spacing="-7">Bugs</text>
+  <g id="game-title" font-family="Trebuchet MS, Arial, sans-serif" font-weight="900" stroke="none">
+    <text x="140" y="391" font-size="225" letter-spacing="-7" fill="#53414c">Flappy</text>
+    <text x="146" y="617" font-size="225" letter-spacing="-7" fill="#f68d68">Bugs</text>
   </g>
 </svg>
