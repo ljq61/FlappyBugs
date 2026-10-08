@@ -125,3 +125,61 @@ button:focus-visible, select:focus-visible { outline: 3px solid var(--ink); outl
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; }
 }
+
+/* v0.2: make the playable stage the visual priority in CrazyGames desktop iframes. */
+.streak-status { position: absolute; top: 75px; left: 50%; transform: translateX(-50%);
+  z-index: 3; padding: 5px 13px; border-radius: 40px; border: 2px solid var(--ink);
+  background: #fff3c2; color: #665032; font-size: 12px; font-weight: 900; white-space: nowrap; }
+.rush-status { position: absolute; z-index: 3; top: 112px; left: 15%; right: 15%;
+  padding: 5px 9px; border: 2px solid #567c6e; border-radius: 12px;
+  background: #dcf8e3eb; color: #26583e; text-align: center; font-weight: 900; font-size: 12px; }
+.rush-status > span:nth-child(2) { float: right; font-variant-numeric: tabular-nums; }
+.rush-track { height: 5px; margin-top: 5px; background: #aecdb7; border-radius: 9px; overflow: hidden; }
+.rush-track > span { display: block; height: 100%; width: 0; border-radius: 9px; background: #4d9f70; }
+.flight-pop { position: absolute; z-index: 4; left: 0; right: 0; top: 38%;
+  text-align: center; color: #ffdf7c; font-size: 24px; font-weight: 900;
+  -webkit-text-stroke: 1.3px #51414c; text-shadow: 0 3px 8px #51414c66; pointer-events: none;
+  opacity: 0; }
+.flight-pop.pop { animation: flightPop .85s ease-out forwards; }
+@keyframes flightPop { 0% { opacity: 0; transform: translateY(18px) scale(.85); }
+  18% { opacity: 1; transform: translateY(0) scale(1.14); }
+  75% { opacity: 1; } 100% { opacity: 0; transform: translateY(-35px) scale(1); } }
+.wardrobe { border-top: 1px dashed #d7c4a1; margin-top: 12px; padding-top: 9px; }
+.wardrobe-heading { display: block; font-size: 11px; font-weight: 900; letter-spacing: .7px;
+  color: #64735c; margin-bottom: 7px; }
+.wardrobe-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.wardrobe-button { position: relative; min-width: 0; min-height: 38px; border: 1.5px solid #7b7366;
+  border-radius: 11px; padding: 5px 5px 5px 14px; font-size: 11px; font-weight: 800; background: #fffcf2;
+  color: #504754; line-height: 1.3; }
+.wardrobe-button::before { content: ''; position: absolute; top: 50%; left: 4px;
+  width: 7px; height: 15px; border-radius: 6px; background: var(--swatch); border: 1px solid #8a8274;
+  transform: translateY(-50%); }
+.wardrobe-button:hover { background: #fff0d1; }
+.achievement-list { display: flex; gap: 5px; justify-content: center; flex-wrap: wrap; margin-top: 8px; }
+.achievement-list span { font-size: 9px; font-weight: 750; border-radius: 10px; padding: 3px 5px; }
+.achievement-list .earned { color: #326144; background: #d6eed5; }
+.achievement-list .locked { color: #888078; background: #f0ede4; }
+.panel .unlock-hint { margin: 7px 0 0; font-size: 10px; line-height: 1.3; }
+.results { gap: 12px; }
+.results span { font-size: 10px; }
+.score-pill span, .best-note span, .input-hint { font-size: 11px; }
+@media (min-width: 761px) and (max-width: 1100px) {
+  .brand-side, .guide-side { display: none; }
+  #app { background: radial-gradient(circle at 14% 75%, #bcd8aa, transparent 37%),
+    radial-gradient(circle at 87% 25%, #b7d7bd, transparent 38%),
+    linear-gradient(165deg, #fdf1d7 2%, #e4efd0 90%); }
+  .garden-frame { box-shadow: 0 9px 0 #53414c15, 0 22px 65px #3e5b3440; }
+}
+@media (max-height: 600px) {
+  .streak-status { top: 56px; font-size: 10px; padding: 3px 8px; }
+  .rush-status { top: 88px; font-size: 10px; }
+  .wardrobe { margin-top: 7px; padding-top: 6px; }
+  .wardrobe-choices { gap: 4px; }
+  .wardrobe-button { min-height: 30px; font-size: 10px; }
+  .achievement-list { margin-top: 4px; }
+  .panel .unlock-hint { margin-top: 3px; }
+  .panel { bottom: 9%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .flight-pop.pop { animation: none; opacity: 1; }
+}

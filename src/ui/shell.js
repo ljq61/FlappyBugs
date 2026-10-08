@@ -1,4 +1,5 @@
 import { messages } from './i18n.js';
+import { SKINS, TRAILS, selected, nextUnlock } from '../game/unlocks.js';
 
 const soundIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4Z"/><path class="sound-wave" d="M16 8q6 4 0 8M18 5q10 7 0 14"/></svg>';
 const pauseIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14"/></svg>';
@@ -22,6 +23,12 @@ export function createShell(root, art, actions) {
           <div class="hearts" id="hearts" aria-label="3 hearts">♥ ♥ ♥</div>
           <button class="icon-button" id="pause-button">${pauseIcon}</button>
         </div>
+        <div class="streak-status" id="streak-status" hidden></div>
+        <div class="rush-status" id="rush-status" hidden>
+          <span id="rush-label"></span><span id="rush-seconds"></span>
+          <div class="rush-track"><span id="rush-fill"></span></div>
+        </div>
+        <div class="flight-pop" id="flight-pop" aria-live="off"></div>
         <div class="star-timer" id="star-timer" hidden></div>
         <div class="overlay" id="overlay">
           <div class="intro-heading" id="intro-heading"><span class="tiny-label" data-copy="ready"></span><h2 data-copy="title"></h2></div>
@@ -31,9 +38,19 @@ export function createShell(root, art, actions) {
             <div class="results" id="results" hidden>
               <div><span data-copy="score"></span><strong id="final-score">0</strong></div>
               <div><span data-copy="best"></span><strong id="final-best">0</strong></div>
+              <div><span data-copy="bestStreak"></span><strong id="final-combo">0</strong></div>
             </div>
             <p class="new-best" id="new-best" data-copy="newBest" hidden></p>
             <button class="primary-button" id="action-button"></button>
+            <div class="wardrobe" id="wardrobe">
+              <span class="wardrobe-heading" data-copy="wardrobe"></span>
+              <div class="wardrobe-choices">
+                <button type="button" class="wardrobe-button" id="skin-button"></button>
+                <button type="button" class="wardrobe-button" id="trail-button"></button>
+              </div>
+              <div class="achievement-list" id="achievement-list"></div>
+              <p class="unlock-hint" id="unlock-hint"></p>
+            </div>
             <span class="input-hint" id="input-hint" data-copy="hint"></span>
           </section>
         </div>
@@ -75,7 +92,7 @@ export function createShell(root, art, actions) {
     $('sound-button').classList.toggle('is-muted', !value || muted);
     $('sound-button').disabled = muted;
   }
-  function update(snapshot, { paused = false, best = 0, previousBest = best, loading = false, error = false } = {}) {
+  function update(snapshot, { paused = false, best = 0, bestCombo = 0, skin = 'classic', trail = 'cloud', previousBest = best, loading = false, error = false } = {}) {
     const t = messages(language);
     const mode = error ? 'error' : loading ? 'loading' : paused ? 'paused' : snapshot.state;
     root.dataset.state = mode;
@@ -84,9 +101,40 @@ export function createShell(root, art, actions) {
     $('hearts').innerHTML = Array.from({ length: 3 }, (_, i) => `<span class="${i < snapshot.hp ? '' : 'lost'}">♥</span>`).join('');
     $('hearts').setAttribute('aria-label', `${snapshot.hp} / 3 ${language === 'zh' ? '颗心' : 'hearts'}`);
     $('side-best').textContent = best;
+    $('final-combo').textContent = Math.max(bestCombo, snapshot.bestCombo);
     $('pause-button').disabled = mode !== 'playing';
     $('star-timer').hidden = snapshot.starTime <= 0 || mode !== 'playing';
     $('star-timer').textContent = `${t.stars} · ${snapshot.starTime.toFixed(1)}s`;
+    $('streak-status').hidden = !snapshot.combo || mode !== 'playing';
+    $('streak-status').textContent = `${t.streak} ×${snapshot.combo} · ${snapshot.rushCharge}/3`;
+    $('rush-status').hidden = snapshot.rushTime <= 0 || mode !== 'playing';
+    $('rush-label').textContent = t.rush;
+    $('rush-seconds').textContent = `${snapshot.rushTime.toFixed(1)}s`;
+    $('rush-fill').style.width = `${Math.max(0, snapshot.rushTime / 2.8) * 100}%`;
+    $('wardrobe').hidden = mode !== 'ready' && mode !== 'gameover';
+    const chosenSkin = selected(SKINS, skin, best);
+    const chosenTrail = selected(TRAILS, trail, bestCombo);
+    $('skin-button').textContent = `${t.skin}: ${chosenSkin.name} ↻`;
+    $('trail-button').textContent = `${t.trail}: ${chosenTrail.name} ↻`;
+    $('skin-button').style.setProperty('--swatch', chosenSkin.color);
+    $('trail-button').style.setProperty('--swatch', chosenTrail.color);
+    const nextSkin = nextUnlock(SKINS, best);
+    const nextTrail = nextUnlock(TRAILS, bestCombo);
+    $('unlock-hint').textContent = [
+      nextSkin && `${t.nextSkin} ${nextSkin.need}`,
+      nextTrail && `${t.nextTrail} ${nextTrail.need}`
+    ].filter(Boolean).join(' · ') || t.allUnlocked;
+    const badges = [
+      [best >= 1, t.badgeFirst],
+      [bestCombo >= 3, t.badgeRush],
+      [best >= 15, t.badgeMaster],
+    ];
+    $('achievement-list').replaceChildren(...badges.map(([earned, label]) => {
+      const tag = document.createElement('span');
+      tag.className = earned ? 'earned' : 'locked';
+      tag.textContent = `${earned ? '✦' : '◇'} ${label}`;
+      return tag;
+    }));
     $('overlay').hidden = mode === 'playing';
     if (lastMode !== mode) {
       $('intro-heading').hidden = mode !== 'ready';
@@ -105,12 +153,22 @@ export function createShell(root, art, actions) {
   const handlers = [
     [$('action-button'), 'click', actions.action], [$('pause-button'), 'click', actions.pause],
     [$('sound-button'), 'click', actions.sound],
+    [$('skin-button'), 'click', actions.skin], [$('trail-button'), 'click', actions.trail],
     [$('language-select'), 'change', e => actions.language(e.target.value)],
   ];
   for (const [el, type, handler] of handlers) el.addEventListener(type, handler);
   setLanguage('en');
   return {
     frame: $('game-frame'), host: $('canvas-host'), update, setLanguage, setSound,
+    announce(events) {
+      const event = [...events].reverse().find(item => item.type === 'rush-start' || item.type === 'perfect');
+      if (!event) return;
+      const el = $('flight-pop');
+      el.textContent = event.type === 'rush-start' ? messages(language).rush : `${messages(language).perfect} ×${event.combo}`;
+      el.classList.remove('pop');
+      void el.offsetWidth;
+      el.classList.add('pop');
+    },
     saveStatus(failed) { $('save-status').textContent = failed ? messages(language).saveError : ''; },
     dispose() { for (const [el, type, handler] of handlers) el.removeEventListener(type, handler); },
   };

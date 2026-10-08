@@ -6,16 +6,19 @@ import { createScene } from './render/scene.js';
 import { createShell } from './ui/shell.js';
 import { createAudio } from './audio/audio.js';
 import { createPlatform } from './platform/index.js';
+import { SKINS, TRAILS, cycle, selected } from './game/unlocks.js';
 
 const root = document.querySelector('#app');
 const game = createGame(), clock = createClock(), audio = createAudio();
-let platform, view, best = 0, previousBest = 0, userSound = true, platformMuted = false;
+let platform, view, best = 0, previousBest = 0, bestCombo = 0, skin = 'classic', trail = 'cloud', userSound = true, platformMuted = false;
 let language = 'en', paused = false, pauseReason = null, loading = true, failed = false;
 let frameId, disposed = false, sdkPlaying = false, saveFailed = false;
-const shell = createShell(root, ART, { action, pause: () => pause('manual'), sound: toggleSound, language: changeLanguage });
+const shell = createShell(root, ART, { action, pause: () => pause('manual'), sound: toggleSound, language: changeLanguage,
+  skin: () => changeLook('skin'), trail: () => changeLook('trail') });
 
 function refresh() {
-  shell.update(game.getSnapshot(), { paused, best, previousBest, loading, error: failed });
+  shell.update(game.getSnapshot(), { paused, best, bestCombo, skin, trail, previousBest, loading, error: failed });
+  view?.setStyle({ skin, trail });
   shell.setSound(userSound, platformMuted);
 }
 async function save(patch) {
@@ -40,13 +43,16 @@ function setGameplay(value) {
 function consume() {
   const snapshot = game.getSnapshot(), events = game.drainEvents();
   view?.consume(events, snapshot);
+  shell.announce(events);
   for (const event of events) {
     if (event.type === 'start') {
       previousBest = best;
       if (!setGameplay(true)) return;
     }
     if (event.type === 'gameover') {
-      best = Math.max(best, event.score); void save({ best });
+      best = Math.max(best, event.score);
+      bestCombo = Math.max(bestCombo, event.bestCombo);
+      void save({ best, bestCombo });
       if (!setGameplay(false)) return;
     }
   }
@@ -83,6 +89,17 @@ function changeLanguage(value) {
   language = value; shell.setLanguage(language); refresh();
   if (platform) void save({ language });
 }
+function changeLook(kind) {
+  if (loading || failed || game.getSnapshot().state === 'playing' || paused) return;
+  if (kind === 'skin') {
+    skin = cycle(SKINS, skin, best).id;
+    void save({ skin });
+  } else {
+    trail = cycle(TRAILS, trail, bestCombo).id;
+    void save({ trail });
+  }
+  refresh();
+}
 function onPointer(event) {
   if (event.target.closest('button,select,.panel,.bottom-tools,.hud') || !event.isPrimary || event.button !== 0) return;
   event.preventDefault(); action();
@@ -114,7 +131,10 @@ async function boot() {
     platform.loadingStart?.();
     const progress = await platform.loadProgress();
     if (disposed) return;
-    best = previousBest = progress.best; userSound = progress.sound; language = progress.language;
+    best = previousBest = progress.best; bestCombo = progress.bestCombo ?? 0;
+    skin = selected(SKINS, progress.skin, best).id;
+    trail = selected(TRAILS, progress.trail, bestCombo).id;
+    userSound = progress.sound; language = progress.language;
     shell.setLanguage(language); refresh();
     view = await createScene(shell.host, { debug: import.meta.env.DEV && new URLSearchParams(location.search).has('debug') });
     if (disposed) { view.dispose(); return; }
