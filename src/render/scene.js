@@ -3,6 +3,7 @@ import { ART, OBSTACLE_ART } from '../art/manifest.js';
 import { GAME_CONFIG } from '../game/config.js';
 import { SKINS, TRAILS } from '../game/unlocks.js';
 import { createEchoTrail } from './echo-trail.js';
+import { createStardustBurst, stardustAppearance, MAX_STARDUST_PARTICLES } from './stardust.js';
 
 export async function createScene(host, { debug = false } = {}) {
   const c = GAME_CONFIG;
@@ -60,13 +61,14 @@ export async function createScene(host, { debug = false } = {}) {
   bug.add(wingBack, wingFront, body);
   const rainbowTime = { value: 0 }, rainbowActive = { value: 0 }, voidActive = { value: 0 };
   const skinTint = { value: new THREE.Color('#ffffff') }, skinActive = { value: 0 };
-  let trailTint = '#ffffff';
+  let trailTint = '#ffffff', selectedTrail = 'cloud';
   function setStyle({ skin = 'classic', trail = 'cloud' } = {}) {
     const chosenSkin = SKINS.find(item => item.id === skin) || SKINS[0];
     const chosenTrail = TRAILS.find(item => item.id === trail) || TRAILS[0];
     skinTint.value.set(chosenSkin.color);
     skinActive.value = skin === 'classic' ? 0 : 0.68;
     trailTint = chosenTrail.color;
+    selectedTrail = chosenTrail.id;
   }
   for (const part of [body, wingBack, wingFront]) {
     part.material.onBeforeCompile = shader => {
@@ -184,12 +186,23 @@ export async function createScene(host, { debug = false } = {}) {
     echoTrail.reset();
     for (const ghost of ghostSprites) ghost.visible = false;
   }
-  function effect(id, x, y, vx, vy, size, duration, gravity = 0) {
-    const z = id.startsWith('juice-') ? 6 : 4.8;
+  function effect(id, x, y, vx, vy, size, duration, gravity = 0, options = {}) {
+    const isStardust = id === 'stardust-glint';
+    if (isStardust && sparks.filter(part => part.stardust).length >= MAX_STARDUST_PARTICLES) return;
+    const z = id.startsWith('juice-') ? 6 : isStardust ? 4.95 : 4.8;
     const obj = sprite(id, size, size, z); obj.position.set(x, y, z); scene.add(obj);
     if (id === 'puff') obj.material.color.set(trailTint);
+    if (isStardust) {
+      obj.material.color.set(options.color);
+      obj.material.blending = THREE.AdditiveBlending;
+      obj.material.opacity = 0.95;
+    }
     const target = id === 'puff' ? puffs : sparks;
-    target.push({ obj, vx, vy, size, life: duration, duration, gravity, liquid: id.startsWith('juice-') });
+    target.push({
+      obj, vx, vy, size, life: duration, duration, gravity,
+      liquid: id.startsWith('juice-'), stardust: isStardust,
+      phase: options.phase ?? 0, spin: options.spin ?? 0,
+    });
   }
   function consume(events, snapshot) {
     if (snapshot.runId !== currentRun) {
@@ -200,7 +213,15 @@ export async function createScene(host, { debug = false } = {}) {
     for (const event of events) {
       if (event.type === 'flap') {
         pulse = 1;
-        for (let i = 0; i < 3; i++) effect('puff', snapshot.player.x - .55 - i * .16, snapshot.player.y - .18, -1.4 - i * .3, -.7 + i * .4, .42 + i * .15, .45 + i * .12);
+        if (selectedTrail === 'stardust') {
+          for (const star of createStardustBurst(snapshot.player.x, snapshot.player.y, { reducedMotion })) {
+            effect('stardust-glint', star.x, star.y, star.vx, star.vy, star.size,
+              star.duration, star.gravity, { color: star.color, phase: star.phase, spin: star.spin });
+          }
+        } else {
+          for (let i = 0; i < 3; i++) effect('puff', snapshot.player.x - .55 - i * .16,
+            snapshot.player.y - .18, -1.4 - i * .3, -.7 + i * .4, .42 + i * .15, .45 + i * .12);
+        }
       }
       if (event.type === 'damage') {
         shake = reducedMotion ? 0 : .22;
@@ -348,9 +369,19 @@ export async function createScene(host, { debug = false } = {}) {
         if (e.life <= 0) { scene.remove(e.obj); e.obj.material.dispose(); materials.delete(e.obj.material); list.splice(i, 1); continue; }
         e.obj.position.x += e.vx * dt; e.obj.position.y += e.vy * dt;
         e.vy += e.gravity * dt;
-        const k = e.life / e.duration; e.obj.material.opacity = e.liquid ? Math.min(1, k * 2.5) : k * .75;
-        const size = e.size * (1 + (1 - k) * (e.liquid ? .25 : .8)); e.obj.scale.set(size, size, 1);
-        if (e.gravity) e.obj.material.rotation = Math.atan2(e.vy, e.vx) - Math.PI / 2;
+        const k = e.life / e.duration;
+        if (e.stardust) {
+          const appearance = stardustAppearance(e.duration - e.life, e.duration, e.phase, reducedMotion);
+          e.obj.material.opacity = appearance.opacity;
+          const size = e.size * appearance.scale;
+          e.obj.scale.set(size, size, 1);
+          if (!reducedMotion) e.obj.material.rotation += e.spin * dt;
+        } else {
+          e.obj.material.opacity = e.liquid ? Math.min(1, k * 2.5) : k * .75;
+          const size = e.size * (1 + (1 - k) * (e.liquid ? .25 : .8));
+          e.obj.scale.set(size, size, 1);
+          if (e.gravity) e.obj.material.rotation = Math.atan2(e.vy, e.vx) - Math.PI / 2;
+        }
       }
     }
     if (bodyOutline) { bodyOutline.position.x = snapshot.player.x; bodyOutline.position.y = snapshot.player.y; }

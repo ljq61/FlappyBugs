@@ -105,7 +105,7 @@ export function createShell(root, art, actions) {
     $('pause-button').disabled = mode !== 'playing';
     $('star-timer').hidden = snapshot.starTime <= 0 || mode !== 'playing';
     $('star-timer').textContent = `${t.stars} · ${snapshot.starTime.toFixed(1)}s`;
-    $('streak-status').hidden = !snapshot.combo || mode !== 'playing';
+    $('streak-status').hidden = !snapshot.combo || mode !== 'playing' || snapshot.rushTime > 0;
     $('streak-status').textContent = `${t.streak} ×${snapshot.combo} · ${snapshot.rushCharge}/3`;
     $('rush-status').hidden = snapshot.rushTime <= 0 || mode !== 'playing';
     $('rush-label').textContent = t.rush;

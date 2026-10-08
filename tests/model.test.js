@@ -333,17 +333,68 @@ test('perfect passages build a streak and trigger temporary protected toot rush'
   advance(game, 0.7);
   const state = game.getSnapshot();
   assert.ok(state.score >= 3);
-  assert.equal(state.perfects, state.score);
-  assert.equal(state.combo, state.score);
-  assert.equal(state.bestCombo, state.score);
+  assert.equal(state.perfects, GAME_CONFIG.rushForPerfects);
+  assert.ok(state.score > state.perfects, 'void gates score without charging another perfect');
+  assert.equal(state.combo, state.perfects);
+  assert.equal(state.bestCombo, state.perfects);
   assert.ok(state.rushTime > 0);
-  assert.ok(state.rushCharge < GAME_CONFIG.rushForPerfects);
+  assert.equal(state.rushCharge, 0);
   const events = game.drainEvents();
-  assert.equal(events.filter(e => e.type === 'perfect').length, state.score);
+  assert.equal(events.filter(e => e.type === 'perfect').length, state.perfects);
+  assert.equal(events.filter(e => e.type === 'rush-start').length, 1);
+  assert.equal(events.filter(e => e.type === 'score').length, state.score);
   assert.ok(events.some(e => e.type === 'rush-start'));
   assert.equal(state.hp, 3);
   game.reset();
   assert.equal(game.getSnapshot().combo, 0);
   assert.equal(game.getSnapshot().bestCombo, 0);
   assert.equal(game.getSnapshot().rushTime, 0);
+});
+
+test('void rush excludes every crossed gate from both perfect charge and streak break', () => {
+  const game = createGame({ ...quiet, gap: 3.55, gapReductionMax: 0, obstacleSpawnX: -1.5,
+    speed: 20, speedIncreaseMax: 0, movingScore: 999, interval: 0.14,
+    intervalReductionMax: 0, initialSpawnTimer: 0.14, pickupOffsetMin: 20,
+    pickupOffsetMax: 20, rushSeconds: 1.1 }, () => .5);
+  game.start();
+  const allEvents = [];
+  // Initial three normal gates trigger one rush. Several more gates pass during rush.
+  for (let i = 0; i < 120; i++) {
+    game.step(DT);
+    allEvents.push(...game.drainEvents());
+  }
+  const during = game.getSnapshot();
+  assert.ok(during.rushTime > 0);
+  assert.ok(during.score > 3);
+  assert.equal(during.rushCharge, 0);
+  assert.equal(during.perfects, 3);
+  assert.equal(during.combo, 3);
+  assert.equal(allEvents.filter(event => event.type === 'rush-start').length, 1);
+  assert.equal(allEvents.filter(event => event.type === 'perfect').length, 3);
+  assert.ok(allEvents.filter(event => event.type === 'score' && !event.perfect).length >= 2);
+
+  // Once void ends, count another three perfect *normal* gates from zero charge.
+  let normalPerfects = 0;
+  let secondRush = false;
+  let ended = false;
+  for (let i = 0; i < 800; i++) {
+    game.step(DT);
+    const events = game.drainEvents();
+    if (events.some(event => event.type === 'rush-end')) ended = true;
+    if (!ended) {
+      assert.ok(!events.some(event => event.type === 'perfect' || event.type === 'rush-start'));
+      continue;
+    }
+    normalPerfects += events.filter(event => event.type === 'perfect').length;
+    if (events.some(event => event.type === 'rush-start')) {
+      secondRush = true;
+      assert.equal(normalPerfects, 3);
+      break;
+    }
+    assert.ok(normalPerfects < 3);
+  }
+  assert.ok(ended, 'the first void rush expires');
+  assert.ok(secondRush, 'only three new normal-state perfect gates re-trigger rush');
+  assert.equal(game.getSnapshot().rushCharge, 0);
+  assert.equal(game.getSnapshot().bestCombo, 6, 'streak rewards remain earnable after multiple rushes');
 });

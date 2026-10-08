@@ -152,21 +152,27 @@ export function createGame(config = GAME_CONFIG, random = Math.random) {
       if (!obstacle.scored && obstacle.x < player.x) {
         obstacle.scored = true;
         score++;
-        const perfect = Math.abs(player.y - obstacle.centerY) <= c.perfectWindow;
-        if (perfect) {
-          combo++;
-          perfects++;
-          bestCombo = Math.max(bestCombo, combo);
-          rushCharge++;
-          emit('perfect', { combo, bestCombo, obstacleId: obstacle.id });
-          if (rushCharge >= c.rushForPerfects) {
-            rushCharge = 0;
-            rushTime = c.rushSeconds;
-            emit('rush-start', { seconds: rushTime, combo });
+        // Only normal flight can build a streak or recharge the next void rush.
+        // Gates crossed while already in void mode still score, but never
+        // emit 'perfect', break a streak, or charge another rush.
+        const canChargeRush = rushTime === 0;
+        const perfect = canChargeRush && Math.abs(player.y - obstacle.centerY) <= c.perfectWindow;
+        if (canChargeRush) {
+          if (perfect) {
+            combo++;
+            perfects++;
+            bestCombo = Math.max(bestCombo, combo);
+            rushCharge++;
+            emit('perfect', { combo, bestCombo, obstacleId: obstacle.id });
+            if (rushCharge >= c.rushForPerfects) {
+              rushCharge = 0;
+              rushTime = c.rushSeconds;
+              emit('rush-start', { seconds: rushTime, combo });
+            }
+          } else {
+            if (combo > 0) emit('combo-break', { combo });
+            combo = rushCharge = 0;
           }
-        } else {
-          if (combo > 0) emit('combo-break', { combo });
-          combo = rushCharge = 0;
         }
         emit('score', { score, obstacleId: obstacle.id, perfect, combo });
       }

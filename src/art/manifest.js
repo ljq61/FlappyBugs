@@ -23,6 +23,7 @@ export const ART = Object.freeze({
   "pillar-face": { url: new URL("../../assets/art/pillar-face.svg", import.meta.url).href, viewBox: [128, 128], anchor: [0.5, 0.5], decorative: true },
   "wing": { url: new URL("../../assets/art/wing.svg", import.meta.url).href, viewBox: [256, 256], anchor: [0.5, 0.5], pivot: [131, 110], decorative: true },
   "puff": { url: new URL("../../assets/art/puff.svg", import.meta.url).href, viewBox: [160, 128], anchor: [0.95, 0.63], decorative: true },
+  "stardust-glint": { url: new URL("../../assets/art/stardust-glint.svg", import.meta.url).href, viewBox: [128, 128], anchor: [0.5, 0.5], decorative: true },
   "garden": { url: new URL("../../assets/art/garden.svg", import.meta.url).href, viewBox: [720, 1280], anchor: [0.5, 0.5], decorative: true },
   "platform": { url: new URL("../../assets/art/platform.svg", import.meta.url).href, viewBox: [320, 128], anchor: [0.5, 0.5], decorative: true },
   "heal": { url: new URL("../../assets/art/heal.svg", import.meta.url).href, viewBox: [128, 128], anchor: [0.5, 0.5], visibleBounds: [22, 2, 83, 116], semantic: "heal" },
