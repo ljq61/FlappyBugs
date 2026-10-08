@@ -4,6 +4,7 @@ import { GAME_CONFIG } from '../game/config.js';
 import { SKINS, TRAILS } from '../game/unlocks.js';
 import { createEchoTrail } from './echo-trail.js';
 import { createStardustBurst, stardustAppearance, MAX_STARDUST_PARTICLES } from './stardust.js';
+import { installVoidContour, isVoidRush, showStarAura } from './void-contour.js';
 
 export async function createScene(host, { debug = false } = {}) {
   const c = GAME_CONFIG;
@@ -102,6 +103,19 @@ export async function createScene(host, { debug = false } = {}) {
     part.material.customProgramCacheKey = () => 'flappybugs-rainbow-void-v2';
   }
   const aura = sprite('star', 2.05, 2.05, 4.7); aura.material.opacity = .25; scene.add(aura);
+  const contourTime = { value: 0 };
+  // Preallocate three alpha-silhouette overlays: body and both animated wings.
+  // Each tracks its source part's pose/texture and renders behind that part.
+  const voidContours = [[wingBack, 'wing'], [wingFront, 'wing'], [body, 'beetle']]
+    .map(([part, textureId]) => {
+      const glow = sprite(textureId, 1, 1, part.position.z - .035);
+      glow.material.blending = THREE.AdditiveBlending;
+      installVoidContour(glow.material, contourTime);
+      // Visible for compileAsync shader warmup; hidden immediately after compiling.
+      glow.visible = true;
+      bug.add(glow);
+      return { part, glow };
+    });
   const echoTrail = createEchoTrail();
   // Preallocate ghost sprites; no material/geometry allocation during a rush.
   const ghostSprites = echoTrail.echoes.map(() => {
@@ -277,7 +291,7 @@ export async function createScene(host, { debug = false } = {}) {
       wing.position.x = x * Math.cos(angle) - y * Math.sin(angle);
       wing.position.y = x * Math.sin(angle) + y * Math.cos(angle);
     }
-    const isVoid = snapshot.state === 'playing' && snapshot.rushTime > 0;
+    const isVoid = isVoidRush(snapshot);
     body.material.opacity = isVoid ? .97
       : snapshot.invulnerability > 0 && Math.floor(snapshot.invulnerability * 15) % 2 ? .42 : 1;
     for (const wing of [wingBack, wingFront]) wing.material.opacity = isVoid ? .8 : 1;
@@ -285,12 +299,22 @@ export async function createScene(host, { debug = false } = {}) {
     rainbowTime.value = elapsed;
     rainbowActive.value = snapshot.starTime > 0 && !isVoid ? 1 : 0;
     voidActive.value = isVoid ? 1 : 0;
-    aura.visible = snapshot.starTime > 0 || isVoid;
-    aura.material.color.set(isVoid ? '#a38bfa' : '#ffffff');
-    aura.material.opacity = isVoid ? .42 : .25;
-    aura.scale.setScalar(isVoid ? 2.25 : 2.05);
+    // The star-shaped pickup shield never surrounds the bug in void mode.
+    aura.visible = showStarAura(snapshot);
+    aura.material.color.set('#ffffff');
+    aura.material.opacity = .25;
+    aura.scale.setScalar(2.05);
     aura.position.set(snapshot.player.x, snapshot.player.y, 4.7);
     aura.material.rotation = elapsed * .8;
+    contourTime.value = reducedMotion ? 0 : elapsed;
+    for (const { part, glow } of voidContours) {
+      glow.visible = isVoid;
+      if (!isVoid) continue;
+      glow.position.set(part.position.x, part.position.y, part.position.z - .035);
+      glow.scale.copy(part.scale);
+      glow.material.rotation = part.material.rotation;
+      glow.material.map = part.material.map;
+    }
     const echoes = echoTrail.step(dt, isVoid && !reducedMotion, {
       x: bug.position.x, y: bug.position.y, angle,
       scaleX: bug.scale.x, scaleY: bug.scale.y, texture: body.material.map,
@@ -394,6 +418,7 @@ export async function createScene(host, { debug = false } = {}) {
     renderer.setSize(Math.max(1, width), Math.max(1, height), false);
   }
   await renderer.compileAsync(scene, camera);
+  for (const { glow } of voidContours) glow.visible = false;
   host.appendChild(renderer.domElement); resize();
   const observer = new ResizeObserver(resize); observer.observe(host);
   window.addEventListener('resize', resize);
