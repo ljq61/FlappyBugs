@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { ART, OBSTACLE_ART } from '../art/manifest.js';
 import { GAME_CONFIG } from '../game/config.js';
+import { SKINS, TRAILS } from '../game/unlocks.js';
 
 export async function createScene(host, { debug = false } = {}) {
   const c = GAME_CONFIG;
@@ -57,16 +58,29 @@ export async function createScene(host, { debug = false } = {}) {
   const body = sprite('beetle', 1.45, 1.45, 0);
   bug.add(wingBack, wingFront, body);
   const rainbowTime = { value: 0 }, rainbowActive = { value: 0 };
+  const skinTint = { value: new THREE.Color('#ffffff') }, skinActive = { value: 0 };
+  let trailTint = '#ffffff';
+  function setStyle({ skin = 'classic', trail = 'cloud' } = {}) {
+    const chosenSkin = SKINS.find(item => item.id === skin) || SKINS[0];
+    const chosenTrail = TRAILS.find(item => item.id === trail) || TRAILS[0];
+    skinTint.value.set(chosenSkin.color);
+    skinActive.value = skin === 'classic' ? 0 : 0.68;
+    trailTint = chosenTrail.color;
+  }
   for (const part of [body, wingBack, wingFront]) {
     part.material.onBeforeCompile = shader => {
       shader.uniforms.rainbowTime = rainbowTime;
       shader.uniforms.rainbowActive = rainbowActive;
-      shader.fragmentShader = 'uniform float rainbowTime;\nuniform float rainbowActive;\n' + shader.fragmentShader;
+      shader.uniforms.skinTint = skinTint;
+      shader.uniforms.skinActive = skinActive;
+      shader.fragmentShader = 'uniform float rainbowTime;\nuniform float rainbowActive;\nuniform vec3 skinTint;\nuniform float skinActive;\n' + shader.fragmentShader;
       // Tint after the SVG texture has been sampled; preserve its outline and alpha.
       shader.fragmentShader = shader.fragmentShader.replace('#include <map_fragment>', `
         #include <map_fragment>
         float brightness = dot(diffuseColor.rgb, vec3(0.299, 0.587, 0.114));
         vec3 rainbow = 0.5 + 0.5 * cos(6.2831853 * (vMapUv.y * 1.3 + vMapUv.x * 0.45 - rainbowTime * 0.65 + vec3(0.0, 0.3333, 0.6667)));
+        float cosmetic = skinActive * smoothstep(0.15, 0.55, brightness);
+        diffuseColor.rgb = mix(diffuseColor.rgb, skinTint * (0.52 + brightness * 0.48), cosmetic);
         float tint = rainbowActive * smoothstep(0.025, 0.16, brightness) * 0.94;
         diffuseColor.rgb = mix(diffuseColor.rgb, rainbow * clamp(brightness * 1.6, 0.3, 1.0), tint);
       `);
@@ -149,6 +163,7 @@ export async function createScene(host, { debug = false } = {}) {
   function effect(id, x, y, vx, vy, size, duration, gravity = 0) {
     const z = id.startsWith('juice-') ? 6 : 4.8;
     const obj = sprite(id, size, size, z); obj.position.set(x, y, z); scene.add(obj);
+    if (id === 'puff') obj.material.color.set(trailTint);
     const target = id === 'puff' ? puffs : sparks;
     target.push({ obj, vx, vy, size, life: duration, duration, gravity, liquid: id.startsWith('juice-') });
   }
@@ -175,6 +190,15 @@ export async function createScene(host, { debug = false } = {}) {
             const a = i / 12 * Math.PI * 2;
             effect('juice-drop', impactX, y + side * .18, Math.cos(a) * (2.2 + i % 3 * .7), Math.sin(a) * 3.2 + .9, .15 + i % 3 * .07, .65 + i % 4 * .12, -8);
           }
+        }
+      }
+      if (event.type === 'perfect' || event.type === 'rush-start') {
+        const count = event.type === 'rush-start' ? 13 : 5;
+        for (let i = 0; i < count; i++) {
+          const a = i / count * Math.PI * 2;
+          effect(event.type === 'rush-start' ? 'puff' : 'star', snapshot.player.x, snapshot.player.y,
+            Math.cos(a) * (event.type === 'rush-start' ? 3.2 : 1.6),
+            Math.sin(a) * (event.type === 'rush-start' ? 3.2 : 1.6), .22, .42);
         }
       }
       if (['damage', 'star', 'heal'].includes(event.type)) {
@@ -210,8 +234,10 @@ export async function createScene(host, { debug = false } = {}) {
     }
     body.material.opacity = snapshot.invulnerability > 0 && Math.floor(snapshot.invulnerability * 15) % 2 ? .42 : 1;
     body.material.map = textures.get(snapshot.state === 'gameover' ? 'beetle-dizzy' : snapshot.invulnerability > 0 ? 'beetle-hurt' : rising ? 'beetle-flap' : falling ? 'beetle-fall' : 'beetle');
-    rainbowTime.value = elapsed; rainbowActive.value = snapshot.starTime > 0 ? 1 : 0;
-    aura.visible = snapshot.starTime > 0; aura.position.set(snapshot.player.x, snapshot.player.y, 4.7);
+    rainbowTime.value = elapsed; rainbowActive.value = snapshot.starTime > 0 ? 1 : snapshot.rushTime > 0 ? .45 : 0;
+    aura.visible = snapshot.starTime > 0 || snapshot.rushTime > 0;
+    aura.material.color.set(snapshot.starTime > 0 ? '#ffffff' : '#7be6b5');
+    aura.position.set(snapshot.player.x, snapshot.player.y, 4.7);
     aura.material.rotation = elapsed * .8;
     platform.visible = snapshot.state === 'ready' || snapshot.launchTime > 0;
     platform.position.x = -2 - (snapshot.state === 'playing' ? (.72 - snapshot.launchTime) * 5.2 : 0);
@@ -294,7 +320,7 @@ export async function createScene(host, { debug = false } = {}) {
   const observer = new ResizeObserver(resize); observer.observe(host);
   window.addEventListener('resize', resize);
   return {
-    render, consume,
+    render, consume, setStyle,
     dispose() {
       observer.disconnect(); window.removeEventListener('resize', resize); clearEffects();
       for (const id of [...obstacles.keys()]) removeGroup(obstacles, id);

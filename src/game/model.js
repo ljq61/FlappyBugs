@@ -194,7 +194,7 @@ export function createGame(config = GAME_CONFIG, random = Math.random) {
       if (state !== 'playing') return;
     }
     if (player.y + c.hitHeight / 2 < -c.height / 2) {
-      if (starTime > 0) {
+      if (starTime > 0 || rushTime > 0) {
         player.y = -c.height / 2 + c.playerHeight / 2;
         player.vy = c.jump;
         emit('bounce', { reason: 'bottom' });

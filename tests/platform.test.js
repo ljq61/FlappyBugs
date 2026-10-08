@@ -251,3 +251,22 @@ test('SDK script timeout rejects and clears its failed element', async () => {
   await assert.rejects(loadCrazyGamesSdk({ documentObject, windowObject: {}, timeoutMs: 5 }), { code: 'sdk-load' });
   assert.equal(script.removed, true);
 });
+
+test('legacy saves support new best-streak and cosmetic rewards without discarding old best', async () => {
+  const data = storage({ [PROGRESS_KEY]: JSON.stringify({ best: 8, sound: false, language: 'zh' }) });
+  const platform = await createPlatform({ storage: data });
+  const old = await platform.loadProgress();
+  assert.equal(old.bestCombo, undefined);
+  const updated = await platform.saveProgress({ best: 4, bestCombo: 5, skin: 'mint', trail: 'sunny' });
+  assert.equal(updated.progress.best, 8);
+  assert.equal(updated.progress.bestCombo, 5);
+  assert.equal(updated.progress.skin, 'mint');
+  assert.equal(updated.progress.trail, 'sunny');
+  const next = await createPlatform({ storage: data });
+  assert.equal((await next.loadProgress()).bestCombo, 5);
+  await next.saveProgress({ bestCombo: 1, skin: 'bogus', trail: 'bogus' });
+  const final = await next.loadProgress();
+  assert.equal(final.bestCombo, 5);
+  assert.equal(final.skin, 'mint');
+  assert.equal(final.trail, 'sunny');
+});
