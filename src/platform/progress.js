@@ -1,3 +1,5 @@
+import { SKINS, TRAILS } from '../game/unlocks.js';
+
 export const PROGRESS_KEY = 'flappybugs:v1:progress';
 const DEFAULT_PROGRESS = Object.freeze({ best: 0, sound: true, language: 'en' });
 
@@ -7,6 +9,9 @@ function validPatch(value) {
   if (Number.isSafeInteger(value.best) && value.best >= 0) patch.best = value.best;
   if (typeof value.sound === 'boolean') patch.sound = value.sound;
   if (value.language === 'en' || value.language === 'zh') patch.language = value.language;
+  if (Number.isSafeInteger(value.bestCombo) && value.bestCombo >= 0) patch.bestCombo = value.bestCombo;
+  if (SKINS.some(skin => skin.id === value.skin)) patch.skin = value.skin;
+  if (TRAILS.some(trail => trail.id === value.trail)) patch.trail = value.trail;
   return patch;
 }
 
@@ -59,6 +64,8 @@ export function createProgressStore({ read, write }) {
           ...progress,
           ...patch,
           best: Math.max(progress.best, persisted.best, patch.best ?? 0),
+          ...(progress.bestCombo !== undefined || persisted.bestCombo !== undefined || patch.bestCombo !== undefined
+            ? { bestCombo: Math.max(progress.bestCombo ?? 0, persisted.bestCombo ?? 0, patch.bestCombo ?? 0) } : {}),
         };
         const saved = await write(PROGRESS_KEY, JSON.stringify(progress));
         return { saved, progress: { ...progress } };
