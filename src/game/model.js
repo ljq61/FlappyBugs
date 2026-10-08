@@ -17,6 +17,7 @@ export function createGame(config = GAME_CONFIG, random = Math.random) {
   if (typeof random !== 'function') throw new TypeError('random must be a function');
 
   let state, runId = 0, time, player, hp, score, invulnerability, starTime, launchTime;
+  let combo, bestCombo, perfects, rushCharge, rushTime;
   let obstacles, pickups, events, spawnTimer, pickupCooldown, rounds, pity, obstacleId, pickupId;
   const emit = (type, detail = {}) => events.push(Object.freeze({ type, runId, time, ...detail }));
   const sample = () => {
@@ -37,6 +38,7 @@ export function createGame(config = GAME_CONFIG, random = Math.random) {
     player = { x: c.playerX, y: c.startY, vy: 0 };
     hp = c.maxHp;
     score = invulnerability = starTime = launchTime = rounds = 0;
+    combo = bestCombo = perfects = rushCharge = rushTime = 0;
     obstacleId = pickupId = 0;
     obstacles = [];
     pickups = [];
@@ -68,11 +70,13 @@ export function createGame(config = GAME_CONFIG, random = Math.random) {
     state = 'gameover';
     if (starTime > 0) emit('star-end', { reason: 'gameover' });
     starTime = 0;
-    emit('gameover', { reason, hp, score });
+    emit('gameover', { reason, hp, score, bestCombo, perfects });
   }
 
   function damage(reason) {
-    if (state !== 'playing' || invulnerability > 0 || starTime > 0 || hp <= 0) return false;
+    if (state !== 'playing' || invulnerability > 0 || starTime > 0 || rushTime > 0 || hp <= 0) return false;
+    if (combo > 0) emit('combo-break', { combo });
+    combo = rushCharge = 0;
     hp--;
     invulnerability = c.damageImmunity;
     player.vy = Math.max(player.vy, c.damageLift);
@@ -130,6 +134,9 @@ export function createGame(config = GAME_CONFIG, random = Math.random) {
     const previousStar = starTime;
     starTime = countdown(starTime, dt);
     if (previousStar > 0 && starTime === 0) emit('star-end', { reason: 'expired' });
+    const previousRush = rushTime;
+    rushTime = countdown(rushTime, dt);
+    if (previousRush > 0 && rushTime === 0) emit('rush-end');
     launchTime = countdown(launchTime, dt);
     player.vy += c.gravity * dt;
     player.y += player.vy * dt;
@@ -145,7 +152,23 @@ export function createGame(config = GAME_CONFIG, random = Math.random) {
       if (!obstacle.scored && obstacle.x < player.x) {
         obstacle.scored = true;
         score++;
-        emit('score', { score, obstacleId: obstacle.id });
+        const perfect = Math.abs(player.y - obstacle.centerY) <= c.perfectWindow;
+        if (perfect) {
+          combo++;
+          perfects++;
+          bestCombo = Math.max(bestCombo, combo);
+          rushCharge++;
+          emit('perfect', { combo, bestCombo, obstacleId: obstacle.id });
+          if (rushCharge >= c.rushForPerfects) {
+            rushCharge = 0;
+            rushTime = c.rushSeconds;
+            emit('rush-start', { seconds: rushTime, combo });
+          }
+        } else {
+          if (combo > 0) emit('combo-break', { combo });
+          combo = rushCharge = 0;
+        }
+        emit('score', { score, obstacleId: obstacle.id, perfect, combo });
       }
       const horizontalHit = Math.abs(obstacle.x - player.x) < obstacle.width / 2 + c.hitWidth / 2;
       const verticalHit = player.y - c.hitHeight / 2 < obstacle.centerY - obstacle.gap / 2
@@ -200,7 +223,7 @@ export function createGame(config = GAME_CONFIG, random = Math.random) {
 
   function getSnapshot() {
     return Object.freeze({ state, runId, time, player: Object.freeze({ ...player }), hp, score,
-      invulnerability, starTime, launchTime,
+      invulnerability, starTime, launchTime, combo, bestCombo, perfects, rushCharge, rushTime,
       obstacles: Object.freeze(obstacles.map(({ id, x, centerY, gap: opening, width, type, moving }) =>
         Object.freeze({ id, x, centerY, gap: opening, width, type, moving }))),
       pickups: Object.freeze(pickups.map(({ id, type, x, y, radius }) => Object.freeze({ id, type, x, y, radius }))),

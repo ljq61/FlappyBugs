@@ -219,7 +219,7 @@ test('default gap, speed and spawn interval progress with score and obey caps', 
   assert.ok(births[1].time - births[0].time > births.at(-1).time - births.at(-2).time);
 });
 
-test('each group scores once; only groups born at score 20 or later move', () => {
+test('each group scores once; obstacles start moving early at the configured threshold', () => {
   const game = createGame({ ...quiet, speed: 20, speedIncreaseMax: 0,
     interval: 0.1, intervalReductionMax: 0, initialSpawnTimer: 0.1,
     obstacleSpawnX: -1.5, pickupOffsetMin: 20, pickupOffsetMax: 20 }, () => 0.5);
@@ -236,17 +236,17 @@ test('each group scores once; only groups born at score 20 or later move', () =>
       }
     }
   }
-  assert.ok(game.getSnapshot().score > 20);
-  for (const { obstacle, beforeScore } of births) assert.equal(obstacle.moving, beforeScore >= 20);
-  assert.equal(groups.get(20).moving, false);
-  assert.equal(groups.get(21).moving, true);
+  assert.ok(game.getSnapshot().score > GAME_CONFIG.movingScore);
+  for (const { obstacle, beforeScore } of births) assert.equal(obstacle.moving, beforeScore >= GAME_CONFIG.movingScore);
+  assert.ok(births.some(b => b.beforeScore === GAME_CONFIG.movingScore - 1 && !b.obstacle.moving));
+  assert.ok(births.some(b => b.beforeScore === GAME_CONFIG.movingScore && b.obstacle.moving));
   const scoreEvents = game.drainEvents().filter(event => event.type === 'score');
   assert.equal(new Set(scoreEvents.map(event => event.obstacleId)).size, scoreEvents.length);
   assert.equal(game.getSnapshot().score, scoreEvents.length);
   assert.ok(game.getSnapshot().obstacles.some(obstacle => obstacle.moving && obstacle.centerY !== 0));
 });
 
-test('5/10/15 group guarantees bypass cooldown and reset for the next run', () => {
+test('3/6/12 group guarantees prioritize positive pickups and reset each run', () => {
   const game = createGame({ ...quiet, interval: 0.1, intervalReductionMax: 0, initialSpawnTimer: 0,
     speed: 0, speedIncreaseMax: 0, pickupOffsetMin: 20, pickupOffsetMax: 20,
     pickupGuarantee: GAME_CONFIG.pickupGuarantee }, () => 0.5);
@@ -262,7 +262,7 @@ test('5/10/15 group guarantees bypass cooldown and reset for the next run', () =
     }
     return Object.fromEntries(seen);
   }
-  assert.deepEqual(drops(), { poison: 5, heal: 10, star: 15 });
+  assert.deepEqual(drops(), { star: 3, heal: 6, poison: 12 });
   const previousId = game.getSnapshot().runId;
   game.reset();
   const reset = game.getSnapshot();
@@ -277,7 +277,7 @@ test('5/10/15 group guarantees bypass cooldown and reset for the next run', () =
   assert.deepEqual(reset.obstacles, []);
   assert.deepEqual(reset.pickups, []);
   assert.deepEqual(game.drainEvents(), []);
-  assert.deepEqual(drops(), { poison: 5, heal: 10, star: 15 });
+  assert.deepEqual(drops(), { star: 3, heal: 6, poison: 12 });
   assert.ok(game.drainEvents().every(event => event.runId === game.getSnapshot().runId));
 });
 
@@ -323,4 +323,27 @@ test('invalid time and randomness fail explicitly; zero time is inert', () => {
   const broken = createGame({ initialSpawnTimer: 999 }, () => 1);
   broken.start();
   assert.throws(() => broken.step(DT), RangeError);
+});
+
+test('perfect passages build a streak and trigger temporary protected toot rush', () => {
+  const game = createGame({ ...quiet, gap: 3.55, gapReductionMax: 0, obstacleSpawnX: -1.5,
+    speed: 20, speedIncreaseMax: 0, movingScore: 999, interval: 0.14,
+    intervalReductionMax: 0, initialSpawnTimer: 0.14, pickupOffsetMin: 20, pickupOffsetMax: 20 }, () => 0.5);
+  game.start();
+  advance(game, 0.7);
+  const state = game.getSnapshot();
+  assert.ok(state.score >= 3);
+  assert.equal(state.perfects, state.score);
+  assert.equal(state.combo, state.score);
+  assert.equal(state.bestCombo, state.score);
+  assert.ok(state.rushTime > 0);
+  assert.ok(state.rushCharge < GAME_CONFIG.rushForPerfects);
+  const events = game.drainEvents();
+  assert.equal(events.filter(e => e.type === 'perfect').length, state.score);
+  assert.ok(events.some(e => e.type === 'rush-start'));
+  assert.equal(state.hp, 3);
+  game.reset();
+  assert.equal(game.getSnapshot().combo, 0);
+  assert.equal(game.getSnapshot().bestCombo, 0);
+  assert.equal(game.getSnapshot().rushTime, 0);
 });
