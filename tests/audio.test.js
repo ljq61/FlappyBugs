@@ -40,3 +40,23 @@ test('pause, platform mute and a quick new run discard deferred old sounds', asy
     audio.dispose(); delete globalThis.window;
   }
 });
+
+test('ordinary gate scores are silent; perfect gate plays its unique two-note confirmation', async () => {
+  const mock = deferredContext(); globalThis.window = { AudioContext: mock.Context };
+  const audio = createAudio();
+  try {
+    const ready = audio.unlock(); mock.resume(); await ready;
+    audio.consume([{ type: 'score', score: 1, perfect: false, combo: 0 }]);
+    audio.consume([{ type: 'score', score: 2, perfect: true, combo: 1 }]);
+    assert.equal(mock.oscillators.length, 0, 'passing a gate does not create a score sound');
+    audio.consume([{ type: 'perfect', combo: 1 }]);
+    assert.equal(mock.oscillators.length, 2, 'perfect gate plays two distinctive tones');
+    audio.consume([{ type: 'rush-start', seconds: 2.8 }]);
+    assert.equal(mock.oscillators.length, 6, 'third perfect still gets rush activation music');
+    audio.setMuted(true, true);
+    audio.consume([{ type: 'perfect', combo: 4 }]);
+    assert.equal(mock.oscillators.length, 6, 'CrazyGames platform mute wins');
+  } finally {
+    audio.dispose(); delete globalThis.window;
+  }
+});

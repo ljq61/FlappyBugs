@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { ART, OBSTACLE_ART } from '../art/manifest.js';
 import { GAME_CONFIG } from '../game/config.js';
 import { SKINS, TRAILS } from '../game/unlocks.js';
+import { createEchoTrail } from './echo-trail.js';
 
 export async function createScene(host, { debug = false } = {}) {
   const c = GAME_CONFIG;
@@ -57,7 +58,7 @@ export async function createScene(host, { debug = false } = {}) {
   wingFront.position.set(-.08, .42, -.1); wingFront.material.rotation = -.22;
   const body = sprite('beetle', 1.45, 1.45, 0);
   bug.add(wingBack, wingFront, body);
-  const rainbowTime = { value: 0 }, rainbowActive = { value: 0 };
+  const rainbowTime = { value: 0 }, rainbowActive = { value: 0 }, voidActive = { value: 0 };
   const skinTint = { value: new THREE.Color('#ffffff') }, skinActive = { value: 0 };
   let trailTint = '#ffffff';
   function setStyle({ skin = 'classic', trail = 'cloud' } = {}) {
@@ -71,9 +72,10 @@ export async function createScene(host, { debug = false } = {}) {
     part.material.onBeforeCompile = shader => {
       shader.uniforms.rainbowTime = rainbowTime;
       shader.uniforms.rainbowActive = rainbowActive;
+      shader.uniforms.voidActive = voidActive;
       shader.uniforms.skinTint = skinTint;
       shader.uniforms.skinActive = skinActive;
-      shader.fragmentShader = 'uniform float rainbowTime;\nuniform float rainbowActive;\nuniform vec3 skinTint;\nuniform float skinActive;\n' + shader.fragmentShader;
+      shader.fragmentShader = 'uniform float rainbowTime;\nuniform float rainbowActive;\nuniform float voidActive;\nuniform vec3 skinTint;\nuniform float skinActive;\n' + shader.fragmentShader;
       // Tint after the SVG texture has been sampled; preserve its outline and alpha.
       shader.fragmentShader = shader.fragmentShader.replace('#include <map_fragment>', `
         #include <map_fragment>
@@ -83,11 +85,31 @@ export async function createScene(host, { debug = false } = {}) {
         diffuseColor.rgb = mix(diffuseColor.rgb, skinTint * (0.52 + brightness * 0.48), cosmetic);
         float tint = rainbowActive * smoothstep(0.025, 0.16, brightness) * 0.94;
         diffuseColor.rgb = mix(diffuseColor.rgb, rainbow * clamp(brightness * 1.6, 0.3, 1.0), tint);
+        // A living, dark indigo void silhouette crossed by cyan/ultraviolet energy.
+        // Its alpha remains below one so the garden is faintly visible through the bug.
+        float rift = 0.5 + 0.5 * sin(vMapUv.y * 31.0 - rainbowTime * 14.0
+          + sin(vMapUv.x * 23.0 + rainbowTime * 6.0) * 1.7);
+        float voidEdge = 1.0 - smoothstep(0.08, 0.36, brightness);
+        vec3 voidColor = mix(vec3(0.028, 0.012, 0.13),
+          vec3(0.13, 0.59, 0.82), 0.14 + 0.64 * rift);
+        voidColor += vec3(0.13, 0.10, 0.38) * voidEdge;
+        diffuseColor.rgb = mix(diffuseColor.rgb, voidColor, voidActive * 0.96);
+        diffuseColor.a *= 1.0 - voidActive * (0.12 + 0.09 * rift);
       `);
     };
-    part.material.customProgramCacheKey = () => 'flappybugs-rainbow-v1';
+    part.material.customProgramCacheKey = () => 'flappybugs-rainbow-void-v2';
   }
   const aura = sprite('star', 2.05, 2.05, 4.7); aura.material.opacity = .25; scene.add(aura);
+  const echoTrail = createEchoTrail();
+  // Preallocate ghost sprites; no material/geometry allocation during a rush.
+  const ghostSprites = echoTrail.echoes.map(() => {
+    const ghost = sprite('beetle', 1.45, 1.45, 4.86);
+    ghost.material.color.set('#9d77ed');
+    ghost.material.blending = THREE.AdditiveBlending;
+    ghost.visible = false;
+    scene.add(ghost);
+    return ghost;
+  });
   const obstacles = new Map(), pickups = new Map();
   let puffs = [], sparks = [], currentRun = -1, pulse = 0, shake = 0, elapsed = 0, angle = 0;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -159,6 +181,8 @@ export async function createScene(host, { debug = false } = {}) {
       scene.remove(effect.obj); effect.obj.material.dispose(); materials.delete(effect.obj.material);
     }
     puffs = []; sparks = []; pulse = shake = 0;
+    echoTrail.reset();
+    for (const ghost of ghostSprites) ghost.visible = false;
   }
   function effect(id, x, y, vx, vy, size, duration, gravity = 0) {
     const z = id.startsWith('juice-') ? 6 : 4.8;
@@ -232,13 +256,36 @@ export async function createScene(host, { debug = false } = {}) {
       wing.position.x = x * Math.cos(angle) - y * Math.sin(angle);
       wing.position.y = x * Math.sin(angle) + y * Math.cos(angle);
     }
-    body.material.opacity = snapshot.invulnerability > 0 && Math.floor(snapshot.invulnerability * 15) % 2 ? .42 : 1;
-    body.material.map = textures.get(snapshot.state === 'gameover' ? 'beetle-dizzy' : snapshot.invulnerability > 0 ? 'beetle-hurt' : rising ? 'beetle-flap' : falling ? 'beetle-fall' : 'beetle');
-    rainbowTime.value = elapsed; rainbowActive.value = snapshot.starTime > 0 ? 1 : snapshot.rushTime > 0 ? .45 : 0;
-    aura.visible = snapshot.starTime > 0 || snapshot.rushTime > 0;
-    aura.material.color.set(snapshot.starTime > 0 ? '#ffffff' : '#7be6b5');
+    const isVoid = snapshot.state === 'playing' && snapshot.rushTime > 0;
+    body.material.opacity = isVoid ? .97
+      : snapshot.invulnerability > 0 && Math.floor(snapshot.invulnerability * 15) % 2 ? .42 : 1;
+    for (const wing of [wingBack, wingFront]) wing.material.opacity = isVoid ? .8 : 1;
+    body.material.map = textures.get(snapshot.state === 'gameover' ? 'beetle-dizzy' : snapshot.invulnerability > 0 && !isVoid ? 'beetle-hurt' : rising ? 'beetle-flap' : falling ? 'beetle-fall' : 'beetle');
+    rainbowTime.value = elapsed;
+    rainbowActive.value = snapshot.starTime > 0 && !isVoid ? 1 : 0;
+    voidActive.value = isVoid ? 1 : 0;
+    aura.visible = snapshot.starTime > 0 || isVoid;
+    aura.material.color.set(isVoid ? '#a38bfa' : '#ffffff');
+    aura.material.opacity = isVoid ? .42 : .25;
+    aura.scale.setScalar(isVoid ? 2.25 : 2.05);
     aura.position.set(snapshot.player.x, snapshot.player.y, 4.7);
     aura.material.rotation = elapsed * .8;
+    const echoes = echoTrail.step(dt, isVoid && !reducedMotion, {
+      x: bug.position.x, y: bug.position.y, angle,
+      scaleX: bug.scale.x, scaleY: bug.scale.y, texture: body.material.map,
+    });
+    echoes.forEach((echo, index) => {
+      const ghost = ghostSprites[index];
+      ghost.visible = echo.life > 0;
+      if (!ghost.visible) return;
+      const k = echo.life / echoTrail.lifetime;
+      ghost.position.set(echo.x, echo.y, 4.86);
+      ghost.scale.set(1.45 * echo.scaleX * (1 + (1 - k) * .18),
+        1.45 * echo.scaleY * (1 + (1 - k) * .18), 1);
+      ghost.material.rotation = echo.angle;
+      ghost.material.map = echo.texture;
+      ghost.material.opacity = 0.46 * k * k;
+    });
     platform.visible = snapshot.state === 'ready' || snapshot.launchTime > 0;
     platform.position.x = -2 - (snapshot.state === 'playing' ? (.72 - snapshot.launchTime) * 5.2 : 0);
     const obstacleIds = new Set(snapshot.obstacles.map(o => o.id));

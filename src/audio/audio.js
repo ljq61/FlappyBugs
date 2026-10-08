@@ -80,11 +80,13 @@ export function createAudio() {
         tone(82, now + .015, .09, .035, 'sawtooth', 28);
       } else if (event.type === 'damage') tone(310, now, .19, .055, 'triangle', 100);
       else if (event.type === 'perfect') {
-        tone(660 + Math.min(event.combo, 6) * 55, now, .14, .044, 'sine');
+        // Two-note shimmering confirmation, reserved for precisely centered gates.
+        const pitch = 690 + Math.min(event.combo || 1, 7) * 48;
+        tone(pitch, now, .15, .047, 'triangle', pitch * 1.22);
+        tone(pitch * 1.5, now + .048, .21, .032, 'sine', pitch * 1.86);
       } else if (event.type === 'rush-start') {
         [523.25, 659.25, 783.99, 1046.5].forEach((f, i) => tone(f, now + i * .065, .18, .05, 'triangle'));
-      } else if (event.type === 'score' && !event.perfect) tone(880, now, .10, .045);
-      else if (event.type === 'heal' || event.type === 'star') {
+      } else if (event.type === 'heal' || event.type === 'star') {
         [523.25, 659.25, 783.99].forEach((f, i) => tone(f, now + i * .08, .13, .04));
       } else if (event.type === 'gameover') {
         [392, 329.63, 261.63].forEach((f, i) => tone(f, now + i * .12, .17, .035));
