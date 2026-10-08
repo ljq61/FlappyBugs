@@ -181,5 +181,5 @@ button:focus-visible, select:focus-visible { outline: 3px solid var(--ink); outl
   .panel { bottom: 9%; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .flight-pop.pop { animation: none; opacity: 1; }
+  .flight-pop.pop { animation: flightPop .85s steps(1, end) forwards; }
 }
