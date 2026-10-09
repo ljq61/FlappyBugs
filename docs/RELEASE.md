@@ -33,7 +33,7 @@ package.json 是唯一版本来源；package-lock.json同步根版本。Vite读�
 - 本地71/71测试、两种生产构建/审计、ZIP CRC与生产树逐文件字节比对通过。
 - 两包均216,318字节，各56文件；入口、版本与摘要见[QA报告](QA-REPORT.md)。本地产物为 `releases/flappybugs-0.2.1-{standalone,crazygames}.zip` 及同名JSON清单。
 - 远端main的独立旧封面提交先合回dev保留历史；最终封面采用用户本轮确认的傍晚蓝调、自然比例标题与横/竖留白布局。
-- Git/CI/Pages的实际状态在[进度表](PROGRESS.md)记录；线上必须核对0.2.1 meta、完整静态树及实际输入，不仅核对Actions绿灯。
+- 内容提交69a4e68已推送dev、快进合入main；dev CI 37868020984、main build/deploy 37868118574通过。线上meta/侧栏0.2.1、56文件逐字节一致和桌面实际输入通过；证据链接及边界见[进度表](PROGRESS.md)。
 - 新版三封面源仍在assets/art/covers；游戏ZIP不含宣传封面。真机音频/性能、Portal、登录云同步、新版视频和重新审核待验证。
 
 ## 0.1.1 已执行发布验证
