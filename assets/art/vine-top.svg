@@ -1,13 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="180" height="150" viewBox="0 0 180 150" role="img" aria-labelledby="title">
-  <title id="title">Charred flame bearing thorn vine, top obstacle with points facing the gap</title>
+  <title id="title">Smooth charred vine root bed above downward flames, with no spikes</title>
+  <defs>
+    <linearGradient id="vine-top-join-gradient" gradientUnits="userSpaceOnUse" x1="0" y1="20" x2="0" y2="0">
+      <stop offset="0" stop-color="#413745"/>
+      <stop offset=".6" stop-color="#413745"/>
+      <stop offset="1" stop-color="#413745"/>
+    </linearGradient>
+  </defs>
   <g stroke="#30283c" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
-    <g id="burning-vine" fill="#413745">
-      <path d="M6 0V39L18 53L13 137L42 82L58 139L69 92L90 143L110 90L133 139L142 78L167 137L161 44L174 32V0Z"/>
-      <path d="M6 2Q62 19 49 56Q40 82 81 96L95 84Q62 70 74 51Q91 16 40 0Z" fill="#665044"/>
-      <path d="M93 1Q147 24 121 58Q112 76 132 90L147 82Q135 70 145 56Q169 19 119 0Z" fill="#594744"/>
-      <path d="M90 129L79 92L95 99L105 84Z" fill="#bc9c76" stroke-width="2"/>
-      <path d="M33 53L45 40L37 29M82 22L94 13L89 3M128 59L143 44L130 36" fill="none" stroke="#d9804d" stroke-width="4"/>
-      <circle cx="102" cy="62" r="4" fill="#efb365" stroke="none"/>
+    <g id="burning-vine" fill="#413745" transform="translate(0 150) scale(1 -1)">
+      <path id="root-bed" d="M6 150V135Q6 120 28 122Q52 129 74 122Q90 118 110 123Q133 130 151 123Q174 120 174 136V150Z"/>
+      <path id="root-coils" d="M14 144Q40 129 66 138Q91 148 111 137Q134 125 164 141M35 150Q50 139 74 144M118 150Q140 138 160 146" fill="none" stroke="#665044" stroke-width="6"/>
+      <path id="ember-cracks" d="M35 128Q40 134 35 140M83 127Q91 133 86 140M136 131Q146 134 142 142" fill="none" stroke="#d9804d" stroke-width="3"/>
+      <g id="embers" fill="#efb365" stroke="none"><circle cx="57" cy="132" r="2"/><circle cx="117" cy="140" r="2.5"/></g>
     </g>
+  </g>
+  <g id="stem-join">
+    <path id="join-body" d="M2 0H178V20H2Z" fill="url(#vine-top-join-gradient)" stroke="none"/>
+    <path id="join-left-edge" d="M2 0V20" fill="none" stroke="#30283c" stroke-width="4" stroke-linecap="butt"/>
+    <path id="join-right-edge" d="M178 0V20" fill="none" stroke="#30283c" stroke-width="4" stroke-linecap="butt"/>
   </g>
 </svg>

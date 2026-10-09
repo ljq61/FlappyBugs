@@ -1,41 +1,48 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="720" height="1280" viewBox="0 0 720 1280" role="img" aria-labelledby="title">
-  <title id="title">Quiet cream sky and layered pastel garden</title>
+  <title id="title">Blue hour garden with an indigo sky, pale moon and cool layered plants</title>
   <defs>
-    <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#fff7de"/><stop offset=".62" stop-color="#f2f4d8"/><stop offset="1" stop-color="#c8e5c2"/></linearGradient>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#202d59"/><stop offset=".48" stop-color="#4d638e"/><stop offset=".78" stop-color="#8790b0"/><stop offset="1" stop-color="#c3a8b8"/></linearGradient>
   </defs>
   <rect width="720" height="1280" fill="url(#sky)"/>
-  <g id="sky-details" fill="none" stroke="#e8dba9" stroke-linecap="round">
-    <circle cx="586" cy="164" r="71" fill="#fbe5a5" stroke="none"/>
-    <circle cx="586" cy="164" r="86" stroke-width="2" stroke-dasharray="4 17"/>
-    <path d="M67 221Q93 191 116 208Q131 181 159 196Q176 187 192 207Q216 204 230 221Z" fill="#fffdf0" stroke="none"/>
-    <path d="M434 311Q451 291 471 301Q488 277 509 299Q533 287 554 311Z" fill="#fffdf0" stroke="none"/>
+  <g id="sky-details" fill="none" stroke="#aebcd5" stroke-linecap="round">
+    <g id="moon" stroke="none">
+      <circle cx="586" cy="164" r="66" fill="#c4d5ee" opacity=".08"/>
+      <path d="M610 113A55 55 0 1 0 613 213A49 49 0 0 1 610 113Z" fill="#d6e1ed"/>
+    </g>
+    <g id="stars" fill="#dce5f3" stroke="none" opacity=".72">
+      <circle cx="118" cy="113" r="2.5"/><circle cx="344" cy="154" r="2"/><circle cx="468" cy="86" r="2.5"/><circle cx="650" cy="284" r="2"/>
+      <path d="M255 78Q257 88 266 90Q257 92 255 102Q253 92 244 90Q253 88 255 78Z"/>
+      <path d="M412 288Q413 295 420 296Q413 297 412 304Q411 297 404 296Q411 295 412 288Z"/>
+    </g>
+    <path d="M67 221Q93 191 116 208Q131 181 159 196Q176 187 192 207Q216 204 230 221Z" fill="#b6c3db" stroke="none" opacity=".28"/>
+    <path d="M434 311Q451 291 471 301Q488 277 509 299Q533 287 554 311Z" fill="#b6c3db" stroke="none" opacity=".28"/>
     <path d="M77 394Q115 377 145 385M426 489Q457 473 481 479" stroke-width="3"/>
-    <circle cx="290" cy="242" r="4" fill="#e4d8a7" stroke="none"/>
-    <circle cx="633" cy="433" r="3" fill="#e4d8a7" stroke="none"/>
-    <circle cx="381" cy="594" r="4" fill="#e4d8a7" stroke="none"/>
+    <circle cx="290" cy="242" r="4" fill="#dce5f3" stroke="none"/>
+    <circle cx="633" cy="433" r="3" fill="#dce5f3" stroke="none"/>
+    <circle cx="381" cy="594" r="4" fill="#dce5f3" stroke="none"/>
   </g>
-  <g id="distant-garden" stroke="#bfd2ad" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M-20 1138Q133 780 317 1016Q488 819 745 1019V1280H-20Z" fill="#d7e4bd" stroke="none"/>
-    <path d="M-25 1234Q176 904 353 1101Q545 940 748 1165V1280H-25Z" fill="#c1dbb4" stroke="none"/>
+  <g id="distant-garden" stroke="#597b93" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M-20 1138Q133 780 317 1016Q488 819 745 1019V1280H-20Z" fill="#788da8" stroke="none"/>
+    <path d="M-25 1234Q176 904 353 1101Q545 940 748 1165V1280H-25Z" fill="#617f99" stroke="none"/>
     <path d="M79 1110Q63 735 85 498" fill="none" stroke-width="7"/>
-    <path d="M79 755Q11 749 1 681Q54 677 79 734M80 655Q137 634 149 576Q94 571 81 629M73 903Q-6 888-19 831Q45 808 73 875" fill="#d8e5bd"/>
+    <path d="M79 755Q11 749 1 681Q54 677 79 734M80 655Q137 634 149 576Q94 571 81 629M73 903Q-6 888-19 831Q45 808 73 875" fill="#809bb1"/>
     <path d="M665 1109Q635 794 666 641" fill="none" stroke-width="7"/>
-    <path d="M653 897Q588 866 581 803Q634 804 652 869M658 778Q712 758 738 705Q679 692 662 749" fill="#d4e1b7"/>
-    <path d="M84 526Q57 508 64 486Q77 470 90 486Q110 471 119 490Q122 513 84 526Z" fill="#eedeb4" stroke="#d9cca7"/>
-    <path d="M666 666Q643 650 648 631Q666 612 679 630Q698 621 705 639Q700 663 666 666Z" fill="#e6d3bf" stroke="#d4c4ad"/>
+    <path d="M653 897Q588 866 581 803Q634 804 652 869M658 778Q712 758 738 705Q679 692 662 749" fill="#7a97ad"/>
+    <path d="M84 526Q57 508 64 486Q77 470 90 486Q110 471 119 490Q122 513 84 526Z" fill="#a9a9bd" stroke="#8289a7"/>
+    <path d="M666 666Q643 650 648 631Q666 612 679 630Q698 621 705 639Q700 663 666 666Z" fill="#ac9eae" stroke="#86809c"/>
   </g>
-  <g id="foreground-floor" stroke="#86ad90" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M-10 1224Q119 1172 225 1222Q359 1160 470 1217Q589 1180 730 1220V1290H-10Z" fill="#98c5a2" stroke="none"/>
-    <path d="M18 1284Q2 1184 40 1160Q70 1211 52 1284M75 1284Q76 1219 108 1201Q133 1241 117 1284M574 1284Q557 1190 596 1168Q622 1211 613 1284M632 1284Q651 1187 691 1182Q699 1233 674 1284" fill="#bad8a8"/>
+  <g id="foreground-floor" stroke="#406e83" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M-10 1224Q119 1172 225 1222Q359 1160 470 1217Q589 1180 730 1220V1290H-10Z" fill="#507f91" stroke="none"/>
+    <path d="M18 1284Q2 1184 40 1160Q70 1211 52 1284M75 1284Q76 1219 108 1201Q133 1241 117 1284M574 1284Q557 1190 596 1168Q622 1211 613 1284M632 1284Q651 1187 691 1182Q699 1233 674 1284" fill="#729eab"/>
     <path d="M205 1280 217 1210M459 1280 449 1221" fill="none"/>
     <g id="floor-flower-left" transform="translate(218 1206)">
-      <path d="M0 0Q-25-4-22-22Q-7-33 2-19Q13-35 25-21Q29-3 11 1Q20 20 1 22Q-18 19-12 3Z" fill="#efb9b3" stroke="#c694a3" stroke-width="3"/>
-      <circle cx="3" cy="1" r="8" fill="#f6dda2" stroke="none"/>
+      <path d="M0 0Q-25-4-22-22Q-7-33 2-19Q13-35 25-21Q29-3 11 1Q20 20 1 22Q-18 19-12 3Z" fill="#b99cab" stroke="#8c7b96" stroke-width="3"/>
+      <circle cx="3" cy="1" r="8" fill="#c8bfac" stroke="none"/>
     </g>
     <g id="floor-flower-right" transform="translate(449 1218)">
-      <path d="M0 0Q-25-4-22-22Q-7-33 2-19Q13-35 25-21Q29-3 11 1Q20 20 1 22Q-18 19-12 3Z" fill="#f5d99f" stroke="#c9b481" stroke-width="3"/>
-      <circle cx="3" cy="1" r="8" fill="#edb6a0" stroke="none"/>
+      <path d="M0 0Q-25-4-22-22Q-7-33 2-19Q13-35 25-21Q29-3 11 1Q20 20 1 22Q-18 19-12 3Z" fill="#c1b5aa" stroke="#938ba0" stroke-width="3"/>
+      <circle cx="3" cy="1" r="8" fill="#b79fac" stroke="none"/>
     </g>
-    <path d="M313 1279Q294 1240 309 1218Q330 1236 334 1279M370 1279Q377 1225 397 1218Q412 1256 398 1279" fill="#bfdbab"/>
+    <path d="M313 1279Q294 1240 309 1218Q330 1236 334 1279M370 1279Q377 1225 397 1218Q412 1256 398 1279" fill="#7ca5b0"/>
   </g>
 </svg>

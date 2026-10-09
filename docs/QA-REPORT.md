@@ -1,4 +1,36 @@
-# Flappy Bugs v0.1.1 QA
+# Flappy Bugs v0.2.1 QA
+
+2026-10-09。当前验证与历史首发分开记录；本轮版本、文档与Git交付由主agent执行，接缝与发布差异由qa独立只读复核。
+
+## 当前版本实际执行
+
+| 检查 | 结果 | 边界 |
+| --- | --- | --- |
+| Node回归 | 71/71 passed，0 failed | 玩法/clock/平台/解锁/声音/皮肤/星尘/火焰/残影/轮廓/接缝 |
+| 两种构建与审计 | standalone、CrazyGames build/check:release通过 | 均56文件、824,736字节；警告为主JS块超过500kB |
+| ZIP校验 | CRC、无重复条目、根index、与生产树逐文件字节一致、版本0.2.1通过 | 各216,318字节；仅本地生成，未上传CrazyGames |
+| 真实输入烟测 | 起飞/空格、暂停/恢复、结算/回主界面通过，无console error/warn | 本地浏览器输入，未计为手机真机 |
+| 接缝GPU | 7款上下静态、火焰高位/荆棘低位移动接缝通过；火焰扭动保留 | 原createScene渲染隔离场景；不能代替完整游戏/全部DPR验证 |
+| 接缝独立QA | 54几何组合、14SVG末端栅格、9截图、21项聚焦测试通过 | 原旧公式重叠约70px，新纵向断言会失败；横向由源码/栅格/截图补核 |
+| 源素材 | 54份可编辑SVG，51份随游戏运行、3份封面独立保存 | 皮肤只改甲壳；封面/开发原始日志不进游戏ZIP |
+
+### 构建身份
+
+| 产物 | 标识 / SHA-256 |
+| --- | --- |
+| standalone入口 | assets/index-DJuAfuny.js |
+| CrazyGames入口 | assets/index-Ahv0zBEe.js |
+| CSS | assets/index-dUYyMgKv.css |
+| standalone ZIP | 79744f81f64a799653acda651954613ed4b3410fa078fbc13916d395e6b4d060 |
+| CrazyGames ZIP | 2517e63e0c9d6477fa74a623696f8e9338729733ca9f7f06037b7fd10e72a8f8 |
+
+构建版本由package.json/lock同步为0.2.1；页面meta、UI版本和两份包manifest采用同一值。合并与在线Pages验证结果见[进度](PROGRESS.md)和[发布记录](RELEASE.md)。ZIP摘要属于本地打包，不要求远端重新压缩ZIP具有相同容器摘要；在线静态文件应与构建文件逐份一致。
+
+仍pending：本版完整多尺寸/DPR重测、reduce-motion接缝截图、Edge/Safari、Android/iOS真机与手机扬声器听感、低端长期性能、CrazyGames Portal/真实账户跨设备同步、新版预览视频和重新审核。历史26尺寸与SDK localhost通过记录不自动复用为本版通过。
+
+---
+
+# 历史 v0.1.1 QA
 
 2026-10-04。发行验收由主agent执行；art只读复核44SVG和模型配置。qa角色此前额度中断，本批未声称独立QA完成。
 

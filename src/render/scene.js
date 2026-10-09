@@ -3,8 +3,11 @@ import { ART, OBSTACLE_ART } from '../art/manifest.js';
 import { GAME_CONFIG } from '../game/config.js';
 import { SKINS, TRAILS } from '../game/unlocks.js';
 import { createEchoTrail } from './echo-trail.js';
-import { createStardustBurst, stardustAppearance, MAX_STARDUST_PARTICLES } from './stardust.js';
+import { createStardustBurst, createStarBurst, stardustAppearance, MAX_STARDUST_PARTICLES } from './stardust.js';
 import { installVoidContour, isVoidRush, showStarAura } from './void-contour.js';
+import { createFlameGeometry, deformFlame } from './flame.js';
+import { SKIN_POSES, recolorShell } from './skin.js';
+import { obstacleLayout } from './obstacle-layout.js';
 
 export async function createScene(host, { debug = false } = {}) {
   const c = GAME_CONFIG;
@@ -17,13 +20,24 @@ export async function createScene(host, { debug = false } = {}) {
   const materials = new Set();
   const loader = new THREE.TextureLoader();
   try {
-    const loaded = await Promise.allSettled(Object.entries(ART).map(async ([id, entry]) => {
-      const texture = await loader.loadAsync(entry.url);
+    async function loadTexture(id, url, repeatY = false) {
+      const texture = await loader.loadAsync(url);
       texture.colorSpace = THREE.SRGBColorSpace;
       texture.generateMipmaps = false;
       texture.minFilter = THREE.LinearFilter;
-      if (entry.repeatY) texture.wrapT = THREE.RepeatWrapping;
+      if (repeatY) texture.wrapT = THREE.RepeatWrapping;
       textures.set(id, texture);
+    }
+    const loaded = await Promise.allSettled(Object.entries(ART).filter(([, entry]) => !entry.previewOnly).map(async ([id, entry]) => {
+      await loadTexture(id, entry.url, entry.repeatY);
+      if (!SKIN_POSES.includes(id)) return;
+      const response = await fetch(entry.url);
+      if (!response.ok) throw new Error(`Cannot load editable shell: ${id}`);
+      const svg = await response.text();
+      const variants = await Promise.allSettled(SKINS.slice(1).map(skin =>
+        loadTexture(`${id}:${skin.id}`, `data:image/svg+xml;charset=utf-8,${encodeURIComponent(recolorShell(svg, skin.shellColors))}`)));
+      const failure = variants.find(result => result.status === 'rejected');
+      if (failure) throw failure.reason;
     }));
     const failure = loaded.find(result => result.status === 'rejected');
     if (failure) throw failure.reason;
@@ -61,13 +75,11 @@ export async function createScene(host, { debug = false } = {}) {
   const body = sprite('beetle', 1.45, 1.45, 0);
   bug.add(wingBack, wingFront, body);
   const rainbowTime = { value: 0 }, rainbowActive = { value: 0 }, voidActive = { value: 0 };
-  const skinTint = { value: new THREE.Color('#ffffff') }, skinActive = { value: 0 };
-  let trailTint = '#ffffff', selectedTrail = 'cloud';
+  let selectedSkin = 'classic', trailTint = '#ffffff', selectedTrail = 'cloud';
   function setStyle({ skin = 'classic', trail = 'cloud' } = {}) {
     const chosenSkin = SKINS.find(item => item.id === skin) || SKINS[0];
     const chosenTrail = TRAILS.find(item => item.id === trail) || TRAILS[0];
-    skinTint.value.set(chosenSkin.color);
-    skinActive.value = skin === 'classic' ? 0 : 0.68;
+    selectedSkin = chosenSkin.id;
     trailTint = chosenTrail.color;
     selectedTrail = chosenTrail.id;
   }
@@ -76,16 +88,12 @@ export async function createScene(host, { debug = false } = {}) {
       shader.uniforms.rainbowTime = rainbowTime;
       shader.uniforms.rainbowActive = rainbowActive;
       shader.uniforms.voidActive = voidActive;
-      shader.uniforms.skinTint = skinTint;
-      shader.uniforms.skinActive = skinActive;
-      shader.fragmentShader = 'uniform float rainbowTime;\nuniform float rainbowActive;\nuniform float voidActive;\nuniform vec3 skinTint;\nuniform float skinActive;\n' + shader.fragmentShader;
+      shader.fragmentShader = 'uniform float rainbowTime;\nuniform float rainbowActive;\nuniform float voidActive;\n' + shader.fragmentShader;
       // Tint after the SVG texture has been sampled; preserve its outline and alpha.
       shader.fragmentShader = shader.fragmentShader.replace('#include <map_fragment>', `
         #include <map_fragment>
         float brightness = dot(diffuseColor.rgb, vec3(0.299, 0.587, 0.114));
         vec3 rainbow = 0.5 + 0.5 * cos(6.2831853 * (vMapUv.y * 1.3 + vMapUv.x * 0.45 - rainbowTime * 0.65 + vec3(0.0, 0.3333, 0.6667)));
-        float cosmetic = skinActive * smoothstep(0.15, 0.55, brightness);
-        diffuseColor.rgb = mix(diffuseColor.rgb, skinTint * (0.52 + brightness * 0.48), cosmetic);
         float tint = rainbowActive * smoothstep(0.025, 0.16, brightness) * 0.94;
         diffuseColor.rgb = mix(diffuseColor.rgb, rainbow * clamp(brightness * 1.6, 0.3, 1.0), tint);
         // A living, dark indigo void silhouette crossed by cyan/ultraviolet energy.
@@ -100,7 +108,7 @@ export async function createScene(host, { debug = false } = {}) {
         diffuseColor.a *= 1.0 - voidActive * (0.12 + 0.09 * rift);
       `);
     };
-    part.material.customProgramCacheKey = () => 'flappybugs-rainbow-void-v2';
+    part.material.customProgramCacheKey = () => 'flappybugs-shell-rainbow-void-v3';
   }
   const aura = sprite('star', 2.05, 2.05, 4.7); aura.material.opacity = .25; scene.add(aura);
   const contourTime = { value: 0 };
@@ -167,7 +175,7 @@ export async function createScene(host, { debug = false } = {}) {
       return obj;
     }
     const parts = {
-      bottomStem: rectangle('#53414c', o.width, 1, 1), topStem: rectangle('#53414c', o.width, 1, 1),
+      bottomStem: rectangle('#30283c', o.width, 1, 1), topStem: rectangle('#30283c', o.width, 1, 1),
       bottomFill: rectangle(style.stemColor, o.width - .1, 1, 1.05), topFill: rectangle(style.stemColor, o.width - .1, 1, 1.05),
       bottomCap: sprite(bottomId, o.width, capHeight, 1.3), topCap: sprite(topId, o.width, capHeight, 1.3),
       bottomDetail: stemDetail(), topDetail: stemDetail(),
@@ -175,8 +183,13 @@ export async function createScene(host, { debug = false } = {}) {
       bottomMouth: sprite('pillar-mouth', faceWidth, faceWidth, 1.4), topMouth: sprite('pillar-mouth', faceWidth, faceWidth, 1.4),
     };
     if (style.flameBottom && style.flameTop) {
-      parts.bottomFlame = sprite(style.flameBottom, o.width, capHeight, 1.45);
-      parts.topFlame = sprite(style.flameTop, o.width, capHeight, 1.45);
+      for (const [side, id] of [['bottom', style.flameBottom], ['top', style.flameTop]]) {
+        const flame = rectangle('#ffffff', o.width, capHeight, 1.45);
+        flame.material.map = textures.get(id);
+        flame.geometry = createFlameGeometry();
+        flame.userData.ownsGeometry = true;
+        parts[`${side}Flame`] = flame;
+      }
     }
     for (const eyes of [parts.bottomEyes, parts.topEyes]) eyes.center.set(.5, .66);
     for (const mouth of [parts.bottomMouth, parts.topMouth]) mouth.center.set(.5, .24);
@@ -201,14 +214,13 @@ export async function createScene(host, { debug = false } = {}) {
     for (const ghost of ghostSprites) ghost.visible = false;
   }
   function effect(id, x, y, vx, vy, size, duration, gravity = 0, options = {}) {
-    const isStardust = id === 'stardust-glint';
+    const isStardust = id === 'stardust-glint' || id === 'trail-star';
     if (isStardust && sparks.filter(part => part.stardust).length >= MAX_STARDUST_PARTICLES) return;
     const z = id.startsWith('juice-') ? 6 : isStardust ? 4.95 : 4.8;
     const obj = sprite(id, size, size, z); obj.position.set(x, y, z); scene.add(obj);
     if (id === 'puff') obj.material.color.set(trailTint);
     if (isStardust) {
       obj.material.color.set(options.color);
-      obj.material.blending = THREE.AdditiveBlending;
       obj.material.opacity = 0.95;
     }
     const target = id === 'puff' ? puffs : sparks;
@@ -227,9 +239,11 @@ export async function createScene(host, { debug = false } = {}) {
     for (const event of events) {
       if (event.type === 'flap') {
         pulse = 1;
-        if (selectedTrail === 'stardust') {
-          for (const star of createStardustBurst(snapshot.player.x, snapshot.player.y, { reducedMotion })) {
-            effect('stardust-glint', star.x, star.y, star.vx, star.vy, star.size,
+        if (selectedTrail === 'stardust' || selectedTrail === 'sunny') {
+          const burst = selectedTrail === 'sunny' ? createStarBurst : createStardustBurst;
+          const texture = selectedTrail === 'sunny' ? 'trail-star' : 'stardust-glint';
+          for (const star of burst(snapshot.player.x, snapshot.player.y, { reducedMotion })) {
+            effect(texture, star.x, star.y, star.vx, star.vy, star.size,
               star.duration, star.gravity, { color: star.color, phase: star.phase, spin: star.spin });
           }
         } else {
@@ -295,7 +309,8 @@ export async function createScene(host, { debug = false } = {}) {
     body.material.opacity = isVoid ? .97
       : snapshot.invulnerability > 0 && Math.floor(snapshot.invulnerability * 15) % 2 ? .42 : 1;
     for (const wing of [wingBack, wingFront]) wing.material.opacity = isVoid ? .8 : 1;
-    body.material.map = textures.get(snapshot.state === 'gameover' ? 'beetle-dizzy' : snapshot.invulnerability > 0 && !isVoid ? 'beetle-hurt' : rising ? 'beetle-flap' : falling ? 'beetle-fall' : 'beetle');
+    const pose = snapshot.state === 'gameover' ? 'beetle-dizzy' : snapshot.invulnerability > 0 && !isVoid ? 'beetle-hurt' : rising ? 'beetle-flap' : falling ? 'beetle-fall' : 'beetle';
+    body.material.map = textures.get(selectedSkin === 'classic' ? pose : `${pose}:${selectedSkin}`);
     rainbowTime.value = elapsed;
     rainbowActive.value = snapshot.starTime > 0 && !isVoid ? 1 : 0;
     voidActive.value = isVoid ? 1 : 0;
@@ -340,24 +355,21 @@ export async function createScene(host, { debug = false } = {}) {
       group.position.x = o.x;
       const { parts: p, capHeight: ch, lines, leaves } = group.userData;
       const lo = o.centerY - o.gap / 2, hi = o.centerY + o.gap / 2;
-      const capWidth = o.width * (reducedMotion ? 1 : .98 + Math.sin(elapsed * 2.2 + o.id) * .02);
-      const capHeight = ch * (reducedMotion ? 1 : .99 + Math.sin(elapsed * 2.8 + o.id) * .01);
-      const tipInset = capHeight * 5 / 150;
-      for (const cap of [p.bottomCap, p.topCap]) cap.scale.set(capWidth, capHeight, 1);
-      // Keep the sharp tip on the collision edge while the plant flexes inward.
-      p.bottomCap.position.y = lo - capHeight / 2 + tipInset; p.topCap.position.y = hi + capHeight / 2 - tipInset;
+      const capHeight = ch * (reducedMotion || p.bottomFlame ? 1 : .99 + Math.sin(elapsed * 2.8 + o.id) * .01);
+      const layout = obstacleLayout(o, capHeight, c.height / 2 + 1);
+      // A fixed root width and a short opaque overlap keep the shaft out of the spikes.
+      for (const cap of [p.bottomCap, p.topCap]) cap.scale.set(o.width, capHeight, 1);
+      p.bottomCap.position.y = layout.bottom.capY; p.topCap.position.y = layout.top.capY;
       if (p.bottomFlame) {
         for (const [flame, edge, direction, phase] of [[p.bottomFlame, lo, -1, 0], [p.topFlame, hi, 1, 1.7]]) {
-          const flicker = reducedMotion ? 1 : .92 + Math.sin(elapsed * 12 + o.id + phase) * .05 + Math.sin(elapsed * 21 + phase) * .03;
-          const height = ch * flicker;
-          flame.scale.set(o.width * (reducedMotion ? 1 : .95 + Math.sin(elapsed * 9 + phase) * .03), height, 1);
-          // Anchor the fire at the vine base, so flicker never reaches into the gap.
-          flame.position.y = edge + direction * (ch * (1 - 5 / 150) - height / 2);
-          flame.material.opacity = reducedMotion ? 1 : .86 + Math.sin(elapsed * 17 + o.id + phase) * .12;
+          flame.scale.set(o.width, ch, 1);
+          flame.position.y = edge + direction * (ch / 2 - ch * 5 / 150);
+          deformFlame(flame.geometry, elapsed, -direction, o.id + phase, reducedMotion);
+          flame.material.opacity = reducedMotion ? 1 : .94 + Math.sin(elapsed * 13 + o.id + phase) * .06;
         }
       }
-      const bottomHeight = Math.max(.01, lo + 9 - ch * .5), topHeight = Math.max(.01, 9 - hi - ch * .5);
-      for (const [side, height, faceY, stemY] of [['bottom', bottomHeight, lo - ch - .75, -9 + bottomHeight / 2], ['top', topHeight, hi + ch + .75, 9 - topHeight / 2]]) {
+      for (const [side, faceY] of [['bottom', lo - ch - .75], ['top', hi + ch + .75]]) {
+        const { stemHeight: height, stemY } = layout[side];
         for (const stem of [p[`${side}Stem`], p[`${side}Fill`], p[`${side}Detail`]]) { stem.scale.y = height; stem.position.y = stemY; }
         const detail = p[`${side}Detail`], uv = detail.geometry.attributes.uv;
         const drift = reducedMotion ? 0 : Math.sin(elapsed * 1.4 + o.id) * .018;

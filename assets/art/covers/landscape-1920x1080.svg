@@ -1,112 +1,160 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" role="img" aria-labelledby="title">
-  <title id="title">Flappy Bugs original landscape-1920x1080 cover</title>
-  <defs><linearGradient id="cover-sky" x2="0" y2="1"><stop stop-color="#fff5db"/><stop offset="1" stop-color="#d5ebc9"/></linearGradient></defs>
-  <rect width="1920" height="1080" fill="url(#cover-sky)"/>
-  <circle cx="1433" cy="426" r="335" fill="#f7e2aa" opacity=".7"/>
-  <circle cx="1433" cy="426" r="369" fill="none" stroke="#dfd5a6" stroke-width="3" stroke-dasharray="5 22"/>
-  <path d="M66 207Q117 159 164 180Q196 132 240 156Q289 143 331 184Q373 175 414 207Z" fill="#fffcef"/>
-  <path d="M1713 207Q1741 174 1775 187Q1802 149 1831 177Q1873 163 1897 201Z" fill="#fffcef"/>
-  <path d="M-50 980Q296 617 649 851Q1017 697 1253 958Q1605 669 1970 902V1130H-50Z" fill="#bedbb3"/>
-  <path d="M-50 1080Q477 823 800 1007Q1160 813 1970 1025V1130H-50Z" fill="#91c2a0"/>
-  <g fill="#badca8" stroke="#658875" stroke-width="6" stroke-linejoin="round">
-    <path d="M846 1084Q786 896 847 842Q922 890 901 1084Z"/>
-    <path d="M1093 1084Q1117 932 1191 920Q1227 1024 1166 1084Z"/>
-    <path d="M1447 1084Q1398 961 1427 918Q1500 949 1514 1084Z"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" role="img" aria-labelledby="landscape-title">
+  <title id="landscape-title">Flappy Bugs blue hour landscape cover</title>
+  <defs>
+    <linearGradient id="landscape-cover-sky" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#202d59" />
+      <stop offset=".48" stop-color="#4d638e" />
+      <stop offset=".78" stop-color="#8790b0" />
+      <stop offset="1" stop-color="#c3a8b8" />
+    </linearGradient>
+    <linearGradient id="landscape-cream-lettering" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#ffe9a8" />
+      <stop offset="1" stop-color="#ffcf75" />
+    </linearGradient>
+    <linearGradient id="landscape-coral-lettering" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#ffbc83" />
+      <stop offset="1" stop-color="#f18a7a" />
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#landscape-cover-sky)" />
+  <g id="landscape-sky-details">
+    <g id="landscape-moon" transform="translate(1027.5 -65) scale(1.25)" fill="#d6e1ed">
+      <path d="M610 113A55 55 0 1 0 613 213A49 49 0 0 1 610 113Z" />
+    </g>
+    <g id="landscape-sparse-stars" fill="#dce5f3" opacity=".7">
+      <circle cx="62" cy="91" r="3" />
+      <circle cx="968" cy="141" r="4" />
+      <circle cx="1253" cy="93" r="3" />
+      <circle cx="1663" cy="250" r="3" />
+      <circle cx="1841" cy="456" r="4" />
+    </g>
+    <path d="M66 207Q117 159 164 180Q196 132 240 156Q289 143 331 184Q373 175 414 207Z" fill="#b6c3db" opacity=".20" />
+    <path d="M1713 207Q1741 174 1775 187Q1802 149 1831 177Q1873 163 1897 201Z" fill="#b6c3db" opacity=".20" />
   </g>
-  <g transform="translate(920 560) scale(1.45)">
-  <g stroke="#4b365d" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
-    <g id="toot-cloud" stroke="#75a991" stroke-width="4">
-      <path d="M118 83Q131 81 133 68Q136 52 121 44Q116 24 97 28Q84 11 65 23Q48 19 40 34Q20 35 20 52Q5 60 14 78Q12 97 34 99Q46 114 62 102Q80 115 96 98Q117 100 118 83Z" fill="#c8ecaa"/>
-      <path d="M37 57Q47 46 57 50M64 39Q76 31 85 39M29 83Q40 94 50 86" fill="none" stroke="#eef5be" stroke-width="6"/>
-      <circle cx="149" cy="80" r="6" fill="#d9f1b5"/>
-      <circle cx="140" cy="103" r="4" fill="#d9f1b5"/>
+  <g id="landscape-distant-garden">
+    <path d="M-50 980Q296 617 649 851Q1017 697 1253 958Q1605 669 1970 902V1130H-50Z" fill="#788da8" />
+    <path d="M-50 1080Q477 823 800 1007Q1160 813 1970 1025V1130H-50Z" fill="#507f91" />
+  </g>
+  <g fill="#729eab" stroke="#406e83" stroke-width="6" stroke-linejoin="round" id="landscape-foreground-floor">
+    <path d="M846 1084Q786 896 847 842Q922 890 901 1084Z" />
+    <path d="M1093 1084Q1117 932 1191 920Q1227 1024 1166 1084Z" />
+    <path d="M1447 1084Q1398 961 1427 918Q1500 949 1514 1084Z" />
+  </g>
+  <g id="landscape-star-trail" transform="translate(50 45)">
+    <g id="landscape-trail-particle-1" transform="translate(936 621) scale(0.38) rotate(-15 64 64)" stroke-linecap="round" stroke-linejoin="round">
+      <path id="landscape-trail-1-star-body" d="M64 8L79 45L119 48L88 74L98 115L64 94L30 115L40 74L9 48L49 45Z" fill="#ffd66b" stroke="#b87e35" stroke-width="5" />
+      <path id="landscape-trail-1-star-highlight" d="M64 21L72 48L64 62L24 52L53 51Z" fill="#fff1b8" />
+    </g>
+    <g id="landscape-trail-particle-2" transform="translate(851 683) scale(0.28) rotate(10 64 64)" stroke-linecap="round" stroke-linejoin="round">
+      <path id="landscape-trail-2-star-body" d="M64 8L79 45L119 48L88 74L98 115L64 94L30 115L40 74L9 48L49 45Z" fill="#ffd66b" stroke="#b87e35" stroke-width="5" />
+      <path id="landscape-trail-2-star-highlight" d="M64 21L72 48L64 62L24 52L53 51Z" fill="#fff1b8" />
+    </g>
+    <g id="landscape-trail-particle-3" transform="translate(789 748) scale(0.19) rotate(-12 64 64)" stroke-linecap="round" stroke-linejoin="round">
+      <path id="landscape-trail-3-star-body" d="M64 8L79 45L119 48L88 74L98 115L64 94L30 115L40 74L9 48L49 45Z" fill="#ffd66b" stroke="#b87e35" stroke-width="5" />
+      <path id="landscape-trail-3-star-highlight" d="M64 21L72 48L64 62L24 52L53 51Z" fill="#fff1b8" />
     </g>
   </g>
-</g>
-  <g transform="translate(1100 284) scale(2.5)">
-  <g stroke="#4b365d" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" transform="translate(-8 -15)">
-    <g id="hindwings" stroke="#7ba9a1" stroke-width="3">
-      <path d="M139 125Q86 71 74 27Q63 4 50 19Q30 58 59 87Q88 116 139 125Z" fill="#edfdf4" fill-opacity=".82"/>
-      <path d="M140 127Q146 61 171 26Q188 1 196 22Q208 72 140 127Z" fill="#edfff6" fill-opacity=".82"/>
-      <path d="M139 125Q94 80 56 26M89 70 52 60M109 91 84 43M140 127Q177 69 190 24M157 95 190 70" fill="none" stroke-opacity=".6"/>
-    </g>
-  </g>
-</g>
-  <g transform="translate(1100 284) scale(2.5)">
-  <g stroke="#4b365d" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" transform="translate(-8 -15)">
-    <g id="far-legs" fill="none" stroke="#6e537b" stroke-width="8">
-      <path d="M66 130 42 114 28 127"/>
-      <path d="M92 171 67 192 48 186"/>
-      <path d="M154 161 181 191 200 185"/>
-    </g>
-    <g id="antennae" fill="none">
-      <path d="M178 77Q169 43 194 29"/>
-      <path d="M204 79Q224 47 240 58"/>
-      <circle cx="195" cy="28" r="7" fill="#ffc969"/>
-      <circle cx="240" cy="58" r="7" fill="#ffc969"/>
-    </g>
-    <g id="abdomen">
-      <ellipse cx="102" cy="145" rx="64" ry="61" fill="#c95569" transform="rotate(-20 102 145)"/>
-      <path d="M46 149Q48 89 104 85Q156 80 165 132Q134 126 104 157Q77 183 47 171Z" fill="#fa8b6d"/>
-      <path d="M47 171Q70 183 104 157Q134 128 165 132Q171 182 120 204Q63 221 47 171Z" fill="#f47777"/>
-      <path d="M50 170Q90 183 108 154Q130 134 164 132" fill="none"/>
-      <path d="M65 124Q68 105 93 101" fill="none" stroke="#ffd9a0" stroke-width="9"/>
-      <ellipse cx="85" cy="137" rx="8" ry="10" fill="#c9566d" stroke="none" transform="rotate(-22 85 137)"/>
-      <ellipse cx="128" cy="110" rx="7" ry="9" fill="#c9566d" stroke="none"/>
-      <ellipse cx="111" cy="183" rx="8" ry="7" fill="#c9566d" stroke="none"/>
-    </g>
-    <g id="near-legs" fill="none" stroke-width="8">
-      <path d="M68 183 63 213 43 216"/>
-      <path d="M113 203 121 232 143 231"/>
-      <path d="M157 169 181 204 202 200"/>
-    </g>
-    <g id="thorax">
-      <path d="M137 94Q155 73 177 87L191 120Q183 157 153 163Q142 151 146 133Q151 115 137 94Z" fill="#ffbb71"/>
-      <path d="M158 93Q171 91 177 105" stroke="#ffe4aa" fill="none" stroke-width="8"/>
-    </g>
-    <g id="head">
-      <path d="M164 85Q183 64 208 78Q238 91 231 121Q225 146 199 145Q168 144 159 121Q153 103 164 85Z" fill="#ffcb82"/>
-      <ellipse cx="179" cy="119" rx="12" ry="7" fill="#f48689" stroke="none"/>
-      <ellipse cx="220" cy="119" rx="8" ry="6" fill="#f48689" stroke="none"/>
-      <g id="eyes">
-        <ellipse cx="181" cy="100" rx="13" ry="17" fill="#fff9e9" stroke-width="4"/>
-        <ellipse cx="213" cy="102" rx="12" ry="16" fill="#fff9e9" stroke-width="4"/>
-        <ellipse cx="187" cy="102" rx="5" ry="8" fill="#4b365d" stroke="none"/>
-        <ellipse cx="218" cy="104" rx="5" ry="8" fill="#4b365d" stroke="none"/>
-        <circle cx="189" cy="99" r="2" fill="white" stroke="none"/>
-        <circle cx="220" cy="101" r="2" fill="white" stroke="none"/>
+  <g transform="translate(1110 318) scale(2.6)" id="landscape-cover-wings">
+    <g stroke="#4b365d" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" transform="translate(-8 -15)">
+      <g id="landscape-hindwings" stroke="#7ba9a1" stroke-width="3">
+        <path d="M139 125Q86 71 74 27Q63 4 50 19Q30 58 59 87Q88 116 139 125Z" fill="#edfdf4" fill-opacity=".82" />
+        <path d="M140 127Q146 61 171 26Q188 1 196 22Q208 72 140 127Z" fill="#edfff6" fill-opacity=".82" />
+        <path d="M139 125Q94 80 56 26M89 70 52 60M109 91 84 43M140 127Q177 69 190 24M157 95 190 70" fill="none" stroke-opacity=".6" />
       </g>
-      <path id="mouth" d="M197 127Q206 135 215 126" fill="none" stroke-width="4"/>
     </g>
   </g>
-</g>
-  <g transform="translate(-54 768) scale(2.5)">
-  <g stroke="#4b365d" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M52 150 61 64Q90 49 120 64L132 150Z" fill="#ffe4b0"/>
-    <path d="M79 108V149M106 111 113 147" stroke="#d8b98d" stroke-width="4"/>
-    <path d="M8 69Q18 10 90 5Q162 10 172 69Q123 92 90 80Q58 92 8 69Z" fill="#ee8e8f"/>
-    <path d="M14 70Q91 94 166 70" stroke="#bf6f80" fill="none" stroke-width="5"/>
-    <ellipse cx="60" cy="40" rx="14" ry="9" fill="#fff1d4" stroke="none" transform="rotate(-20 60 40)"/>
-    <ellipse cx="118" cy="32" rx="13" ry="9" fill="#fff1d4" stroke="none" transform="rotate(13 118 32)"/>
-    <circle cx="131" cy="59" r="6" fill="#fff1d4" stroke="none"/>
-    <path d="M29 48Q34 32 45 26" fill="none" stroke="#ffd2af" stroke-width="6"/>
+  <g transform="translate(1110 318) scale(2.6)" id="landscape-cover-hero">
+    <g stroke="#4b365d" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" transform="translate(-8 -15)">
+      <g id="landscape-far-legs" fill="none" stroke="#6e537b" stroke-width="8">
+        <path d="M66 130 42 114 28 127" />
+        <path d="M92 171 67 192 48 186" />
+        <path d="M154 161 181 191 200 185" />
+      </g>
+      <g id="landscape-antennae" fill="none">
+        <path d="M178 77Q169 43 194 29" />
+        <path d="M204 79Q224 47 240 58" />
+        <circle cx="195" cy="28" r="7" fill="#ffc969" />
+        <circle cx="240" cy="58" r="7" fill="#ffc969" />
+      </g>
+      <g id="landscape-abdomen">
+        <ellipse cx="102" cy="145" rx="64" ry="61" fill="#c95569" transform="rotate(-20 102 145)" />
+        <path d="M46 149Q48 89 104 85Q156 80 165 132Q134 126 104 157Q77 183 47 171Z" fill="#fa8b6d" />
+        <path d="M47 171Q70 183 104 157Q134 128 165 132Q171 182 120 204Q63 221 47 171Z" fill="#f47777" />
+        <path d="M50 170Q90 183 108 154Q130 134 164 132" fill="none" />
+        <path d="M65 124Q68 105 93 101" fill="none" stroke="#ffd9a0" stroke-width="9" />
+        <ellipse cx="85" cy="137" rx="8" ry="10" fill="#c9566d" stroke="none" transform="rotate(-22 85 137)" />
+        <ellipse cx="128" cy="110" rx="7" ry="9" fill="#c9566d" stroke="none" />
+        <ellipse cx="111" cy="183" rx="8" ry="7" fill="#c9566d" stroke="none" />
+      </g>
+      <g id="landscape-near-legs" fill="none" stroke-width="8">
+        <path d="M68 183 63 213 43 216" />
+        <path d="M113 203 121 232 143 231" />
+        <path d="M157 169 181 204 202 200" />
+      </g>
+      <g id="landscape-thorax">
+        <path d="M137 94Q155 73 177 87L191 120Q183 157 153 163Q142 151 146 133Q151 115 137 94Z" fill="#ffbb71" />
+        <path d="M158 93Q171 91 177 105" stroke="#ffe4aa" fill="none" stroke-width="8" />
+      </g>
+      <g id="landscape-head">
+        <path d="M164 85Q183 64 208 78Q238 91 231 121Q225 146 199 145Q168 144 159 121Q153 103 164 85Z" fill="#ffcb82" />
+        <ellipse cx="179" cy="119" rx="12" ry="7" fill="#f48689" stroke="none" />
+        <ellipse cx="220" cy="119" rx="8" ry="6" fill="#f48689" stroke="none" />
+        <g id="landscape-eyes">
+          <ellipse cx="181" cy="100" rx="13" ry="17" fill="#fff9e9" stroke-width="4" />
+          <ellipse cx="213" cy="102" rx="12" ry="16" fill="#fff9e9" stroke-width="4" />
+          <ellipse cx="187" cy="102" rx="5" ry="8" fill="#4b365d" stroke="none" />
+          <ellipse cx="218" cy="104" rx="5" ry="8" fill="#4b365d" stroke="none" />
+          <circle cx="189" cy="99" r="2" fill="white" stroke="none" />
+          <circle cx="220" cy="101" r="2" fill="white" stroke="none" />
+        </g>
+        <path id="landscape-mouth" d="M197 127Q206 135 215 126" fill="none" stroke-width="4" />
+      </g>
+    </g>
   </g>
-</g>
-  <g transform="translate(1645 770) scale(2.0)">
-  <g stroke="#4b365d" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M45 150 49 79H132L137 150Z" fill="#88bb8b"/>
-    <path d="M89 106Q33 103 18 74Q24 38 49 33Q44 9 71 10Q86 -2 106 11Q135 7 135 35Q164 41 166 76Q142 102 89 106Z" fill="#efa6b8"/>
-    <path d="M44 42Q48 76 81 95M72 18Q68 64 90 96M108 19Q119 57 98 96M138 44Q134 79 109 96" fill="none" stroke="#c77b9c" stroke-width="4"/>
-    <path d="M47 150Q29 103 8 103Q6 138 36 150M130 150Q148 103 172 100Q169 135 145 150" fill="#b5d99c"/>
-    <path d="M66 34 64 46" stroke="#ffd8cc" stroke-width="7" fill="none"/>
+  <g id="landscape-burning-vine-cue">
+    <rect x="110.5" y="1028.5" width="210" height="51.5" fill="#413745" />
+    <g id="landscape-vine-cap" transform="translate(103 866) scale(1.25)">
+      <g stroke-linecap="round" stroke-linejoin="round">
+        <g id="landscape-flame-layer" stroke="#934047" stroke-width="4">
+          <path id="landscape-flame-shell" d="M6 150C6 131 6 116 14 96C22 78 26 60 20 23C45 40 52 67 43 93C58 92 68 70 64 48C61 33 62 23 66 17C86 35 96 55 86 75C101 61 103 33 90 7C124 23 133 45 119 73C135 67 143 41 139 17C162 36 168 65 154 94C167 89 169 64 160 27C174 45 174 79 172 106C170 123 174 134 174 150Z" fill="#e67542" />
+          <path id="landscape-flame-heart" d="M16 150Q13 119 29 97Q35 120 52 110Q63 99 57 68Q82 84 75 106Q102 86 103 43Q125 65 108 100Q135 94 145 63Q158 97 145 118Q163 112 164 150Z" fill="#f8b948" stroke="#e77937" stroke-width="2" />
+          <path id="landscape-flame-core" d="M36 150Q28 132 49 120Q53 140 69 127Q87 115 89 87Q110 107 99 127Q124 128 131 108Q148 135 144 150Z" fill="#ffed98" stroke="none" />
+        </g>
+      </g>
+      <g stroke="#30283c" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+        <g id="landscape-burning-vine" fill="#413745">
+          <path id="landscape-root-bed" d="M6 150V135Q6 120 28 122Q52 129 74 122Q90 118 110 123Q133 130 151 123Q174 120 174 136V150Z" />
+          <path id="landscape-root-coils" d="M14 144Q40 129 66 138Q91 148 111 137Q134 125 164 141M35 150Q50 139 74 144M118 150Q140 138 160 146" fill="none" stroke="#665044" stroke-width="6" />
+          <path id="landscape-ember-cracks" d="M35 128Q40 134 35 140M83 127Q91 133 86 140M136 131Q146 134 142 142" fill="none" stroke="#d9804d" stroke-width="3" />
+          <g id="landscape-embers" fill="#efb365" stroke="none">
+            <circle cx="57" cy="132" r="2" />
+            <circle cx="117" cy="140" r="2.5" />
+          </g>
+        </g>
+      </g>
+    </g>
   </g>
-</g>
-  <path d="M1035 243Q1038 267 1062 270Q1038 273 1035 297Q1032 273 1008 270Q1032 267 1035 243Z" fill="#ffe6a0" stroke="#c7a36b" stroke-width="3"/>
-  <path d="M1746 681Q1749 701 1769 704Q1749 707 1746 727Q1743 707 1723 704Q1743 701 1746 681Z" fill="#ffe6a0" stroke="#c7a36b" stroke-width="3"/>
-  <path d="M993 765Q996 779 1010 782Q996 785 993 799Q990 785 976 782Q990 779 993 765Z" fill="#ffe6a0" stroke="#c7a36b" stroke-width="3"/>
-
-  <g id="game-title" font-family="Trebuchet MS, Arial, sans-serif" font-weight="900" fill="#fff4d2" stroke="#4b365d" stroke-width="8" paint-order="stroke fill" stroke-linejoin="round">
-    <text x="140" y="391" font-size="225" letter-spacing="-7">Flappy</text>
-    <text x="146" y="617" font-size="225" letter-spacing="-7">Bugs</text>
+  <g transform="translate(1645 770) scale(2.0)" id="landscape-foreground-flower">
+    <g stroke="#4b365d" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M45 150 49 79H132L137 150Z" fill="#729eab" />
+      <path d="M89 106Q33 103 18 74Q24 38 49 33Q44 9 71 10Q86 -2 106 11Q135 7 135 35Q164 41 166 76Q142 102 89 106Z" fill="#a791b5" />
+      <path d="M44 42Q48 76 81 95M72 18Q68 64 90 96M108 19Q119 57 98 96M138 44Q134 79 109 96" fill="none" stroke="#80739b" stroke-width="4" />
+      <path d="M47 150Q29 103 8 103Q6 138 36 150M130 150Q148 103 172 100Q169 135 145 150" fill="#729eab" />
+      <path d="M66 34 64 46" stroke="#c6b9cb" stroke-width="7" fill="none" />
+    </g>
+  </g>
+  <g id="game-title" transform="translate(70 100)" font-family="Trebuchet MS, Arial Rounded MT Bold, Arial, sans-serif" font-weight="900" text-anchor="start" paint-order="stroke fill" stroke-linejoin="round">
+    <g id="landscape-title-shadow" stroke="#312644" stroke-width="24" transform="translate(0 12)" fill="#312644">
+      <text id="landscape-shadow-flappy" x="145" y="398" font-size="248">Flappy</text>
+      <text id="landscape-shadow-bugs" x="145" y="650" font-size="277">Bugs</text>
+    </g>
+    <g id="landscape-title-outline" stroke="#4b365d" stroke-width="24" fill="#4b365d">
+      <text id="landscape-outline-flappy" x="145" y="398" font-size="248">Flappy</text>
+      <text id="landscape-outline-bugs" x="145" y="650" font-size="277">Bugs</text>
+    </g>
+    <g id="landscape-title-color" stroke="#694352" stroke-width="8" fill="#4b365d">
+      <text id="landscape-color-flappy" x="145" y="398" font-size="248" fill="url(#landscape-cream-lettering)">Flappy</text>
+      <text id="landscape-color-bugs" x="145" y="650" font-size="277" fill="url(#landscape-coral-lettering)">Bugs</text>
+    </g>
   </g>
 </svg>

@@ -49,11 +49,11 @@ test('standalone defaults never call SDK loader and persist across adapters', as
   const platform = await createPlatform({ storage: data, loader: () => { loads++; } });
   assert.equal(platform.kind, 'standalone');
   assert.equal(loads, 0);
-  assert.deepEqual(await platform.loadProgress(), { best: 0, sound: true, language: 'en' });
+  assert.deepEqual(await platform.loadProgress(), { best: 0, totalPassed: 0, sound: true, language: 'en' });
   const saved = await platform.saveProgress({ best: 17, sound: false, language: 'zh' });
   assert.equal(saved.saved, 'local');
   const next = await createPlatform({ storage: data });
-  assert.deepEqual(await next.loadProgress(), { best: 17, sound: false, language: 'zh' });
+  assert.deepEqual(await next.loadProgress(), { best: 17, totalPassed: 17, sound: false, language: 'zh' });
 });
 
 test('standalone blocked reads and writes fall back to session memory', async () => {
@@ -70,7 +70,7 @@ test('standalone blocked reads and writes fall back to session memory', async ()
 test('invalid or corrupt stored data cannot inject invalid state', async () => {
   for (const raw of ['broken', 'null', '{"best":-1,"sound":1,"language":"unknown"}', '{"best":1e100}']) {
     const platform = await createPlatform({ storage: storage({ [PROGRESS_KEY]: raw }) });
-    assert.deepEqual(await platform.loadProgress(), { best: 0, sound: true, language: 'en' });
+    assert.deepEqual(await platform.loadProgress(), { best: 0, totalPassed: 0, sound: true, language: 'en' });
     assert.equal((await platform.saveProgress({ best: NaN })).progress.best, 0);
   }
 });
@@ -163,7 +163,7 @@ test('save before initial load reads existing best and validates snapshots', asy
   const platform = await createPlatform({ mode: 'crazygames', sdk });
   const saved = await platform.saveProgress({ best: 5, language: 'en' });
   assert.equal(saved.saved, 'platform');
-  assert.deepEqual(saved.progress, { best: 40, sound: false, language: 'en' });
+  assert.deepEqual(saved.progress, { best: 40, totalPassed: 40, sound: false, language: 'en' });
   assert.equal(sdk.data.values.size, 1);
 });
 
@@ -189,8 +189,8 @@ test('slow initial read and out-of-order score snapshots serialize without data 
   firstWrite.resolve();
   await Promise.all([high, stale]);
   assert.deepEqual(writes, [
-    { best: 30, sound: false, language: 'en' },
-    { best: 30, sound: false, language: 'zh' },
+    { best: 30, totalPassed: 30, sound: false, language: 'en' },
+    { best: 30, totalPassed: 30, sound: false, language: 'zh' },
   ]);
   assert.deepEqual(await platform.loadProgress(), writes[1]);
 });
@@ -269,4 +269,112 @@ test('legacy saves support new best-streak and cosmetic rewards without discardi
   assert.equal(final.bestCombo, 5);
   assert.equal(final.skin, 'mint');
   assert.equal(final.trail, 'sunny');
+});
+
+test('total gates migrate conservatively from best and preserve newer lifetime totals', async () => {
+  for (const [totalPassed, expected] of [[undefined, 23], [80, 80], [5, 5], [-1, 23], [1.5, 23], [1e100, 23]]) {
+    const data = storage({ [PROGRESS_KEY]: JSON.stringify({ best: 23, bestCombo: 6, totalPassed, skin: 'mint', trail: 'sunny' }) });
+    const platform = await createPlatform({ storage: data });
+    const progress = await platform.loadProgress();
+    assert.equal(progress.totalPassed, expected);
+    assert.equal(progress.bestCombo, 6);
+    assert.equal(progress.skin, 'mint');
+    assert.equal(progress.trail, 'sunny');
+  }
+});
+
+test('record updates and gate checkpoints in one save count each gate once', async () => {
+  const platform = await createPlatform({ storage: storage() });
+  for (let passed = 1; passed <= 4; passed++) {
+    const result = await platform.saveProgress({ best: passed, gateRuns: [{ id: 'first', passed }] });
+    assert.equal(result.progress.best, passed);
+    assert.equal(result.progress.totalPassed, passed);
+  }
+  const next = await platform.saveProgress({ best: 2, gateRuns: [{ id: 'second', passed: 2 }] });
+  assert.equal(next.progress.totalPassed, 6);
+});
+
+test('gate checkpoints are max-per-run and idempotent across reloads and stale snapshots', async () => {
+  const data = storage();
+  const platform = await createPlatform({ storage: data });
+  await platform.saveProgress({ gateRuns: [{ id: 'run-a', passed: 3 }] });
+  await platform.saveProgress({ gateRuns: [{ id: 'run-a', passed: 7 }, { id: 'run-b', passed: 6 }] });
+  const next = await createPlatform({ storage: data });
+  const result = await next.saveProgress({ totalPassed: 999, gateRuns: [{ id: 'run-a', passed: 2 }, { id: 'run-b', passed: 6 }] });
+  assert.equal(result.progress.totalPassed, 13);
+  assert.deepEqual(result.progress.gateRuns, [{ id: 'run-a', passed: 7 }, { id: 'run-b', passed: 6 }]);
+});
+
+test('invalid run checkpoints cannot change totals and duplicate ids use the highest value', async () => {
+  const platform = await createPlatform({ storage: storage() });
+  const gateRuns = [null, {}, { id: '', passed: 8 }, { id: '   ', passed: 8 }, { id: 9, passed: 8 },
+    ...[-1, 2.5, NaN, Infinity, Number.MAX_SAFE_INTEGER + 1, '4'].map(passed => ({ id: 'bad', passed })),
+    { id: 'valid', passed: 3 }, { id: 'valid', passed: 6 }, { id: 'valid', passed: 4 }];
+  const result = await platform.saveProgress({ gateRuns });
+  assert.equal(result.progress.totalPassed, 6);
+  assert.deepEqual(result.progress.gateRuns, [{ id: 'valid', passed: 6 }]);
+  assert.equal((await platform.saveProgress({ gateRuns: {} })).progress.totalPassed, 6);
+});
+
+test('recent run ledger is bounded and total gates remain after older runs are retired', async () => {
+  const data = storage();
+  const platform = await createPlatform({ storage: data });
+  for (let index = 0; index < 65; index++) {
+    await platform.saveProgress({ gateRuns: [{ id: `run-${index}`, passed: 1 }] });
+  }
+  const result = await platform.saveProgress({ gateRuns: [{ id: 'run-64', passed: 3 }] });
+  assert.equal(result.progress.totalPassed, 67);
+  assert.equal(result.progress.gateRuns.length, 64);
+  assert.equal(result.progress.gateRuns.some(run => run.id === 'run-0'), false);
+  assert.equal((await (await createPlatform({ storage: data })).loadProgress()).totalPassed, 67);
+});
+
+test('sequential saves from another tab preserve lifetime total and per-run checkpoints', async () => {
+  const data = storage();
+  const first = await createPlatform({ storage: data });
+  const second = await createPlatform({ storage: data });
+  await Promise.all([first.loadProgress(), second.loadProgress()]);
+  await first.saveProgress({ best: 5, gateRuns: [{ id: 'tab-a', passed: 5 }] });
+  await second.saveProgress({ best: 7, gateRuns: [{ id: 'tab-b', passed: 7 }] });
+  const result = await first.saveProgress({ best: 2, gateRuns: [{ id: 'tab-a', passed: 7 }] });
+  assert.equal(result.progress.best, 7);
+  assert.equal(result.progress.totalPassed, 14);
+  assert.deepEqual(result.progress.gateRuns, [{ id: 'tab-b', passed: 7 }, { id: 'tab-a', passed: 7 }]);
+});
+
+test('failed platform writes retry pending checkpoints once even after an external save', async () => {
+  const sdk = sdkStub();
+  const platform = await createPlatform({ mode: 'crazygames', sdk });
+  const write = sdk.data.setItem;
+  sdk.data.setItem = () => { throw new Error('quota'); };
+  await assert.rejects(platform.saveProgress({ best: 4, gateRuns: [{ id: 'pending', passed: 4 }] }), /quota/);
+  assert.equal((await platform.loadProgress()).totalPassed, 4);
+  write(PROGRESS_KEY, JSON.stringify({ best: 6, totalPassed: 6, gateRuns: [{ id: 'other', passed: 6 }] }));
+  sdk.data.setItem = write;
+  const result = await platform.saveProgress({ gateRuns: [{ id: 'pending', passed: 4 }] });
+  assert.equal(result.saved, 'platform');
+  assert.equal(result.progress.totalPassed, 10);
+  assert.equal((await platform.saveProgress({ gateRuns: [{ id: 'pending', passed: 4 }] })).progress.totalPassed, 10);
+});
+
+test('a write accepted before an error is not counted twice on retry', async () => {
+  const sdk = sdkStub();
+  const platform = await createPlatform({ mode: 'crazygames', sdk });
+  const write = sdk.data.setItem;
+  sdk.data.setItem = (key, value) => { write(key, value); throw new Error('after acceptance'); };
+  await assert.rejects(platform.saveProgress({ gateRuns: [{ id: 'accepted', passed: 4 }] }), /after acceptance/);
+  sdk.data.setItem = write;
+  assert.equal((await platform.saveProgress({ gateRuns: [{ id: 'accepted', passed: 4 }] })).progress.totalPassed, 4);
+});
+
+test('gate totals saturate safely and caller snapshots cannot alter the ledger', async () => {
+  const platform = await createPlatform({ storage: storage() });
+  const input = [{ id: 'large', passed: Number.MAX_SAFE_INTEGER }];
+  const saving = platform.saveProgress({ gateRuns: input });
+  input[0].passed = 0;
+  const result = await saving;
+  result.progress.gateRuns[0].passed = 0;
+  const next = await platform.saveProgress({ gateRuns: [{ id: 'small', passed: 1 }] });
+  assert.equal(next.progress.totalPassed, Number.MAX_SAFE_INTEGER);
+  assert.equal(next.progress.gateRuns[0].passed, Number.MAX_SAFE_INTEGER);
 });

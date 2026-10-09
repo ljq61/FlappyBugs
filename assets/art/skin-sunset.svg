@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-labelledby="title">
+  <title id="title">Sunset shell preview, original head and six legs retained</title>
+  <g stroke="#4b365d" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" transform="translate(-8 -15)">
+    <g id="far-legs" fill="none" stroke="#6e537b" stroke-width="8">
+      <path d="M66 130 42 114 28 127"/>
+      <path d="M92 171 67 192 48 186"/>
+      <path d="M154 161 181 191 200 185"/>
+    </g>
+    <g id="antennae" fill="none">
+      <path d="M178 77Q169 43 194 29"/>
+      <path d="M204 79Q224 47 240 58"/>
+      <circle cx="195" cy="28" r="7" fill="#ffc969"/>
+      <circle cx="240" cy="58" r="7" fill="#ffc969"/>
+    </g>
+    <g id="abdomen">
+      <ellipse cx="102" cy="145" rx="64" ry="61" fill="#b45474" transform="rotate(-20 102 145)"/>
+      <path d="M46 149Q48 89 104 85Q156 80 165 132Q134 126 104 157Q77 183 47 171Z" fill="#ff9b70"/>
+      <path d="M47 171Q70 183 104 157Q134 128 165 132Q171 182 120 204Q63 221 47 171Z" fill="#de6679"/>
+      <path d="M50 170Q90 183 108 154Q130 134 164 132" fill="none"/>
+      <path d="M65 124Q68 105 93 101" fill="none" stroke="#ffe4ad" stroke-width="9"/>
+      <ellipse cx="85" cy="137" rx="8" ry="10" fill="#823a66" stroke="none" transform="rotate(-22 85 137)"/>
+      <ellipse cx="128" cy="110" rx="7" ry="9" fill="#823a66" stroke="none"/>
+      <ellipse cx="111" cy="183" rx="8" ry="7" fill="#823a66" stroke="none"/>
+    </g>
+    <g id="near-legs" fill="none" stroke-width="8">
+      <path d="M68 183 63 213 43 216"/>
+      <path d="M113 203 121 232 143 231"/>
+      <path d="M157 169 181 204 202 200"/>
+    </g>
+    <g id="thorax">
+      <path d="M137 94Q155 73 177 87L191 120Q183 157 153 163Q142 151 146 133Q151 115 137 94Z" fill="#ffbb71"/>
+      <path d="M158 93Q171 91 177 105" stroke="#ffe4aa" fill="none" stroke-width="8"/>
+    </g>
+    <g id="head">
+      <path d="M164 85Q183 64 208 78Q238 91 231 121Q225 146 199 145Q168 144 159 121Q153 103 164 85Z" fill="#ffcb82"/>
+      <ellipse cx="179" cy="119" rx="12" ry="7" fill="#f48689" stroke="none"/>
+      <ellipse cx="220" cy="119" rx="8" ry="6" fill="#f48689" stroke="none"/>
+      <g id="eyes">
+        <ellipse cx="181" cy="100" rx="13" ry="17" fill="#fff9e9" stroke-width="4"/>
+        <ellipse cx="213" cy="102" rx="12" ry="16" fill="#fff9e9" stroke-width="4"/>
+        <ellipse cx="187" cy="102" rx="5" ry="8" fill="#4b365d" stroke="none"/>
+        <ellipse cx="218" cy="104" rx="5" ry="8" fill="#4b365d" stroke="none"/>
+        <circle cx="189" cy="99" r="2" fill="white" stroke="none"/>
+        <circle cx="220" cy="101" r="2" fill="white" stroke="none"/>
+      </g>
+      <path id="mouth" d="M197 127Q206 135 215 126" fill="none" stroke-width="4"/>
+    </g>
+  </g>
+</svg>

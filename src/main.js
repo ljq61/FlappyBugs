@@ -6,25 +6,36 @@ import { createScene } from './render/scene.js';
 import { createShell } from './ui/shell.js';
 import { createAudio } from './audio/audio.js';
 import { createPlatform } from './platform/index.js';
-import { SKINS, TRAILS, cycle, selected } from './game/unlocks.js';
+import { SKINS, TRAILS, selected } from './game/unlocks.js';
 
 const root = document.querySelector('#app');
 const game = createGame(), clock = createClock(), audio = createAudio();
 let platform, view, best = 0, previousBest = 0, bestCombo = 0, skin = 'classic', trail = 'cloud', userSound = true, platformMuted = false;
 let language = 'en', paused = false, pauseReason = null, loading = true, failed = false;
 let frameId, disposed = false, sdkPlaying = false, saveFailed = false;
+let totalPassed = 0;
+const sessionId = crypto.randomUUID(), pendingGateRuns = new Map();
+const records = () => ({ best, bestCombo, totalPassed });
 const shell = createShell(root, ART, { action, pause: () => pause('manual'), sound: toggleSound, language: changeLanguage,
-  skin: () => changeLook('skin'), trail: () => changeLook('trail') });
+  skin: id => changeLook('skin', id), trail: id => changeLook('trail', id), home: returnHome });
 
 function refresh() {
-  shell.update(game.getSnapshot(), { paused, best, bestCombo, skin, trail, previousBest, loading, error: failed });
+  shell.update(game.getSnapshot(), { paused, best, bestCombo, totalPassed, skin, trail, previousBest, loading, error: failed });
   view?.setStyle({ skin, trail });
   shell.setSound(userSound, platformMuted);
 }
-async function save(patch) {
-  try { await platform.saveProgress(patch); saveFailed = false; }
+async function save(patch = {}) {
+  const gateRuns = [...pendingGateRuns].map(([id, passed]) => ({ id, passed }));
+  try {
+    const result = await platform.saveProgress({ best, bestCombo, ...patch, gateRuns });
+    for (const run of gateRuns) if (pendingGateRuns.get(run.id) <= run.passed) pendingGateRuns.delete(run.id);
+    best = Math.max(best, result.progress.best);
+    bestCombo = Math.max(bestCombo, result.progress.bestCombo ?? 0);
+    totalPassed = Math.max(totalPassed, result.progress.totalPassed);
+    saveFailed = false;
+  }
   catch { saveFailed = true; }
-  if (!disposed) shell.saveStatus(saveFailed);
+  if (!disposed) { shell.saveStatus(saveFailed); refresh(); }
 }
 function syncAudio() {
   const snapshot = game.getSnapshot();
@@ -49,6 +60,13 @@ function consume() {
       previousBest = best;
       if (!setGameplay(true)) return;
     }
+    if (event.type === 'score') {
+      totalPassed++;
+      best = Math.max(best, event.score);
+      bestCombo = Math.max(bestCombo, snapshot.bestCombo);
+      pendingGateRuns.set(`${sessionId}:${snapshot.runId}`, event.score);
+      void save();
+    }
     if (event.type === 'gameover') {
       best = Math.max(best, event.score);
       bestCombo = Math.max(bestCombo, event.bestCombo);
@@ -60,6 +78,7 @@ function consume() {
   syncAudio(); audio.consume(events); refresh();
 }
 function action() {
+  if (shell.isCollectionOpen()) return;
   if (failed) { window.location.reload(); return; }
   if (loading || disposed || document.hidden) return;
   void audio.unlock();
@@ -79,7 +98,15 @@ function pause(reason) {
   paused = true; pauseReason = reason; clock.reset(); audio.setPlaying(false); audio.suspend();
   // CrazyGames handles focus/area leaving. Local freezing does not duplicate its events.
   if (reason !== 'hidden') setGameplay(false);
+  if (pendingGateRuns.size || saveFailed) void save();
   refresh();
+}
+function returnHome() {
+  if (loading || failed || disposed || shell.isCollectionOpen() || game.getSnapshot().state !== 'gameover') return;
+  if (pendingGateRuns.size || saveFailed) void save();
+  paused = false; pauseReason = null; clock.reset();
+  audio.setPlaying(false); audio.suspend();
+  game.reset(); consume();
 }
 function toggleSound() {
   if (platformMuted || loading || failed) return;
@@ -89,24 +116,29 @@ function changeLanguage(value) {
   language = value; shell.setLanguage(language); refresh();
   if (platform) void save({ language });
 }
-function changeLook(kind) {
+function changeLook(kind, id) {
   if (loading || failed || game.getSnapshot().state === 'playing' || paused) return;
   if (kind === 'skin') {
-    skin = cycle(SKINS, skin, best).id;
+    skin = selected(SKINS, id, records()).id;
     void save({ skin });
   } else {
-    trail = cycle(TRAILS, trail, bestCombo).id;
+    trail = selected(TRAILS, id, records()).id;
     void save({ trail });
   }
   refresh();
 }
 function onPointer(event) {
-  if (event.target.closest('button,select,.panel,.bottom-tools,.hud') || !event.isPrimary || event.button !== 0) return;
+  if (shell.isCollectionOpen()) return;
+  if (event.target.closest('button,select,.panel,.collection-panel,.bottom-tools,.hud') || !event.isPrimary || event.button !== 0) return;
   event.preventDefault(); action();
 }
 function onKey(event) {
+  if (shell.isCollectionOpen()) {
+    if (event.code === 'Escape') shell.closeCollection();
+    return;
+  }
   if (event.code === 'Escape' && !event.repeat) { pause('manual'); return; }
-  if (!['Space', 'ArrowUp'].includes(event.code) || event.repeat || event.target.closest('button,select,input,textarea,[contenteditable]')) return;
+  if (!['Space', 'ArrowUp'].includes(event.code) || event.repeat || event.target.closest('button,select,input,textarea,[contenteditable],.collection-panel')) return;
   event.preventDefault(); action();
 }
 function onVisibility() {
@@ -131,9 +163,9 @@ async function boot() {
     platform.loadingStart?.();
     const progress = await platform.loadProgress();
     if (disposed) return;
-    best = previousBest = progress.best; bestCombo = progress.bestCombo ?? 0;
-    skin = selected(SKINS, progress.skin, best).id;
-    trail = selected(TRAILS, progress.trail, bestCombo).id;
+    best = previousBest = progress.best; bestCombo = progress.bestCombo ?? 0; totalPassed = progress.totalPassed;
+    skin = selected(SKINS, progress.skin, records()).id;
+    trail = selected(TRAILS, progress.trail, records()).id;
     userSound = progress.sound; language = progress.language;
     shell.setLanguage(language); refresh();
     view = await createScene(shell.host, { debug: import.meta.env.DEV && new URLSearchParams(location.search).has('debug') });

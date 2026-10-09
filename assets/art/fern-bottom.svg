@@ -1,5 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="180" height="150" viewBox="0 0 180 150" role="img" aria-labelledby="title">
   <title id="title">Serrated razor fern blades, bottom obstacle with points facing the gap</title>
+  <defs>
+    <linearGradient id="fern-bottom-join-gradient" gradientUnits="userSpaceOnUse" x1="0" y1="130" x2="0" y2="150">
+      <stop offset="0" stop-color="#2d503e"/>
+      <stop offset=".6" stop-color="#8ac995"/>
+      <stop offset="1" stop-color="#8ac995"/>
+    </linearGradient>
+  </defs>
   <g stroke="#30283c" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
     <g id="razor-fern" fill="#386148">
       <path d="M6 150L10 103L24 90L8 60L31 61L12 14L45 45L50 11L70 47L90 7L111 47L130 11L135 48L168 14L151 65L173 59L155 91L173 105L174 150Z"/>
@@ -8,5 +15,10 @@
       <path d="M6 145L90 87L174 145V150H6Z" fill="#2d503e"/>
       <path d="M90 146V85M27 119L68 130M155 120L111 132" fill="none" stroke="#729368" stroke-width="4"/>
     </g>
+  </g>
+  <g id="stem-join">
+    <path id="join-body" d="M2 130H178V150H2Z" fill="url(#fern-bottom-join-gradient)" stroke="none"/>
+    <path id="join-left-edge" d="M2 130V150" fill="none" stroke="#30283c" stroke-width="4" stroke-linecap="butt"/>
+    <path id="join-right-edge" d="M178 130V150" fill="none" stroke="#30283c" stroke-width="4" stroke-linecap="butt"/>
   </g>
 </svg>

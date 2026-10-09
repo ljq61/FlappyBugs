@@ -1,6 +1,6 @@
 # Platform adapters and QA
 
-核对日期：2026-10-04。对应 PLAN：C6 / AC7 / T7；音频接线同时涉及 C5 / AC6 / T6。
+协议说明初版：2026-10-04；v0.2.1存档更新：2026-10-09。对应 PLAN：C6 / AC7 / T7；音频接线同时涉及 C5 / AC6 / T6。
 
 ## 官方边界
 
@@ -31,8 +31,8 @@ audio.setMuted(userSound, platformMuted);
 | 接口 | 语义 |
 | --- | --- |
 | `kind` | `standalone` 或 `crazygames` |
-| `loadProgress(): Promise<{best,sound,language}>` | 初始化读取；默认 0、true、en；返回副本 |
-| `saveProgress(patch): Promise<{saved,progress}>` | 按序存储；best 只接受非负安全整数且保留最大值；sound 只接受布尔值，language 只接受 en/zh |
+| `loadProgress(): Promise<{best,bestCombo,totalPassed,gateRuns,skin,trail,sound,language}>` | 初始化读取；分数/连击/累计量默认0、sound默认true、language默认en、外观默认classic/cloud；返回副本 |
+| `saveProgress(patch): Promise<{saved,progress}>` | 按序存储；best/bestCombo只接受非负安全整数且保留最大值；totalPassed由回合检查点增量累加；sound 只接受布尔值，language 只接受 en/zh |
 | `gameplayStart()`／`gameplayStop()` | 同步；真实变化返回 true，重复返回 false；SDK 同步异常透传，可重试 |
 | `loadingStart()`／`loadingStop()` | 同步且去重；主入口按真实素材加载区间调用 |
 | `getSettings()` | 返回 `{muteAudio}` 副本 |
@@ -44,6 +44,14 @@ audio.setMuted(userSound, platformMuted);
 保存键是单条 JSON `flappybugs:v1:progress`，使分数和偏好一次写入，不读取旧游戏存档。每次写前读取已存 best；初次慢读、慢写和旧分数快照由同一队列序列化，失败不会堵住后续重试。有效偏好按调用次序更新；主入口应传变化字段（声音只传 sound、语言只传 language），避免无关旧快照覆盖新偏好。平台保存结果 `saved='platform'` 只说明 SDK 接受 setItem，无法证明服务端已同步。standalone 返回 local 或 memory；memory 仅本 adapter 生命周期有效。
 
 限制：SDK 存储没有跨设备原子 compare-and-set，无法承诺两台设备恰好同时写时全局最大值；该情形需 Portal 实测。dispose 不能撤销已经进入底层 SDK 的写入。页面隐藏可冻结本地模拟和音频，回来提示继续；单纯 visibilitychange 不发 SDK stop/start，适配器仍保留 playing 状态，继续调用 start 时会去重。显式暂停和结算仍发送 stop。
+
+## v0.2.1累计过柱与外观存档
+
+沿用 `flappybugs:v1:progress`。`best`是历史单局最高分、`bestCombo`是最高完美连击；`totalPassed`记录累计过柱。`saveProgress({gateRuns:[{id,passed}],...patch})`按每个回合已保存最大值累计差量；最高分和检查点同次保存不会重复计数。main在过柱/结算时保留未保存检查点，失败可重试，不在重试或回菜单时重复累加。
+
+旧档无有效累计量时从best迁移下限；已有合法累计量保持。检查点只接受非空且≤128字符ID、非负安全整数数量，最近64回合保存账本；累计量到安全整数上限饱和。64条之外的旧回合重放、跨设备/标签页同时读写不承诺原子去重。皮肤/尾迹保存稳定ID，`sunny`沿用为Star；实际选择按当前解锁条件回退，未加入购买或广告解锁。
+
+2026-10-09：平台Node测试25/25通过（包含在全套71项内），覆盖旧档迁移、非法值、重复/递增检查点、多回合、失败重试、已写入后抛错去重、旧分数防覆盖和顺序跨标签页保存。SDK接受写入与真实云同步仍分开报告；本轮没有重新执行真实SDK/Portal验证。
 
 ## 已执行验证
 

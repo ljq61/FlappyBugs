@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="184" viewBox="0 0 400 184" role="img" aria-labelledby="title" lang="zh">
+  <title id="title">屁屁甲虫可编辑标题</title>
+  <defs>
+    <linearGradient id="cream-lettering" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#ffe9a8"/><stop offset="1" stop-color="#ffcf75"/>
+    </linearGradient>
+    <linearGradient id="coral-lettering" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#ffbc83"/><stop offset="1" stop-color="#f18a7a"/>
+    </linearGradient>
+  </defs>
+  <g id="garden-accents" stroke="#4b365d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path id="leaf-left" d="M16 125Q14 99 47 101Q53 126 16 125Z" fill="#90c6ad"/>
+    <path d="M20 124Q32 116 46 106" fill="none" stroke="#416b74" stroke-width="3"/>
+    <path id="leaf-right" d="M352 98Q365 76 386 86Q384 109 352 98Z" fill="#78b8ab"/>
+    <path d="M356 98Q366 92 381 89" fill="none" stroke="#416b74" stroke-width="3"/>
+    <path id="sparkle-right" d="M370 18Q372 32 385 35Q372 38 370 52Q368 38 355 35Q368 32 370 18Z" fill="#ffe3a0" stroke-width="3"/>
+    <path id="sparkle-left" d="M28 39Q29 46 36 48Q29 50 28 57Q27 50 20 48Q27 46 28 39Z" fill="#ffb59b" stroke-width="3"/>
+  </g>
+  <g id="title-shadow" transform="translate(0 5)" fill="#312644" stroke="#312644" stroke-width="12" font-family="PingFang SC, Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="900" text-anchor="middle" stroke-linejoin="round" paint-order="stroke fill">
+      <text id="shadow-word-top" x="200" y="78" font-size="82">屁屁</text>
+      <text id="shadow-word-bottom" x="200" y="161" font-size="82">甲虫</text>
+  </g>
+  <g id="title-outline" fill="#4b365d" stroke="#4b365d" stroke-width="12" font-family="PingFang SC, Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="900" text-anchor="middle" stroke-linejoin="round" paint-order="stroke fill">
+      <text id="outline-word-top" x="200" y="78" font-size="82">屁屁</text>
+      <text id="outline-word-bottom" x="200" y="161" font-size="82">甲虫</text>
+  </g>
+  <g id="title-color" font-family="PingFang SC, Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="900" text-anchor="middle" stroke="#694352" stroke-width="4" stroke-linejoin="round" paint-order="stroke fill">
+      <text id="word-top" fill="url(#cream-lettering)" x="200" y="78" font-size="82">屁屁</text>
+      <text id="word-bottom" fill="url(#coral-lettering)" x="200" y="161" font-size="82">甲虫</text>
+  </g>
+</svg>

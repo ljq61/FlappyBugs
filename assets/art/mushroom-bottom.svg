@@ -1,5 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="180" height="150" viewBox="0 0 180 150" role="img" aria-labelledby="title">
   <title id="title">Venomous needle fungus, bottom obstacle with points facing the gap</title>
+  <defs>
+    <linearGradient id="mushroom-bottom-join-gradient" gradientUnits="userSpaceOnUse" x1="0" y1="130" x2="0" y2="150">
+      <stop offset="0" stop-color="#442f42"/>
+      <stop offset=".6" stop-color="#b5c791"/>
+      <stop offset="1" stop-color="#b5c791"/>
+    </linearGradient>
+  </defs>
   <g stroke="#30283c" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
     <g id="toxic-needle-fungus" fill="#66394f">
       <path d="M6 150V105Q13 78 28 61L14 13L51 57L52 11L78 42L90 7L103 43L128 11L130 60L166 13L153 63Q170 83 174 105V150Z"/>
@@ -10,5 +17,10 @@
       <circle cx="110" cy="77" r="7" fill="#b0c166" stroke-width="3"/>
       <circle cx="137" cy="93" r="5" fill="#d8d586" stroke-width="2"/>
     </g>
+  </g>
+  <g id="stem-join">
+    <path id="join-body" d="M2 130H178V150H2Z" fill="url(#mushroom-bottom-join-gradient)" stroke="none"/>
+    <path id="join-left-edge" d="M2 130V150" fill="none" stroke="#30283c" stroke-width="4" stroke-linecap="butt"/>
+    <path id="join-right-edge" d="M178 130V150" fill="none" stroke="#30283c" stroke-width="4" stroke-linecap="butt"/>
   </g>
 </svg>

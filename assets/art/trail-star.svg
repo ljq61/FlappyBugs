@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" role="img" aria-labelledby="title">
+  <title id="title">Small golden five point star for a jump trail</title>
+  <g id="trail-star" stroke-linecap="round" stroke-linejoin="round">
+    <path id="star-body" d="M64 8L79 45L119 48L88 74L98 115L64 94L30 115L40 74L9 48L49 45Z" fill="#ffd66b" stroke="#b87e35" stroke-width="5"/>
+    <path id="star-highlight" d="M64 21L72 48L64 62L24 52L53 51Z" fill="#fff1b8"/>
+  </g>
+</svg>

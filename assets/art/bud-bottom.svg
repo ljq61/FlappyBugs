@@ -1,5 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="180" height="150" viewBox="0 0 180 150" role="img" aria-labelledby="title">
   <title id="title">Armored spike seed pod, bottom obstacle with points facing the gap</title>
+  <defs>
+    <linearGradient id="bud-bottom-join-gradient" gradientUnits="userSpaceOnUse" x1="0" y1="130" x2="0" y2="150">
+      <stop offset="0" stop-color="#493b44"/>
+      <stop offset=".6" stop-color="#88bb8b"/>
+      <stop offset="1" stop-color="#88bb8b"/>
+    </linearGradient>
+  </defs>
   <g stroke="#30283c" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
     <g id="spike-seedpod" fill="#674552">
       <path d="M6 150L11 106L29 87L17 13L50 65L50 11L75 52L90 7L105 52L133 11L130 65L163 13L149 87L169 106L174 150Z"/>
@@ -8,5 +15,10 @@
       <path d="M89 83V144M61 99L50 146M119 99L133 146" fill="none" stroke="#997376" stroke-width="5"/>
       <path d="M70 115L79 108L83 120L74 130Z M107 131L117 124L115 111L104 119Z" fill="#b5b56a" stroke-width="3"/>
     </g>
+  </g>
+  <g id="stem-join">
+    <path id="join-body" d="M2 130H178V150H2Z" fill="url(#bud-bottom-join-gradient)" stroke="none"/>
+    <path id="join-left-edge" d="M2 130V150" fill="none" stroke="#30283c" stroke-width="4" stroke-linecap="butt"/>
+    <path id="join-right-edge" d="M178 130V150" fill="none" stroke="#30283c" stroke-width="4" stroke-linecap="butt"/>
   </g>
 </svg>

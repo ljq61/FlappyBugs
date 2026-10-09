@@ -1,5 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="180" height="150" viewBox="0 0 180 150" role="img" aria-labelledby="title">
   <title id="title">Spiny dangerous sprout, top obstacle with points facing the gap</title>
+  <defs>
+    <linearGradient id="sprout-top-join-gradient" gradientUnits="userSpaceOnUse" x1="0" y1="20" x2="0" y2="0">
+      <stop offset="0" stop-color="#355844"/>
+      <stop offset=".6" stop-color="#77c8a0"/>
+      <stop offset="1" stop-color="#77c8a0"/>
+    </linearGradient>
+  </defs>
   <g stroke="#30283c" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
     <g id="thorn-sprout" fill="#437052">
       <path d="M6 0V55L27 67L14 137L54 82L60 139L76 95L90 143L110 94L129 139L137 83L164 137L151 66L174 55V0Z"/>
@@ -9,5 +16,10 @@
       <path d="M90 3V65M86 38L49 56M95 26L136 46" fill="none" stroke="#769467" stroke-width="4"/>
       <path d="M46 11L24 34L59 25ZM120 14L155 34L142 9Z" fill="#799e64" stroke-width="3"/>
     </g>
+  </g>
+  <g id="stem-join">
+    <path id="join-body" d="M2 0H178V20H2Z" fill="url(#sprout-top-join-gradient)" stroke="none"/>
+    <path id="join-left-edge" d="M2 0V20" fill="none" stroke="#30283c" stroke-width="4" stroke-linecap="butt"/>
+    <path id="join-right-edge" d="M178 0V20" fill="none" stroke="#30283c" stroke-width="4" stroke-linecap="butt"/>
   </g>
 </svg>

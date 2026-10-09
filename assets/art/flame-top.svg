@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="180" height="150" viewBox="0 0 180 150" role="img" aria-labelledby="title">
-  <title id="title">Dangerous cartoon flame top layer pointing toward the gap</title>
+  <title id="title">Broad curling orange and gold flames filling the upper obstacle crown</title>
   <g stroke-linecap="round" stroke-linejoin="round">
-    <g id="flame-layer" stroke="#934047" stroke-width="4">
-      <path d="M18 2Q8 32 29 68Q37 35 53 40Q47 84 69 111Q75 82 84 84Q91 111 90 143Q123 110 111 72Q123 83 132 99Q152 73 143 47Q156 58 162 74Q174 26 162 2Z" fill="#e67542"/>
-      <path d="M36 4Q23 25 45 45Q56 21 65 35Q68 74 85 100Q96 74 93 51Q118 56 126 71Q139 39 121 24Q147 32 149 4Z" fill="#f8b948" stroke="#e77937" stroke-width="2"/>
-      <path d="M62 4Q51 20 75 39Q79 27 88 35Q95 51 95 59Q113 42 108 26Q127 20 120 4Z" fill="#ffed98" stroke="none"/>
+    <g id="flame-layer" stroke="#934047" stroke-width="4" transform="translate(0 150) scale(1 -1)">
+      <path id="flame-shell" d="M6 150C6 131 6 116 14 96C22 78 26 60 20 23C45 40 52 67 43 93C58 92 68 70 64 48C61 33 62 23 66 17C86 35 96 55 86 75C101 61 103 33 90 7C124 23 133 45 119 73C135 67 143 41 139 17C162 36 168 65 154 94C167 89 169 64 160 27C174 45 174 79 172 106C170 123 174 134 174 150Z" fill="#e67542"/>
+      <path id="flame-heart" d="M16 150Q13 119 29 97Q35 120 52 110Q63 99 57 68Q82 84 75 106Q102 86 103 43Q125 65 108 100Q135 94 145 63Q158 97 145 118Q163 112 164 150Z" fill="#f8b948" stroke="#e77937" stroke-width="2"/>
+      <path id="flame-core" d="M36 150Q28 132 49 120Q53 140 69 127Q87 115 89 87Q110 107 99 127Q124 128 131 108Q148 135 144 150Z" fill="#ffed98" stroke="none"/>
     </g>
   </g>
 </svg>

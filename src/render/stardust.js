@@ -6,18 +6,25 @@ export const MAX_STARDUST_PARTICLES = 72;
 
 export function createStardustBurst(x, y, { reducedMotion = false } = {}) {
   if (![x, y].every(Number.isFinite)) throw new TypeError('Stardust origin must be finite');
-  const count = reducedMotion ? 4 : 11;
+  const count = reducedMotion ? 4 : 14;
   return Array.from({ length: count }, (_, i) => ({
     x: x - 0.55 - (i % 3) * 0.105,
     y: y - 0.18 + ((i % 5) - 2) * 0.045,
     vx: -1.9 - (i % 4) * 0.5,
     vy: ((i % 6) - 2.5) * 0.37,
-    size: (i % 4 === 0 ? 0.34 : 0.16 + (i % 3) * 0.045) * (reducedMotion ? 0.85 : 1),
-    duration: 0.51 + (i % 4) * 0.095,
+    size: (i % 4 === 0 ? 0.48 : 0.28 + (i % 3) * 0.065) * (reducedMotion ? 0.85 : 1),
+    duration: 0.78 + (i % 4) * 0.12,
     gravity: -0.27,
     color: STARDUST_COLORS[i % STARDUST_COLORS.length],
     phase: i * 1.93 + 0.8,
     spin: (i % 2 ? -1 : 1) * (1.1 + (i % 3) * 0.9),
+  }));
+}
+
+export function createStarBurst(x, y, options = {}) {
+  return createStardustBurst(x, y, options).slice(0, options.reducedMotion ? 3 : 7).map((particle, i) => ({
+    ...particle, size: .3 + (i % 3) * .09, color: i % 2 ? '#ffdd71' : '#fff3b4',
+    duration: .75 + (i % 3) * .12, gravity: -1.3,
   }));
 }
 
@@ -30,7 +37,7 @@ export function stardustAppearance(age, duration, phase, reducedMotion = false) 
   const fade = Math.pow(1 - t, 1.25);
   const pulse = reducedMotion ? 0.8 : Math.pow(0.5 + 0.5 * Math.sin(age * 29 + phase), 2);
   return {
-    opacity: Math.min(1, (0.4 + 0.6 * pulse) * fade * 0.95),
-    scale: (0.66 + 0.56 * pulse) * (0.7 + 0.3 * fade),
+    opacity: Math.min(1, (0.7 + 0.3 * pulse) * fade),
+    scale: (0.88 + 0.42 * pulse) * (0.8 + 0.2 * fade),
   };
 }

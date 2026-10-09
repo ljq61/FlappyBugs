@@ -1,18 +1,29 @@
 // Original short notes and synthesized effects: no sampled or remote audio.
 export function createAudio() {
   let context, master, userSound = true, platformMuted = false, active = false, star = false;
-  let nextNote = 0, note = 0;
+  let nextNote = 0, note = 0, lastFlapAt = -Infinity;
   let pendingEvents = [], pendingUnlock = null;
   const sources = new Set();
   const normal = [0, 4, 7, 12, 7, 4, 2, 7, 9, 7, 4, 2, 0, 4, 7, 4];
   const golden = [12, 16, 19, 24, 19, 16, 14, 19];
   const audible = () => context?.state === 'running' && userSound && !platformMuted;
+  function hold(gain, at) {
+    if (gain.cancelAndHoldAtTime) gain.cancelAndHoldAtTime(at);
+    else { const value = gain.value; gain.cancelScheduledValues(at); gain.setValueAtTime(value, at); }
+  }
   function stopSources() {
-    for (const source of sources) { try { source.stop(); } catch {} source.disconnect(); }
-    sources.clear(); pendingEvents = []; nextNote = 0;
+    for (const source of sources) {
+      const at = context.currentTime;
+      // Release ongoing notes instead of cutting a waveform mid-cycle.
+      hold(source.envelope, at);
+      source.envelope.linearRampToValueAtTime(0, at + .012);
+      try { source.stop(at + .016); } catch {}
+    }
+    sources.clear(); pendingEvents = []; nextNote = 0; lastFlapAt = -Infinity;
   }
   function track(source, gain) {
     sources.add(source);
+    source.envelope = gain.gain;
     source.onended = () => { sources.delete(source); source.disconnect(); gain.disconnect(); };
   }
   function tone(frequency, at, duration, volume = .035, type = 'sine', target = frequency) {
@@ -20,8 +31,9 @@ export function createAudio() {
     const oscillator = context.createOscillator(), gain = context.createGain();
     oscillator.type = type; oscillator.frequency.setValueAtTime(frequency, at);
     oscillator.frequency.exponentialRampToValueAtTime(Math.max(20, target), at + duration);
-    gain.gain.setValueAtTime(.0001, at); gain.gain.exponentialRampToValueAtTime(volume, at + .008);
-    gain.gain.exponentialRampToValueAtTime(.0001, at + duration);
+    gain.gain.setValueAtTime(0, at); gain.gain.linearRampToValueAtTime(volume, at + .012);
+    gain.gain.exponentialRampToValueAtTime(.0001, at + duration - .012);
+    gain.gain.linearRampToValueAtTime(0, at + duration);
     oscillator.connect(gain); gain.connect(master); track(oscillator, gain);
     oscillator.start(at); oscillator.stop(at + duration + .01);
   }
@@ -48,7 +60,10 @@ export function createAudio() {
   function setMuted(sound, muted) {
     if (userSound === sound && platformMuted === muted) return;
     userSound = sound; platformMuted = muted;
-    if (master) master.gain.setValueAtTime(sound && !muted ? .7 : 0, context.currentTime);
+    if (master) {
+      hold(master.gain, context.currentTime);
+      master.gain.linearRampToValueAtTime(sound && !muted ? .7 : 0, context.currentTime + .012);
+    }
     if (!sound || muted) stopSources();
   }
   function setPlaying(value, invincible = false) {
@@ -76,8 +91,11 @@ export function createAudio() {
     const now = context.currentTime;
     for (const event of events) {
       if (event.type === 'flap') {
-        tone(145, now, .13, .075, 'triangle', 42);
-        tone(82, now + .015, .09, .035, 'sawtooth', 28);
+        // Keep every gameplay flap; bound audio stacking from rapid taps.
+        if (now - lastFlapAt < .045) continue;
+        lastFlapAt = now;
+        tone(240, now + .005, .105, .085, 'sine', 115);
+        tone(360, now + .005, .085, .025, 'sine', 170);
       } else if (event.type === 'damage') tone(310, now, .19, .055, 'triangle', 100);
       else if (event.type === 'perfect') {
         // Two-note shimmering confirmation, reserved for precisely centered gates.

@@ -1,5 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="180" height="150" viewBox="0 0 180 150" role="img" aria-labelledby="title">
   <title id="title">Hard sharp reed needles, bottom obstacle with points facing the gap</title>
+  <defs>
+    <linearGradient id="reed-bottom-join-gradient" gradientUnits="userSpaceOnUse" x1="0" y1="130" x2="0" y2="150">
+      <stop offset="0" stop-color="#3f4e41"/>
+      <stop offset=".6" stop-color="#a8bd8c"/>
+      <stop offset="1" stop-color="#a8bd8c"/>
+    </linearGradient>
+  </defs>
   <g stroke="#30283c" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
     <g id="needle-reed" fill="#55634c">
       <path d="M6 150V83L24 72L12 13L44 66L50 11L75 59L90 7L108 60L130 11L141 68L168 13L158 79L174 88V150Z"/>
@@ -9,5 +16,10 @@
       <path d="M47 146V95M89 143V83M137 146V99" fill="none" stroke="#8e9b6c" stroke-width="5"/>
       <path d="M9 116Q90 127 171 116" fill="none" stroke="#bac087" stroke-width="4"/>
     </g>
+  </g>
+  <g id="stem-join">
+    <path id="join-body" d="M2 130H178V150H2Z" fill="url(#reed-bottom-join-gradient)" stroke="none"/>
+    <path id="join-left-edge" d="M2 130V150" fill="none" stroke="#30283c" stroke-width="4" stroke-linecap="butt"/>
+    <path id="join-right-edge" d="M178 130V150" fill="none" stroke="#30283c" stroke-width="4" stroke-linecap="butt"/>
   </g>
 </svg>
